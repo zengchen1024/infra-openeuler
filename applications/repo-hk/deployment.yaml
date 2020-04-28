@@ -1,0 +1,63 @@
+# Deployment for repo service
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: repo-server
+spec:
+  template:
+    metadata:
+      labels:
+        app: repo-nginx-pod
+    spec:
+      containers:
+        - name: repo-nginx
+          volumeMounts:
+            - mountPath: /repo/openeuler
+              name: data-volume
+            - mountPath: /etc/rsyncd.secrets.ro
+              name: rsync-secrets-volume
+              subPath: rsyncd_secrets
+          resources:
+            requests:
+              cpu: 4000m
+              memory: 6000Mi
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /repo/openeuler
+              exec nginx -g "daemon off;"
+        - name: rsync-server
+          volumeMounts:
+            - mountPath: /etc/rsyncd.secrets.ro
+              name: rsync-secrets-volume
+              subPath: rsyncd_secrets
+            - mountPath: /repo/openeuler
+              name: data-volume
+            - mountPath: /root/.ssh/authorized_keys.ro
+              name: repo-nginx-configmap-volume
+              subPath: ssh.pub
+          # Use the combination of sync & sleep to sync the repo from main repo periodically
+          command:
+            - /bin/sh
+            - -c
+            - |
+              cp /etc/rsyncd.secrets.ro /etc/rsyncd.secrets
+              chmod 0400 /etc/rsyncd.secrets
+              cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
+              chmod 0400 /root/.ssh/authorized_keys
+              chown root:root /root/.ssh/authorized_keys
+              /usr/sbin/sshd &
+              while :; do echo "Starting to sync repos @ $(date)"; rsync -av --partial --progress --password-file=/etc/rsyncd.secrets  rsync://root@121.36.97.194/openeuler  /repo/openeuler; sleep 86400; done
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 6000Mi
+      volumes:
+        - name: rsync-secrets-volume
+          secret:
+            secretName: rsync-secrets
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: openeuler-data-volume
