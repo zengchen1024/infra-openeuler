@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
   name: repo-ingress
 spec:
+  tls:
+    - hosts:
+        - repo.openeuler.org
+      secretName: repo-tls
   rules:
     - host: repo.openeuler.org
       http:
