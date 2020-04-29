@@ -1,0 +1,22 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: etherpad-internal
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 32717
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: etherpad-internal
+subsets:
+  - addresses:
+      # These machines below are cluster workers in infrastructure cluster.
+      - ip: 192.168.1.140
+      - ip: 192.168.1.65
+    ports:
+      - port: 32717
