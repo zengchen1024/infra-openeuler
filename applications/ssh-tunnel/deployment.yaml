@@ -10,11 +10,11 @@ spec:
         - name: sshd-tunnel
           env:
             - name: TUNNEL_HOST
-              value: "117.78.1.88"
+              value: 114.116.245.239
           args:
             # This is for jenkins master endpoint
-            #- -L
-            #- 1080:openeuler-jenkins.default.svc.cluster.local:80
+            - -L
+            - 1080:openeuler-jenkins.default.svc.cluster.local:80
             # This is for obs api endpoint
             - -L
             - 1082:172.16.1.81:80
