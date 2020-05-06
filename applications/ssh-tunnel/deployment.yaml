@@ -14,7 +14,7 @@ spec:
           args:
             # This is for jenkins master endpoint
             - -L
-            - 1080:openeuler-jenkins.default.svc.cluster.local:80
+            - 0.0.0.0:1080:openeuler-jenkins.default.svc.cluster.local:80
             # This is for obs api endpoint
             - -L
-            - 1082:172.16.1.81:80
+            - 0.0.0.0:1082:172.16.1.81:80
