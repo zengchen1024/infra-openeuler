@@ -1,0 +1,21 @@
+# ssh-tunnel service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssh-tunnel
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: 060610ea-a573-4e8b-9aac-8a8a16453776
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+spec:
+  loadBalancerIP: 159.138.53.21
+  ports:
+    - port: 1080
+      name: jenkins-master-port
+      targetPort: 1080
+      protocol: TCP
+    - port: 1082
+      name: obs-api-port
+      targetPort: 1082
+      protocol: TCP
