@@ -4,17 +4,17 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-  name: openbuildservice-ingress
+  name: mailweb-ingress
 spec:
   tls:
     - hosts:
-        - build.openeuler.org
-      secretName: obs-tls
+        - mailweb.openeuler.org
+      secretName: mailweb-tls
   rules:
-    - host: build.openeuler.org
+    - host: mailweb.openeuler.org
       http:
         paths:
           - backend:
-              serviceName: ssh-tunnel
-              servicePort: 1082
+              serviceName: mailman-web-service
+              servicePort: 80
             path: /
