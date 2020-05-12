@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  name: openlookeng-jenkins-ingress
+spec:
+  tls:
+    - hosts:
+        - build.openlookeng.org
+      secretName: openlookeng-jenkins-tls
+  rules:
+    - host: build.openlookeng.org
+      http:
+        paths:
+          - backend:
+              serviceName: openlookeng-jenkins-internal
+              servicePort: 80
+            path: /

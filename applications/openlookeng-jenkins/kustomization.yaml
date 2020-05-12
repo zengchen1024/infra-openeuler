@@ -1,0 +1,14 @@
+resources:
+  - ingress.yaml
+  - namespace.yaml
+  - service.yaml
+commonLabels:
+  app: openlookeng-jenkins
+patchesJson6902:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: openlookeng-jenkins-internal
+    path: selector.yaml
+namespace: openlookeng-jenkins
