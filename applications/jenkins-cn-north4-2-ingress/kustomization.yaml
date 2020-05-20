@@ -1,0 +1,5 @@
+resources:
+  - ingress.yaml
+commonLabels:
+  app: openeuler-cn-north4-2-jenkins
+namespace: ssh-tunnel

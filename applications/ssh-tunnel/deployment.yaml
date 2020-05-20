@@ -18,3 +18,6 @@ spec:
             # This is for obs api endpoint
             - -L
             - 0.0.0.0:1082:172.16.1.81:80
+            # This is for jenkins master endpoint (new jenkins in cn north4)
+            - -L
+            - 0.0.0.0:1084:jenkins.jenkins.svc.cluster.local:80
