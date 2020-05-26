@@ -7,5 +7,20 @@ spec:
     - name: http
       port: 80
       targetPort: 8080
+      # we need pin the node port here in order to be visitable via node
+      nodePort: 30080
   loadBalancerSourceRanges:
-  type: ClusterIP
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-agent
+spec:
+  ports:
+    - name: slavelistener
+      port: 50000
+      # we need pin the node port here in order to be visitable via node
+      nodePort: 35000
+      targetPort: 50000
+  type: NodePort
