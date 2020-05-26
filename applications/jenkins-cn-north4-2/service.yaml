@@ -21,6 +21,6 @@ spec:
     - name: slavelistener
       port: 50000
       # we need pin the node port here in order to be visitable via node
-      nodePort: 35000
+      nodePort: 30050
       targetPort: 50000
   type: NodePort
