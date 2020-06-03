@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: 150
+  name: cve-ingress
+spec:
+  tls:
+    - hosts:
+        - cve.openeuler.org
+      secretName: cve-tls
+  rules:
+    - host: cve.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: cveservice
+              servicePort: 80
+            path: /
