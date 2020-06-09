@@ -49,7 +49,7 @@ spec:
               chmod 0400 /root/.ssh/authorized_keys
               chown root:root /root/.ssh/authorized_keys
               /usr/sbin/sshd &
-              while :; do echo "Starting to sync repos @ $(date)"; rsync -av --partial --progress --password-file=/etc/rsyncd.secrets  rsync://root@121.36.97.194/openeuler  /repo/openeuler; sleep 86400; done
+              while :; do echo "Starting to sync repos @ $(date)"; rsync -av --partial --progress --delete --password-file=/etc/rsyncd.secrets  rsync://root@121.36.97.194/openeuler  /repo/openeuler; sleep 21600; done
           resources:
             requests:
               cpu: 2000m
