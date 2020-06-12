@@ -1,0 +1,20 @@
+resources:
+  - ingress.yaml
+  - namespace.yaml
+  - service.yaml
+commonLabels:
+  app: openeuler-dailybuild
+patchesJson6902:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: dailybuild-lts
+    path: selector.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: dailybuild-master
+    path: selector.yaml
+namespace: dailybuild

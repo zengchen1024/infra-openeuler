@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^/master$ http://121.36.53.23/ redirect;
+      rewrite ^/lts$ http://121.36.84.172/ redirect;
+      return 404;
+  name: dailybuild-ingress
+spec:
+  tls:
+    - hosts:
+        - dailybuild.openeuler.org
+      secretName: dailybuild-tls
+  rules:
+    - host: dailybuild.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: placeholder
+              servicePort: 80
+            path: /
+

@@ -1,0 +1,44 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dailybuild-master
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: dailybuild-master
+subsets:
+  - addresses:
+      # These machines below are eip for master daily build on cn-north4.
+      - ip: 121.36.53.23
+    ports:
+      - port: 80
+
+---
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dailybuild-lts
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: dailybuild-lts
+subsets:
+  - addresses:
+      # These machines below are eip for lts daily build on cn-north4.
+      - ip: 121.36.84.172
+    ports:
+      - port: 80
