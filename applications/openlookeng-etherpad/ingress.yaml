@@ -9,7 +9,7 @@ spec:
   tls:
     - hosts:
         - etherpad.openlookeng.io
-      secretName: etherpad-tls
+      secretName: etherpad-openlookeng-tls
   rules:
     - host: etherpad.openlookeng.io
       http:
