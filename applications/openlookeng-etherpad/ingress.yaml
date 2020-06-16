@@ -4,17 +4,17 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-  name: openlookeng-jenkins-ingress
+  name: etherpad-ingress
 spec:
   tls:
     - hosts:
-        - build.openlookeng.io
-      secretName: openlookeng-jenkins-tls
+        - etherpad.openlookeng.io
+      secretName: etherpad-tls
   rules:
-    - host: build.openlookeng.io
+    - host: etherpad.openlookeng.io
       http:
         paths:
           - backend:
-              serviceName: openlookeng-jenkins-internal
+              serviceName: etherpad-internal
               servicePort: 80
             path: /
