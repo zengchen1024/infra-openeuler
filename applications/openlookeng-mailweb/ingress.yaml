@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  name: openlookeng-mailweb-ingress
+spec:
+  tls:
+    - hosts:
+        - mailweb.openlookeng.io
+      secretName: openlookeng-mailweb-tls
+  rules:
+    - host: mailweb.openlookeng.io
+      http:
+        paths:
+          - backend:
+              serviceName: openlookeng-mailweb-internal
+              servicePort: 80
+            path: /
