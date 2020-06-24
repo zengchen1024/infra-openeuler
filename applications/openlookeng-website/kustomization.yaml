@@ -1,0 +1,15 @@
+resources:
+  - ingress.yaml
+  - www-ingress.yaml
+  - namespace.yaml
+  - service.yaml
+commonLabels:
+  app: openlookeng-website
+patchesJson6902:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: openlookeng-website-internal
+    path: selector.yaml
+namespace: openlookeng-website

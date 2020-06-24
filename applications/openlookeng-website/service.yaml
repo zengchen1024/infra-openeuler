@@ -2,21 +2,21 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: openlookeng-mailweb-internal
+  name: openlookeng-website-internal
 spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 32727
+      targetPort: 31110
 ---
 kind: Endpoints
 apiVersion: v1
 metadata:
-  name: openlookeng-mailweb-internal
+  name: openlookeng-website-internal
 subsets:
   - addresses:
       # These machines below are cluster workers in openlookeng cluster.
       - ip: 10.0.0.191
       - ip: 10.0.0.107
     ports:
-      - port: 32727
+      - port: 31110
