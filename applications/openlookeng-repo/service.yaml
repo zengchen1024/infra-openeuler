@@ -1,0 +1,22 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openlookeng-repo-internal
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 30332
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: openlookeng-repo-internal
+subsets:
+  - addresses:
+      # These machines below are cluster workers in openlookeng cluster.
+      - ip: 10.0.0.191
+      - ip: 10.0.0.107
+    ports:
+      - port: 30332
