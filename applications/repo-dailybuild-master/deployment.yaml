@@ -20,7 +20,7 @@ spec:
               subPath: rsyncd_secrets
           resources:
             requests:
-              cpu: 2000m
+              cpu: 300m
               memory: 2000Mi
           env:
             - name: TZ
@@ -46,7 +46,7 @@ spec:
               subPath: ssh.pub
           resources:
             requests:
-              cpu: 2000m
+              cpu: 300m
               memory: 2000Mi
       volumes:
         - name: rsync-secrets-volume
