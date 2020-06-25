@@ -4,21 +4,17 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-  name: openlookeng-website-ingress
+  name: openlookeng-bot-ingress
 spec:
   tls:
     - hosts:
-        - www.openlookeng.io
-      secretName: openlookeng-website-tls
+        - bot.openlookeng.io
+      secretName: openlookeng-bot-tls
   rules:
-    - host: www.openlookeng.io
+    - host: bot.openlookeng.io
       http:
         paths:
           - backend:
               serviceName: openlookeng-bot-internal
-              servicePort: 80
-            path: /cla
-          - backend:
-              serviceName: openlookeng-website-internal
               servicePort: 80
             path: /

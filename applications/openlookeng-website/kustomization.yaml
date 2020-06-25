@@ -3,6 +3,7 @@ resources:
   - www-ingress.yaml
   - namespace.yaml
   - service.yaml
+  - cibot-service.yaml
 commonLabels:
   app: openlookeng-website
 patchesJson6902:
@@ -11,5 +12,11 @@ patchesJson6902:
       version: v1
       kind: Service
       name: openlookeng-website-internal
+    path: selector.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: openlookeng-bot-internal
     path: selector.yaml
 namespace: openlookeng-website
