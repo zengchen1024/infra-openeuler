@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - repo.openlookeng.io
+        - download.openlookeng.io
       secretName: openlookeng-repo-tls
   rules:
-    - host: repo.openlookeng.io
+    - host: download.openlookeng.io
       http:
         paths:
           - backend:
