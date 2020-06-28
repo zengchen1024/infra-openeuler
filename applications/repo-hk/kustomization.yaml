@@ -1,5 +1,5 @@
 resources:
-  - https://github.com/opensourceways/app-repo/deploy?ref=stable
+  - https://github.com/opensourceways/app-repo/deploy_with_crawler?ref=stable
   - pvc.yaml
   - namespace.yaml
   - secrets.yaml
