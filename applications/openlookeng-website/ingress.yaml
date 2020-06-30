@@ -3,13 +3,21 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/permanent-redirect: https://www.openlookeng.io
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
   name: openlookeng-website-ingress-main
 spec:
+  tls:
+    - hosts:
+        - openlookeng.io
+      secretName: openlookeng-website-tls-main
   rules:
     - host: openlookeng.io
       http:
         paths:
+          - backend:
+              serviceName: openlookeng-bot-internal
+              servicePort: 80
+            path: /cla
           - backend:
               serviceName: openlookeng-website-internal
               servicePort: 80
