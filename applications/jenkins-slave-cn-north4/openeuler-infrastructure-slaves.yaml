@@ -2,36 +2,36 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: x86-website-sync-slaves-service
+  name: x86-infra-check-slaves-service
   namespace: jenkins
   labels:
-    app: x86-website-sync-slaves
+    app: x86-infra-check-slaves
 spec:
   ports:
     - port: 80
       name: port-placeholder
   clusterIP: None
   selector:
-    app: x86-website-sync-slaves
+    app: x86-infra-check-slaves
 
 ---
 kind: StatefulSet
 apiVersion: apps/v1beta1
 metadata:
-  name: x86-website-sync-slaves
+  name: x86-infra-check-slaves
   namespace: jenkins
   labels:
-    app: x86-website-sync-slaves
+    app: x86-infra-check-slaves
 spec:
-  serviceName: x86-website-sync-slaves-service
-  replicas: 1
+  serviceName: x86-infra-check-slaves-service
+  replicas: 2
   selector:
     matchLabels:
-      app: x86-website-sync-slaves
+      app: x86-infra-check-slaves
   template:
     metadata:
       labels:
-        app: x86-website-sync-slaves
+        app: x86-infra-check-slaves
     spec:
       initContainers:
         - name: slave-init
@@ -54,21 +54,21 @@ spec:
             - name: JENKINS_AGENT_WORKDIR
               value: /home/jenkins/agent-working-dir
             - name: JENKINS_URL
-              value: http://build.mindspore.cn
+              value: http://jenkins.jenkins.svc.cluster.local
             - name: JENKINS_SHARE_FOLDER
               value: /home/jenkins/share-config
             - name: EXECUTOR_NUMBERS
-              value: "1"
+              value: "4"
             - name: NODE_LABELS
-              value: x86 website-sync
+              value: x86 infra-check
           args: ["$(JENKINS_URL)", "$(JENKINS_USER_NAME)", "$(JENKINS_USER_PASSWORD)", "$(JENKINS_NODE_NAME)", "$(EXECUTOR_NUMBERS)", "$(JENKINS_AGENT_WORKDIR)", "$(NODE_LABELS)", "$(JENKINS_SHARE_FOLDER)"]
       containers:
         - name: jenkins-slave
-          image: swr.cn-north-1.myhuaweicloud.com/mindspore/website_sync:0.0.2
+          image: opensourceway/openeuler_infra_check:v1.0
           imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - mountPath: /home/jenkins/agent-working-dir
-              name: ubuntu-generic-workspace-pvc
+              name: infra-check-workspace-pvc
             - mountPath: /home/jenkins/share-config
               name: jenkins-share-config
           command:
@@ -80,12 +80,12 @@ spec:
           resources:
             requests:
               cpu: 2000m
-              memory: 4000Mi
+              memory: 2000Mi
           env:
             - name: TZ
               value: Asia/Shanghai
             - name: JENKINS_TUNNEL
-              value: build.mindspore.cn:50000
+              value: jenkins-agent.jenkins.svc.cluster.local:50000
             - name: JENKINS_AGENT_NAME
               valueFrom:
                 fieldRef:
@@ -97,7 +97,7 @@ spec:
             - name: JENKINS_AGENT_WORKDIR
               value: /home/jenkins/agent-working-dir
             - name: JENKINS_URL
-              value: http://build.mindspore.cn
+              value: http://jenkins.jenkins.svc.cluster.local
       volumes:
         - name: jenkins-share-config
           emptyDir: {}
@@ -105,10 +105,10 @@ spec:
     type: RollingUpdate
   volumeClaimTemplates:
     - metadata:
-        name: ubuntu-generic-workspace-pvc
+        name: infra-check-workspace-pvc
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        accessModes: [ "ReadWriteMany" ]
         resources:
           requests:
             storage: 100Gi
-        storageClassName: "sas"
+        storageClassName: "ssd"
