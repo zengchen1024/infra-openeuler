@@ -19,6 +19,13 @@ spec:
                 secretKeyRef:
                   key: jenkins-admin-user
                   name: openeuler-jenkins
+          resources:
+            limits:
+              cpu: 12000m
+              memory: 16000Mi
+            requests:
+              cpu: 6000m
+              memory: 8000Mi
       initContainers:
         - name: copy-default-config
           env:
