@@ -1,0 +1,22 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openlookeng-tryme-test-internal
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 30322
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: openlookeng-tryme-test-internal
+subsets:
+  - addresses:
+      # These machines below are cluster workers in openlookeng cluster.
+      - ip: 10.0.0.201
+      - ip: 10.0.0.225
+    ports:
+      - port: 30322
