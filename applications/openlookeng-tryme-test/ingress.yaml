@@ -15,6 +15,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: openlookeng-jenkins-internal
+              serviceName: openlookeng-tryme-test-internal
               servicePort: 80
             path: /
