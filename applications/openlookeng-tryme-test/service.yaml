@@ -16,7 +16,7 @@ metadata:
 subsets:
   - addresses:
       # These machines below are cluster workers in openlookeng cluster.
-      - ip: 10.0.0.201
-      - ip: 10.0.0.225
+      - ip: 10.0.0.18
+      - ip: 10.0.0.105
     ports:
       - port: 30322
