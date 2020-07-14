@@ -1,0 +1,9 @@
+resources:
+  - ingress.yaml
+  - namespace.yaml
+  - package-manage-service.yaml
+commonLabels:
+  app: openeuler-cve
+namespace: cve
+
+

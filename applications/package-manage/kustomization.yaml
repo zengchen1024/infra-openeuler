@@ -1,0 +1,7 @@
+resources:
+  - https://github.com/opensourceways/app-pkgmanage/deploy?ref=master
+commonLabels:
+  app: openeuler-packagemanage
+namespace: packagemanage
+
+
