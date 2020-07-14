@@ -3,7 +3,7 @@ resources:
   - namespace.yaml
   - package-manage-service.yaml
 commonLabels:
-  app: openeuler-cve
-namespace: cve
+  app: openeuler-api
+namespace: openeuler-api
 
 
