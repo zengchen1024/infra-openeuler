@@ -1,0 +1,6 @@
+resources:
+  - openeuler-infrastructure-slaves.yaml
+  - secrets.yaml
+commonLabels:
+  app: openeuler-jenkins
+namespace: jenkins
