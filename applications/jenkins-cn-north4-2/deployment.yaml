@@ -9,6 +9,8 @@ spec:
       containers:
         - name: jenkins
           env:
+            - name: TZ
+              value: Asia/Shanghai
             - name: ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -22,13 +24,17 @@ spec:
           resources:
             limits:
               cpu: 12000m
-              memory: 16000Mi
+              memory: 32000Mi
             requests:
               cpu: 6000m
-              memory: 8000Mi
+              memory: 16000Mi
       initContainers:
         - name: copy-default-config
           env:
+            - name: JENKINS_UC_DOWNLOAD
+              value: "https://mirrors.tuna.tsinghua.edu.cn/jenkins"
+            - name: JENKINS_UC
+              value: "https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json"
             - name: ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
