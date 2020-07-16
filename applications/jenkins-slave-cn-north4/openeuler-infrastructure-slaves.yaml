@@ -33,6 +33,8 @@ spec:
       labels:
         app: x86-infra-check-slaves
     spec:
+      nodeSelector:
+        openeuler.ci/task: common
       initContainers:
         - name: slave-init
           image: swr.cn-north-1.myhuaweicloud.com/mindspore/jenkins-slave-tools:0.0.1
