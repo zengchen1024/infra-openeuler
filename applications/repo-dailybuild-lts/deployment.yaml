@@ -10,6 +10,8 @@ spec:
       labels:
         app: repo-nginx-pod
     spec:
+      nodeSelector:
+        openeuler.ci/task: common
       containers:
         - name: repo-nginx
           volumeMounts:
