@@ -1,0 +1,14 @@
+resources:
+  - ingress.yaml
+  - namespace.yaml
+  - service.yaml
+commonLabels:
+  app: openlookeng-tryme
+patchesJson6902:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: openlookeng-tryme-internal
+    path: selector.yaml
+namespace: openlookeng-tryme
