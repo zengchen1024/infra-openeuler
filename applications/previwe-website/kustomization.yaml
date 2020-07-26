@@ -1,0 +1,6 @@
+resources:
+  - ingress.yaml
+  - namespace.yaml
+commonLabels:
+  app: openeuler-website
+namespace: website

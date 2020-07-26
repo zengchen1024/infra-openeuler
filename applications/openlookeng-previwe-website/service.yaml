@@ -1,0 +1,22 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openlookeng-preview-website-internal
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 31110
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: openlookeng-preview-website-internal
+subsets:
+  - addresses:
+      # These machines below are cluster workers in openlookeng cluster.
+      - ip: 10.0.0.107
+      - ip: 10.0.0.191
+    ports:
+      - port: 31110
