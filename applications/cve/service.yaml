@@ -18,7 +18,6 @@ metadata:
   name: cveservice
   namespace: cve
 spec:
-  externalTrafficPolicy: Cluster
   ports:
     - name: httpport
       port: 80
