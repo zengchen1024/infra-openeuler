@@ -1,0 +1,97 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: cve-backend-info
+  name: cve-backend-info
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: cve-backend-info
+  template:
+    metadata:
+      labels:
+        app: cve-backend-info
+    spec:
+      containers:
+        - env:
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: db_username
+                  name: cve-srv-configmap
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: db_passwd
+                  name: cve-srv-configmap
+            - name: DB_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: db_uri
+                  name: cve-srv-configmap
+            - name: UPLOAD_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: upload_username
+                  name: cve-srv-configmap
+            - name: UPLOAD_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: upload_password
+                  name: cve-srv-configmap
+          image: opensourceway/cve-backend:20200727025501ab97ee
+          imagePullPolicy: IfNotPresent
+          name: cve-backend-infod
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: cveinfo
+  name: cveinfo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cveinfo
+  template:
+    metadata:
+      labels:
+        app: cveinfo
+    spec:
+      containers:
+        - env:
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: base_url
+                  name: cve-configmap
+          image: swr.cn-south-1.myhuaweicloud.com/openeuler/cve-front:v0.5.2
+          imagePullPolicy: IfNotPresent
+          name: cveinfod
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+            - containerPort: 443
+              name: https
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d
+              name: configmap-volume
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: nginx-configmap
+          name: configmap-volume
+

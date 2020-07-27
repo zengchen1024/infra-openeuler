@@ -1,7 +1,12 @@
 resources:
   - ingress.yaml
+  - namespace.yaml
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - secrets.yaml
 commonLabels:
-  app: openeuler-cve
+  suit: openeuler-cve
 namespace: cve
 
 

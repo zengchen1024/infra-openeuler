@@ -1,0 +1,46 @@
+apiVersion: v1
+data:
+  base_url: https://cve.openeuler.org
+kind: ConfigMap
+metadata:
+  name: cve-configmap
+---
+apiVersion: v1
+data:
+  default.conf: |
+    server {
+        listen 80 default_server;                ##listen port
+        server_name cve.openeuler.org;   ##server_name domain
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+                error_page   404  /;
+         }
+
+         error_page   500 502 503 504  /50x.html;
+
+         location = /50x.html {
+              root /usr/share/nginx/html;
+         }
+
+         location  ^~/cve-security-notice-server/ {
+              proxy_pass http://cve-srv-service.cve.svc.cluster.local:8080/cve-security-notice-server/;
+              proxy_set_header Accept-Encoding "";
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              client_max_body_size 1024M;
+              proxy_read_timeout 600s;
+              proxy_send_timeout 600s;
+              proxy_connect_timeout 600s;
+          }
+    }
+kind: ConfigMap
+metadata:
+  name: nginx-configmap
