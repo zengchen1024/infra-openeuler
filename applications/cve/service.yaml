@@ -21,15 +21,9 @@ spec:
   externalTrafficPolicy: Cluster
   ports:
     - name: httpport
-      nodePort: 31116
       port: 80
       protocol: TCP
       targetPort: 80
-    - name: httpsport
-      nodePort: 31117
-      port: 443
-      protocol: TCP
-      targetPort: 443
   selector:
     app: cveinfo
   type: ClusterIP
