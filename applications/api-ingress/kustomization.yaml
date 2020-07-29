@@ -2,6 +2,7 @@ resources:
   - ingress.yaml
   - namespace.yaml
   - package-manage-service.yaml
+  - mailman-api-service.yaml
 commonLabels:
   app: openeuler-api
 namespace: openeuler-api
