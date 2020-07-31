@@ -42,6 +42,8 @@ spec:
                 secretKeyRef:
                   name: cve-secrets
                   key: upload-password
+            - name: TZ
+              value: Asia/Shanghai
           image: opensourceway/cve-backend:20200727025501ab97ee
           imagePullPolicy: IfNotPresent
           name: cve-backend-infod
@@ -68,6 +70,8 @@ spec:
     spec:
       containers:
         - env:
+            - name: TZ
+              value: Asia/Shanghai
             - name: BASE_URL
               valueFrom:
                 configMapKeyRef:
