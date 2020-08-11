@@ -7,7 +7,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 31200
+      targetPort: 31202
 ---
 kind: Endpoints
 apiVersion: v1
@@ -19,4 +19,4 @@ subsets:
       - ip: 10.0.0.107
       - ip: 10.0.0.191
     ports:
-      - port: 31200
+      - port: 31202
