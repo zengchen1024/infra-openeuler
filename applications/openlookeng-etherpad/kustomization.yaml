@@ -11,4 +11,4 @@ patchesJson6902:
       kind: Service
       name: etherpad-internal
     path: selector.yaml
-namespace: etherpad
+namespace: openlookeng-etherpad
