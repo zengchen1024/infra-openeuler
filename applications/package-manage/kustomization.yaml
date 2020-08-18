@@ -7,4 +7,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: opensourceway/packagemanage
-  newTag: 776dbe5bc528d77f5b10d9cc10c11a4639a9b003.1597757686
+  newTag: 590c7b9d8abf80eecc3b44674de33d3b829c371c.1597761563
