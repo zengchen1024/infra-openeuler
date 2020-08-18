@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: vuepress
-        image: opensourceway/openeuler-website-frontend:0.0.1
+        image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend:94b409b9a2f34c7c722cc5c455b1ab2c4ee1ec26
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -46,8 +46,49 @@ spec:
     spec:
       containers:
         - name: nodejs
-          image: opensourceway/openeuler-website-backend:0.0.2
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend:94b409b9a2f34c7c722cc5c455b1ab2c4ee1ec26
           imagePullPolicy: IfNotPresent
+          env:
+           - name: API_USER_PASS
+             valueFrom:
+               configMapKeyRef:
+                 key: api-user-pass
+                 name: openeuler-website
+           - name: MAIL_USER_PASS
+             valueFrom:
+               configMapKeyRef:
+                 key: mail-user-pass
+                 name: openeuler-website
+           - name: SIG_API
+             valueFrom:
+               configMapKeyRef:
+                 key: sig-api
+                 name: openeuler-website
+           - name: ES_URL
+             valueFrom:
+               configMapKeyRef:
+                 key: es-url
+                 name: openeuler-website
+           - name: ES_USER_PASS
+             valueFrom:
+               configMapKeyRef:
+                 key: es-user-pass
+                 name: openeuler-website
+           - name: MYSQL_DATABASE
+             valueFrom:
+               configMapKeyRef:
+                 key: mysql-database
+                 name: openeuler-website
+           - name: MYSQL_PWD
+             valueFrom:
+               configMapKeyRef:
+                 key: mysql-pwd
+                 name: openeuler-website
+           - name: MYSQL_URL
+             valueFrom:
+               configMapKeyRef:
+                 key: mysql-url
+                 name: openeuler-website
           ports:
             - containerPort: 8090
               name: http
