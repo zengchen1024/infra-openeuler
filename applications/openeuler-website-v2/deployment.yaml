@@ -51,42 +51,42 @@ spec:
           env:
            - name: API_USER_PASS
              valueFrom:
-               configMapKeyRef:
+               secretKeyRef:
                  key: api-user-pass
                  name: openeuler-website
            - name: MAIL_USER_PASS
              valueFrom:
-               configMapKeyRef:
+               secretKeyRef:
                  key: mail-user-pass
                  name: openeuler-website
            - name: SIG_API
              valueFrom:
-               configMapKeyRef:
+               secretKeyRef:
                  key: sig-api
                  name: openeuler-website
            - name: ES_URL
              valueFrom:
-               configMapKeyRef:
+               secretKeyRef:
                  key: es-url
                  name: openeuler-website
            - name: ES_USER_PASS
              valueFrom:
-               configMapKeyRef:
+               secretKeyRef:
                  key: es-user-pass
                  name: openeuler-website
            - name: MYSQL_DATABASE
              valueFrom:
-               configMapKeyRef:
+               secretKeyRef:
                  key: mysql-database
                  name: openeuler-website
            - name: MYSQL_PWD
              valueFrom:
-               configMapKeyRef:
+               secretKeyRef:
                  key: mysql-pwd
                  name: openeuler-website
            - name: MYSQL_URL
              valueFrom:
-               configMapKeyRef:
+               secretKeyRef:
                  key: mysql-url
                  name: openeuler-website
           ports:
