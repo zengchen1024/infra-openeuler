@@ -39,10 +39,7 @@ spec:
                   key: username
                   name: rsync-secrets
             - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: rsync-secrets
+
           command:
             - /bin/sh
             - -c

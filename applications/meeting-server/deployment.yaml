@@ -1,0 +1,43 @@
+# Deployment for meeting service
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: meeting-server
+spec:
+  selector:
+    matchLabels:
+      app: meeting-server
+  template:
+    metadata:
+      labels:
+        app: meeting-server
+    spec:
+      containers:
+        - name: meeting-server
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:824dc3b1b1be2c65b5ac794a448ca8734ad71de8
+          volumeMounts:
+            - mountPath: /work/app-meeting-server/community_meetings/settings.py
+              name: meeting-server-secrets-volume
+              subPath: settings
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 2000Mi
+          env:
+            - name: ZOOM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: zoom_token
+                  name: meeting-server-secrets
+          command:
+            - /bin/sh
+            - -c
+            - |
+              python manage.py makemigrations
+              python manage.py migrate
+              uwsgi --ini /work/app-meeting-server/deploy/production/uwsgi.ini
+      volumes:
+        - name: meeting-server-secrets-volume
+          secret:
+            secretName: meeting-server-secrets

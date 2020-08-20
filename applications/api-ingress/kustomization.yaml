@@ -3,6 +3,7 @@ resources:
   - namespace.yaml
   - package-manage-service.yaml
   - mailman-api-service.yaml
+  - meeting-api-service.yaml
 commonLabels:
   app: openeuler-api
 namespace: openeuler-api

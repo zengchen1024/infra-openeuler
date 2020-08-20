@@ -23,3 +23,7 @@ spec:
               serviceName: mailman-service
               servicePort: 8001
             path: /mailman(/|$)(.*)
+          - backend:
+              serviceName: meeting-service
+              servicePort: 80
+            path: /meetings(/|$)(.*)
