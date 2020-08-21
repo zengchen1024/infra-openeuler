@@ -3,8 +3,8 @@ resources:
 - https://github.com/opensourceways/app-pkgmanage/deploy?ref=master
 commonLabels:
   app: openeuler-packagemanage-debug
-nameSuffix: _debug
-namespace: packagemanage_dbug
+nameSuffix: -debug
+namespace: packagemanage-dbug
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
