@@ -7,5 +7,5 @@ namespace: packagemanage-debug
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
-- name: opensourceway/packagemanage
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/packagemanage
   newTag: 16bcb44fec7697dd69db25eff986cf0921c7b939.1597827739
