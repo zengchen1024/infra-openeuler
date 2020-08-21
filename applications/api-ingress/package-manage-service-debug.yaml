@@ -1,0 +1,7 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: pkgmanage-service-debug
+spec:
+  type: ExternalName
+  externalName: packagemanage-service-debug.packagemanage_debug.svc.cluster.local
