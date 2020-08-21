@@ -3,6 +3,7 @@ resources:
 commonLabels:
   app: openeuler-packagemanage
 namespace: packagemanage
+nameSuffix: -pruduction
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
