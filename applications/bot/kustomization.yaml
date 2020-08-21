@@ -1,0 +1,11 @@
+resources:
+  - deployment.yaml
+  - namespace.yaml
+  - service.yaml
+  - secrets.yaml
+  - configmap.yaml
+commonLabels:
+  app: openeuler-bot
+namespace: bot
+
+
