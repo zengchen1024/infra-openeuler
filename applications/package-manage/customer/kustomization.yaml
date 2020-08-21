@@ -1,10 +1,11 @@
 resources:
 - https://github.com/opensourceways/app-pkgmanage/deploy?ref=master
+- namespace.yaml
 commonLabels:
-  app: openeuler-packagemanage
-namespace: packagemanage
+  app: openeuler-packagemanage-debug
+namespace: packagemanage_dbug
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: opensourceway/packagemanage
-  newTag: 71b5fe563cbe6189a4fd07d0cfaa78dfab33b09b.1597937369
+  newTag: 16bcb44fec7697dd69db25eff986cf0921c7b939.1597827739

@@ -20,6 +20,10 @@ spec:
               servicePort: 80
             path: /pkgmanage(/|$)(.*)
           - backend:
+              serviceName: pkgmanage-service-debug
+              servicePort: 80
+            path: /pkgmanagedebug(/|$)(.*)
+          - backend:
               serviceName: mailman-service
               servicePort: 8001
             path: /mailman(/|$)(.*)

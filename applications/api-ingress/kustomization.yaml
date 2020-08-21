@@ -2,6 +2,7 @@ resources:
   - ingress.yaml
   - namespace.yaml
   - package-manage-service.yaml
+  - package-manage-service-debug.yaml
   - mailman-api-service.yaml
   - meeting-api-service.yaml
 commonLabels:
