@@ -9,3 +9,5 @@ kind: Kustomization
 images:
 - name: opensourceway/packagemanage
   newTag: 16bcb44fec7697dd69db25eff986cf0921c7b939.1597827739
+- name: opensourceway/packagemanage/debug
+  newTag: 31fbe6fe3ed8abe9c551a600276258844a0102a9.1598012378
