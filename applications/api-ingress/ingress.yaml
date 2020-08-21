@@ -16,7 +16,7 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: pkgmanage-service
+              serviceName: pkgmanage-service-release
               servicePort: 80
             path: /pkgmanage(/|$)(.*)
           - backend:
