@@ -10,4 +10,4 @@ images:
 - name: opensourceway/dbgetinit
 - name: opensourceway/packagemanage
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/packagemanage
-  newTag: 16bcb44fec7697dd69db25eff986cf0921c7b939.1597827739
+  newTag: cf50eb1acae0ad22b56a2dc27ff5fb715f750295.1598109551
