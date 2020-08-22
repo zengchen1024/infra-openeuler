@@ -7,6 +7,7 @@ namespace: packagemanage-debug
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: opensourceway/dbgetinit
 - name: opensourceway/packagemanage
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/packagemanage
   newTag: cf50eb1acae0ad22b56a2dc27ff5fb715f750295.1598109551
