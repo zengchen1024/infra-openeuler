@@ -9,4 +9,4 @@ kind: Kustomization
 images:
 - name: opensourceway/packagemanage
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/packagemanage
-  newTag: 1582a759c1730bd60f8f471abedf198d9ca7b16c.1598083008
+  newTag: cf50eb1acae0ad22b56a2dc27ff5fb715f750295.1598109551
