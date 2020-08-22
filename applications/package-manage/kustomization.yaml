@@ -3,3 +3,6 @@ resources:
 - ./debug
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: opensourceway/packagemanage
+  newTag: 5e7bc94bc6ba5a4f745f0b1273a32b4cf5f4d7f0.1598015091
