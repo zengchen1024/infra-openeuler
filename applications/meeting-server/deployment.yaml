@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: meeting-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:824dc3b1b1be2c65b5ac794a448ca8734ad71de8
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:9f70302059bbd2d78f74161da76d7d9060419468
           volumeMounts:
             - mountPath: /work/app-meeting-server/community_meetings/settings.py
               name: meeting-server-secrets-volume
