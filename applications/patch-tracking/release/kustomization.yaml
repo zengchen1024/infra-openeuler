@@ -7,4 +7,7 @@ namespace: patch-tracking-release
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: opensourceway/patch-tracking
+  newName: opensourceway/patch-tracking
+  newTag: 8a8eb374879aa62becece7253e1d02c81ef2d627.1598272589
 - name: opensourceway/patchtracking
