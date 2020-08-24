@@ -7,6 +7,7 @@ nameSuffix: -release
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: opensourceway/dbgetinit
 - name: opensourceway/packagemanage
   newName: opensourceway/packagemanage
   newTag: 1582a759c1730bd60f8f471abedf198d9ca7b16c.1598082384
