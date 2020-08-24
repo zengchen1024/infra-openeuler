@@ -11,3 +11,5 @@ images:
   newName: opensourceway/patch-tracking
   newTag: 8a8eb374879aa62becece7253e1d02c81ef2d627.1598272589
 - name: opensourceway/patchtracking
+  newName: opensourceway/patchtracking
+  newTag: 8a8eb374879aa62becece7253e1d02c81ef2d627.1598273156
