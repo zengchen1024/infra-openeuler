@@ -1,5 +1,6 @@
 resources:
   - ingress.yaml
+  - https-backend-ingress.yaml
   - namespace.yaml
   - package-manage-service.yaml
   - package-manage-service-debug.yaml
