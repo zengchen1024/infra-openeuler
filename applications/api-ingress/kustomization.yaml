@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - package-manage-service.yaml
   - package-manage-service-debug.yaml
+  - patch-tracking-service.yaml
   - mailman-api-service.yaml
   - meeting-api-service.yaml
 commonLabels:
