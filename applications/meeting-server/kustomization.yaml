@@ -3,6 +3,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - secrets.yaml
+  - cronjob.yaml
 commonLabels:
   app: openeuler-meetingserver
 namespace: meetingserver
