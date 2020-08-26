@@ -14,3 +14,6 @@ images:
 - name: opensourceway/packagemanage
   newName: opensourceway/packagemanage
   newTag: 0c4da6c3691b9a0448e116d2ecc89d00e7cb2c86.1598252511
+- name: opensourceway/pkgmanageweb
+  newName: opensourceway/pkgmanageweb
+  newTag: e662e102790e451006caf84b5cdd7ad382f0274f.1598443325
