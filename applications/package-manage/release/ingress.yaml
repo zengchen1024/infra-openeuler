@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  name: pkgmange-web-ingress
+spec:
+  tls:
+    - hosts:
+        - pkgmanage.openeuler.org
+  rules:
+    - host: pkgmanage.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: package-manage-web
+              servicePort: 8080
+            path: /

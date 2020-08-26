@@ -1,5 +1,6 @@
 resources:
 - https://github.com/opensourceways/app-pkgmanage/deploy?ref=master
+- ingress.yaml
 commonLabels:
   app: openeuler-packagemanage-release
 namespace: packagemanage-release
