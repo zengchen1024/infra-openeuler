@@ -6,9 +6,6 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
   name: pkgmange-web-ingress
 spec:
-  tls:
-    - hosts:
-        - pkgmanage.openeuler.org
   rules:
     - host: pkgmanage.openeuler.org
       http:
