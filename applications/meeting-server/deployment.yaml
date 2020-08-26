@@ -20,6 +20,8 @@ spec:
             - mountPath: /work/app-meeting-server/community_meetings/settings.py
               name: meeting-server-secrets-volume
               subPath: settings
+            - mountPath: /work/app-meeting-server/meetings/migrations
+              name: meeting-data-volume
           resources:
             requests:
               cpu: 2000m
@@ -34,6 +36,8 @@ spec:
             - /bin/sh
             - -c
             - |
+              # incase the __init__.py does not exist in the mounted volume
+              touch /work/app-meeting-server/meetings/migrations/__init__.py
               python manage.py collectstatic
               python manage.py makemigrations
               python manage.py migrate
@@ -42,3 +46,7 @@ spec:
         - name: meeting-server-secrets-volume
           secret:
             secretName: meeting-server-secrets
+        - name: meeting-data-volume
+          persistentVolumeClaim:
+            claimName: meeting-data-volume
+
