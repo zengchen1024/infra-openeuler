@@ -1,10 +1,15 @@
 resources:
-  - namespace.yaml
-  - deployment.yaml
-  - service.yaml
-  - secrets.yaml
-  - cronjob.yaml
-  - pvc.yaml
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- secrets.yaml
+- cronjob.yaml
+- pvc.yaml
 commonLabels:
   app: openeuler-meetingserver
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 namespace: meetingserver
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server
+  newTag: 0c499464a62b00a11e08bf43bda59c2331f7423c
