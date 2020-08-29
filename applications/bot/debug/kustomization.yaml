@@ -7,4 +7,7 @@ namespace: bot-debug
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: opensourceway/openeulerbot
+  newName: opensourceway/openeulerbot
+  newTag: v0.1598667538
 - name: opensourceway/openeulerbot:v1.0
