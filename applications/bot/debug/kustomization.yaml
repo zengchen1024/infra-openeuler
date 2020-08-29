@@ -1,0 +1,10 @@
+resources:
+- https://github.com/opensourceways/app-bot/deploy?ref=master
+commonLabels:
+  app: openeuler-bot-debug
+nameSuffix: -debug
+namespace: bot-debug
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: opensourceway/openeulerbot:v1.0
