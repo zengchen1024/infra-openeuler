@@ -24,6 +24,11 @@ metadata:
   name: jenkins-agent
 spec:
   ports:
+    - name: http
+      port: 80
+      # we need pin the node port here in order to be visitable via node
+      targetPort: 8080
+      nodePort: 30080
     - name: slavelistener
       port: 50000
       # we need pin the node port here in order to be visitable via node
