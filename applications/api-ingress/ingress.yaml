@@ -31,3 +31,8 @@ spec:
               serviceName: meeting-service
               servicePort: 80
             path: /meetings(/|$)(.*)
+          - backend:
+              serviceName: bot-debug-service
+              servicePort: 8888
+            path: /botdebug(/|$)(.*)
+
