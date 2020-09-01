@@ -55,6 +55,8 @@ spec:
                     secretKeyRef:
                       key: app_secret
                       name: meeting-server-secrets
+                - name: TZ
+                  value: Asia/Shanghai
               command:
                 - /bin/sh
                 - -c
