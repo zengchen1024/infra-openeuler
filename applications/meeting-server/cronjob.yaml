@@ -1,0 +1,62 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: updating-openeuler-sigs
+spec:
+  schedule: "0 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: meeting-server
+              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
+              env:
+                - name: ZOOM_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: zoom_token
+                      name: meeting-server-secrets
+                - name: DB_USER
+                  value: root
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: db_password
+                      name: meeting-server-secrets
+                - name: DB_HOST
+                  value: 172.16.1.73
+                - name: DB_PORT
+                  value: "3306"
+                - name: HOST_GENEDNA
+                  valueFrom:
+                    secretKeyRef:
+                      key: host_genedna
+                      name: meeting-server-secrets
+                - name: HOST_TOMMYLIKE
+                  valueFrom:
+                    secretKeyRef:
+                      key: host_tommylike
+                      name: meeting-server-secrets
+                - name: SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: secret_key
+                      name: meeting-server-secrets
+                - name: APP_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: app_id
+                      name: meeting-server-secrets
+                - name: APP_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: app_secret
+                      name: meeting-server-secrets
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  python manage.py genegroup

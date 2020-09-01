@@ -15,11 +15,10 @@ spec:
     spec:
       containers:
         - name: meeting-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:0acce82ecc904a728223916085a515bc2d717fb9
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
           volumeMounts:
-            - mountPath: /work/app-meeting-server/community_meetings/settings.py
-              name: meeting-server-secrets-volume
-              subPath: settings
+            - mountPath: /work/app-meeting-server/meetings/migrations
+              name: meeting-data-volume
           resources:
             requests:
               cpu: 2000m
@@ -30,15 +29,54 @@ spec:
                 secretKeyRef:
                   key: zoom_token
                   name: meeting-server-secrets
+            - name: DB_USER
+              value: root
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: db_password
+                  name: meeting-server-secrets
+            - name: DB_HOST
+              value: 172.16.1.73
+            - name: DB_PORT
+              value: "3306"
+            - name: HOST_GENEDNA
+              valueFrom:
+                secretKeyRef:
+                  key: host_genedna
+                  name: meeting-server-secrets
+            - name: HOST_TOMMYLIKE
+              valueFrom:
+                secretKeyRef:
+                  key: host_tommylike
+                  name: meeting-server-secrets
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secret_key
+                  name: meeting-server-secrets
+            - name: APP_ID
+              valueFrom:
+                secretKeyRef:
+                  key: app_id
+                  name: meeting-server-secrets
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: app_secret
+                  name: meeting-server-secrets
           command:
             - /bin/sh
             - -c
             - |
+              # incase the __init__.py does not exist in the mounted volume
+              touch /work/app-meeting-server/meetings/migrations/__init__.py
               python manage.py collectstatic
               python manage.py makemigrations
               python manage.py migrate
               uwsgi --ini /work/app-meeting-server/deploy/production/uwsgi.ini
       volumes:
-        - name: meeting-server-secrets-volume
-          secret:
-            secretName: meeting-server-secrets
+        - name: meeting-data-volume
+          persistentVolumeClaim:
+            claimName: meeting-data-volume
+
