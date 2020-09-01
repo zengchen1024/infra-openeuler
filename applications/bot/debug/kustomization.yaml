@@ -9,5 +9,5 @@ kind: Kustomization
 images:
 - name: opensourceway/openeulerbot
   newName: opensourceway/openeulerbot
-  newTag: 28f73fec65ff36e59588374e71d030c40ca7e806.1598667876
+  newTag: c15f1522846551a440e7edadb2c70287141f3561.1598920513
 - name: opensourceway/openeulerbot:v1.0
