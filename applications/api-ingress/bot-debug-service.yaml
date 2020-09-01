@@ -1,0 +1,7 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: bot-debug-service 
+spec:
+  type: ExternalName
+  externalName: openeuler-bot-debug.bot-debug.svc.cluster.local
