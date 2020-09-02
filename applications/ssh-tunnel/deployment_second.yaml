@@ -1,0 +1,48 @@
+#This is another ssh client which will connect to another ssh server in openeuler cn north4
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh-tunnel-2
+  labels:
+    component: ssh-tunnel
+    backup_tunnel: true
+spec:
+  selector:
+    matchLabels:
+      component: ssh-tunnel
+      backup_tunnel: true
+  template:
+    metadata:
+      labels:
+        component: ssh-tunnel
+        backup_tunnel: true
+    spec:
+      containers:
+        - name: sshd-tunnel
+          image: opensourceway/ssh-tunnel:0.0.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+            - name: TUNNEL_HOST
+              value:  119.3.186.199
+          volumeMounts:
+            - mountPath: /root/ssh/id_rsa
+              name: ssh-secrets
+              subPath: private_keys
+          # all of the ssh local port configuration will be added here.
+          args:
+            # This is for jenkins master endpoint
+            - -L
+            - 0.0.0.0:1080:openeuler-jenkins.default.svc.cluster.local:80
+            # This is for obs api endpoint
+            - -L
+            - 0.0.0.0:1082:172.16.1.81:80
+            # This is for jenkins master endpoint (new jenkins in cn north4)
+            - -L
+            - 0.0.0.0:1084:jenkins.jenkins.svc.cluster.local:80
+      volumes:
+        - name: ssh-secrets
+          secret:
+            secretName: ssh-secrets

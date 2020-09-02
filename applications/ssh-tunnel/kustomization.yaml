@@ -2,11 +2,10 @@ resources:
   - https://github.com/opensourceways/app-ssh-tunnel/deploy?ref=stable
   - secrets.yaml
   - namespace.yaml
+  - deployment_second.yaml
 commonLabels:
   app: openeuler-ssh-tunnel
 patchesStrategicMerge:
   - deployment.yaml
   - service.yaml
 namespace: ssh-tunnel
-
-
