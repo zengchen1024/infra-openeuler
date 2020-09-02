@@ -6,17 +6,17 @@ metadata:
   name: ssh-tunnel-2
   labels:
     component: ssh-tunnel
-    backup_tunnel: true
+    tunnel: second
 spec:
   selector:
     matchLabels:
       component: ssh-tunnel
-      backup_tunnel: true
+      tunnel: second
   template:
     metadata:
       labels:
         component: ssh-tunnel
-        backup_tunnel: true
+        tunnel: second
     spec:
       containers:
         - name: sshd-tunnel
