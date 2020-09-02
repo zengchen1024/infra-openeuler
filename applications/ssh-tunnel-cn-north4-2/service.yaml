@@ -1,0 +1,12 @@
+# ssh-tunnel service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssh-tunnel
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: 3ffb0821-2586-461d-8046-1629f95af792
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+spec:
+  loadBalancerIP: 119.3.186.199
