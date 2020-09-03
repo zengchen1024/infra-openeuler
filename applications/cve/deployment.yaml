@@ -44,7 +44,7 @@ spec:
                   key: upload-password
             - name: TZ
               value: Asia/Shanghai
-          image: opensourceway/cve-backend:20200727025501ab97ee
+          image: opensourceway/cve-backend:20200903065415e0c88a
           imagePullPolicy: IfNotPresent
           name: cve-backend-infod
           ports:
