@@ -12,11 +12,7 @@ data:
     watchProjectFiles:
       - watchProjectFileOwner: georgecao
         watchprojectFileRepo: community
-        watchprojectFilePath: repository/openeuler.yaml
-        watchProjectFileRef: master
-      - watchProjectFileOwner: georgecao
-        watchprojectFileRepo: community
-        watchprojectFilePath: repository/src-openeuler.yaml
+        watchprojectFilePath: repository/georgecaotest.yaml
         watchProjectFileRef: master
     watchProjectFileDuration: 60
     watchSigFiles:
@@ -42,7 +38,7 @@ data:
     newfilebranch: master
     tmpservicefile: _service
     tmpservicepath: master/openEuler:Factory/#projectname#/_service
-    guideurl: https://gitee.com/openeuler/community/tree/master/zh/contributors
+    guideurl: https://gitee.com/georgecaotest/community/tree/master/zh/contributors
   gitee_oauth2_client_code: "stored in secrets and will be injected via environment"
   gitee_oauth2_secret: "stored in secrets and will be injected via environment"
 kind: ConfigMap
