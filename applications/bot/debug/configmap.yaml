@@ -10,19 +10,19 @@ data:
     databaseUserName: "stored in secrets and will be injected via environment"
     databasePassword: "stored in secrets and will be injected via environment"
     watchProjectFiles:
-      - watchProjectFileOwner: georgecao
+      - watchProjectFileOwner: georgecaotest
         watchprojectFileRepo: community
         watchprojectFilePath: repository/georgecaotest.yaml
         watchProjectFileRef: master
     watchProjectFileDuration: 60
     watchSigFiles:
-      - watchSigFileOwner: georgecao
+      - watchSigFileOwner: georgecaotest
         watchSigFileRepo: community
         watchSigFilePath: sig/sigs.yaml
         watchSigFileRef: master
     watchSigFileDuration: 60
     watchOwnerFiles:
-      - watchOwnerFileOwner: georgecao
+      - watchOwnerFileOwner: georgecaotest
         watchOwnerFileRepo: community
         watchOwnerFilePath: sig/*/OWNERS
         watchOwnerFileRef: master
