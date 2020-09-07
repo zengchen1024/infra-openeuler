@@ -4,4 +4,4 @@ metadata:
   name: bot-debug-service 
 spec:
   type: ExternalName
-  externalName: openeuler-bot-debug.bot-debug.svc.cluster.local
+  externalName: botservice-debug.bot-debug.svc.cluster.local
