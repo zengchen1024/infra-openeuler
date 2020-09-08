@@ -14,7 +14,7 @@ data:
         watchprojectFileRepo: community
         watchprojectFilePath: repository/georgecaotest.yaml
         watchProjectFileRef: master
-    watchProjectFileDuration: 60
+    watchProjectFileDuration: 40
     watchSigFiles:
       - watchSigFileOwner: georgecaotest
         watchSigFileRepo: community
@@ -26,7 +26,7 @@ data:
         watchOwnerFileRepo: community
         watchOwnerFilePath: sig/*/OWNERS
         watchOwnerFileRef: master
-    watchOwnerFileDuration: 3600
+    watchOwnerFileDuration: 80
     botName: openeuler-ci-bot-debug
     communityName: georgecaotest
     claLink: https://openeuler.org/en/cla.html
