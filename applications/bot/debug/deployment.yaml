@@ -20,12 +20,12 @@ spec:
             - name: GITEE_TOKEN
               valueFrom:
                 secretKeyRef:
-                  key: gitee_token_debug_test
+                  key: gitee_token
                   name: bot-secret
             - name: WEBHOOK_SECRET
               valueFrom:
                 secretKeyRef:
-                  key: webhook_secret_debug_test
+                  key: webhook_secret
                   name: bot-secret
             - name: DATABASE_USERNAME
               valueFrom:
