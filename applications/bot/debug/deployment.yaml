@@ -1,0 +1,73 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: botinfo
+  namespace: bot
+spec:
+  selector:
+    matchLabels:
+      app: botinfo
+  template:
+    metadata:
+      labels:
+        app: botinfo
+    spec:
+      containers:
+        - args:
+            - --stderrthreshold=0
+          env:
+            - name: GITEE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: gitee_token_debug_test
+                  name: bot-secret
+            - name: WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: webhook_secret_debug_test
+                  name: bot-secret
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: database_username
+                  name: bot-secret
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: database_password
+                  name: bot-secret
+            - name: GITEE_OAUTH2_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: gitee_oauth2_secret
+                  name: bot-secret
+            - name: GITEE_OAUTH2_CLIENT_CODE
+              valueFrom:
+                secretKeyRef:
+                  key: gitee_oauth2_client_code
+                  name: bot-secret
+            - name: WEBSITE_URL
+              value: https://openeuler.org/
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ci-bot:28f73fec65ff36e59588374e71d030c40ca7e806
+          imagePullPolicy: IfNotPresent
+          name: botinfod
+          volumeMounts:
+            - mountPath: /bot/config.yaml
+              name: configmap-volume
+              subPath: config.yaml
+            - mountPath: /bot/_service
+              name: bot-service-configmap
+              subPath: _service
+          command:
+            - /bin/sh
+            - -c
+            - |
+              sleep 3600              
+      volumes:
+        - configMap:
+            name: bot-configmap
+          name: configmap-volume
+        - configMap:
+            name: bot-service-configmap
+          name: bot-service-configmap
