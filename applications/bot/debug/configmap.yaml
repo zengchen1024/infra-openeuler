@@ -6,7 +6,7 @@ data:
     databaseType: "mysql"
     databaseHost: "172.16.1.74"
     databasePort: 3306
-    databaseName: "cibot"
+    databaseName: "cibot-debug"
     databaseUserName: "stored in secrets and will be injected via environment"
     databasePassword: "stored in secrets and will be injected via environment"
     #the flag that pull request commit_id has changed
