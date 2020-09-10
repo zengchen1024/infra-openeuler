@@ -8,6 +8,7 @@ resources:
   - mailman-api-service.yaml
   - meeting-api-service.yaml
   - bot-debug-service.yaml
+  - bot-release-service.yaml
 commonLabels:
   app: openeuler-api
 namespace: openeuler-api
