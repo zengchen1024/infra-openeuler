@@ -35,4 +35,7 @@ spec:
               serviceName: bot-debug-service
               servicePort: 8888
             path: /botdebug(/|$)(.*)
-
+          - backend:
+              serviceName: bot-release-service
+              servicePort: 8888
+            path: /botrelease(/|$)(.*)
