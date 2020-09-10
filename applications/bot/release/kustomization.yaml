@@ -10,4 +10,4 @@ images:
 - name: opensourceway/openeulerbot:v1.0
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ci-bot
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ci-bot
-  newTag: 376434c0fe6415e6d3bcc766353f3fb23739209e.1599723243
+  newTag: 801e9f863a2a6e6c30a1328d1e817d71fffb5015.1599724079
