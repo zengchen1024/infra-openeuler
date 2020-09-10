@@ -9,6 +9,15 @@ data:
     databaseName: "cibot"
     databaseUserName: "stored in secrets and will be injected via environment"
     databasePassword: "stored in secrets and will be injected via environment"
+    #the flag that pull request commit_id has changed
+    prUpdateLabelFlag: "source_branch_changed"
+    #List of labels that need to be deleted after the commit_id is changed
+    delLabels:
+      - lgtm
+    requiringLabels:
+      - openeuler-cla/yes
+    commitsThreshold: 1
+    squashCommitLabel: stat/need-squash
     watchProjectFiles:
       - watchProjectFileOwner: georgecaotest
         watchprojectFileRepo: community
