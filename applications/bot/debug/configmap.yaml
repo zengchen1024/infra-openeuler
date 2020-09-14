@@ -15,29 +15,29 @@ data:
     delLabels:
       - lgtm
     requiringLabels:
-      - openeuler-cla/yes
+      - ci-bot-cla/yes
     commitsThreshold: 1
     squashCommitLabel: stat/need-squash
     watchProjectFiles:
-      - watchProjectFileOwner: georgecaotest
+      - watchProjectFileOwner: ci-bot
         watchprojectFileRepo: community
         watchprojectFilePath: repository/georgecaotest.yaml
         watchProjectFileRef: master
     watchProjectFileDuration: 40
     watchSigFiles:
-      - watchSigFileOwner: georgecaotest
+      - watchSigFileOwner: ci-bot
         watchSigFileRepo: community
         watchSigFilePath: sig/sigs.yaml
         watchSigFileRef: master
     watchSigFileDuration: 60
     watchOwnerFiles:
-      - watchOwnerFileOwner: georgecaotest
+      - watchOwnerFileOwner: ci-bot
         watchOwnerFileRepo: community
         watchOwnerFilePath: sig/*/OWNERS
         watchOwnerFileRef: master
     watchOwnerFileDuration: 80
     botName: openeuler-ci-bot-debug
-    communityName: georgecaotest
+    communityName: ci-bot
     claLink: https://openeuler.org/en/cla.html
     commandLink: https://gitee.com/openeuler/community/blob/master/en/sig-infrastructure/command.md
     contactEmail: contact@openeuler.org
