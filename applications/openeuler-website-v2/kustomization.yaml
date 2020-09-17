@@ -10,3 +10,10 @@ commonLabels:
 namespace: website-v2
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
+  newTag: 626135dbfbdb89c81b77e263e0ffb16840573a27
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
+  newTag: 626135dbfbdb89c81b77e263e0ffb16840573a27
