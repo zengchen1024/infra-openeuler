@@ -12,7 +12,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
+              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
               env:
                 - name: ZOOM_TOKEN
                   valueFrom:
