@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -39,3 +40,24 @@ spec:
               serviceName: bot-release-service
               servicePort: 8888
             path: /botrelease(/|$)(.*)
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  name: euler-icon-service
+spec:
+  tls:
+    - hosts:
+        - eulericon.openeuler.org
+      secretName: api-tls
+  rules:
+    - host: eulericon.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: euler-icon-service
+              servicePort: 80
+            path: /

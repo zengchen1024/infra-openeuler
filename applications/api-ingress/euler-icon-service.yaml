@@ -1,0 +1,21 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: euler-icon-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 32717
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: euler-icon-service
+subsets:
+  - addresses:
+      # These machines below are cluster workers in openlookeng cluster.
+      - ip: 159.138.35.231
+    ports:
+      - port: 32717
