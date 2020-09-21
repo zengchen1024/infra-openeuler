@@ -8,4 +8,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
-  newTag: f227cbaeb19d7ebfb69cb86d8e710dc0eb4b4bc4.1600678981
+  newTag: 0a8c3f7d45fdac7ede7b62ce4eb9b793e13cc6f1.1600679057
