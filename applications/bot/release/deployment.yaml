@@ -11,3 +11,5 @@ spec:
           env:
             - name: CLA_REDIRECT_URL
               value: /zh/other/cla
+            - name: WEBSITE_URL
+              value: https://next.openeuler.org/
