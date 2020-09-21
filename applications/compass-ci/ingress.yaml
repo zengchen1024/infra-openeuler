@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  name: compass-ci-ingress
+spec:
+  tls:
+    - hosts:
+        - compass-ci.openeuler.org
+      secretName: compass-ci-tls
+  rules:
+    - host: compass-ci.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: compass-ci-web
+              servicePort: 80
+            path: /
