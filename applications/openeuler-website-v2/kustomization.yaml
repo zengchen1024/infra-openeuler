@@ -4,6 +4,7 @@ resources:
 - service.yaml
 - ingress-backend.yaml
 - secrets.yaml
+- ingress-main.yaml
 commonLabels:
   app: openeuler-website-v2
 namespace: website-v2
