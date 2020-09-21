@@ -2,7 +2,6 @@ resources:
 - deployment.yaml
 - namespace.yaml
 - service.yaml
-- ingress-main.yaml
 - ingress-backend.yaml
 - secrets.yaml
 commonLabels:
