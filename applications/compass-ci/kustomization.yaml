@@ -1,0 +1,6 @@
+resources:
+  - https://github.com/opensourceways/compass-ci/deploy?ref=master
+  - ingress.yaml
+commonLabels:
+  app: compass-ci
+namespace: compass-ci
