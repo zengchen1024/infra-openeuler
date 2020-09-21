@@ -7,5 +7,8 @@ namespace: compass-ci
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: opensourceway/compassciweb
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
+  newTag: 0a8c3f7d45fdac7ede7b62ce4eb9b793e13cc6f1.1600680831
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
   newTag: 0a8c3f7d45fdac7ede7b62ce4eb9b793e13cc6f1.1600679057
