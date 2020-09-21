@@ -5,6 +5,8 @@ commonLabels:
 nameSuffix: -release
 namespace: bot-release
 apiVersion: kustomize.config.k8s.io/v1beta1
+patchesStrategicMerge:
+  - deployment.yaml
 kind: Kustomization
 images:
 - name: opensourceway/openeulerbot:v1.0
