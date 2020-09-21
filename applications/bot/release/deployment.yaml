@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: botinfo
+  namespace: bot
+spec:
+  template:
+    spec:
+      containers:
+        - name: botinfod
+          env:
+            - name: CLA_REDIRECT_URL
+              value: /zh/other/cla
