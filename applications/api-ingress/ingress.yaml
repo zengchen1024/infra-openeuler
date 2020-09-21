@@ -52,7 +52,7 @@ spec:
   tls:
     - hosts:
         - eulericon.openeuler.org
-      secretName: api-tls
+      secretName: euler-icon-tls
   rules:
     - host: eulericon.openeuler.org
       http:
