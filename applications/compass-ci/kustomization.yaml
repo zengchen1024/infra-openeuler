@@ -1,6 +1,11 @@
 resources:
-  - https://github.com/opensourceways/compass-ci/deploy?ref=master
-  - ingress.yaml
+- https://github.com/opensourceways/compass-ci/deploy?ref=master
+- ingress.yaml
 commonLabels:
   app: compass-ci
 namespace: compass-ci
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
+  newTag: f227cbaeb19d7ebfb69cb86d8e710dc0eb4b4bc4.1600678959
