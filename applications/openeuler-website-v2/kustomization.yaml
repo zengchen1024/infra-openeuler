@@ -2,11 +2,19 @@ resources:
 - deployment.yaml
 - namespace.yaml
 - service.yaml
-- ingress-main.yaml
 - ingress-backend.yaml
 - secrets.yaml
+- ingress-main.yaml
+- cibot-service.yaml
 commonLabels:
   app: openeuler-website-v2
 namespace: website-v2
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
+  newTag: e5ed096dca5cd84d7b25d30b83165280e37bdffb
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
+  newTag: e5ed096dca5cd84d7b25d30b83165280e37bdffb

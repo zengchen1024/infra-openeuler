@@ -19,3 +19,7 @@ spec:
               serviceName: website-backend-service
               servicePort: 80
             path: /api(/|$)(.*)
+          - backend:
+              serviceName: openeuler-bot-internal
+              servicePort: 8888
+            path: /api-cla(/|$)(.*)

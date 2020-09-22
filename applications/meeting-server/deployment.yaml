@@ -31,6 +31,8 @@ spec:
                   name: meeting-server-secrets
             - name: DB_USER
               value: root
+            - name: TZ
+              value: Asia/Shanghai
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:

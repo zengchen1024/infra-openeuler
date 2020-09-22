@@ -1,12 +1,15 @@
 resources:
-  - ingress.yaml
-  - namespace.yaml
-  - configmap.yaml
-  - deployment.yaml
-  - service.yaml
-  - secrets.yaml
+- ingress.yaml
+- namespace.yaml
+- configmap.yaml
+- deployment.yaml
+- service.yaml
+- secrets.yaml
 commonLabels:
   suit: openeuler-cve
 namespace: cve
-
-
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/cve-backend
+  newTag: 127b0e4b9943351a7ffb19d753856e6c735d92ac
