@@ -16,7 +16,7 @@ spec:
   tls:
     - hosts:
         - openeuler.org
-      secretName: website-v2-tls-main
+      secretName: website-v2-tls-main-secret
   rules:
     - host: openeuler.org
       http:
