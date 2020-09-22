@@ -15,10 +15,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - next.openeuler.org
+        - openeuler.org
       secretName: website-v2-tls-main
   rules:
-    - host: next.openeuler.org
+    - host: openeuler.org
       http:
         paths:
           - backend:
