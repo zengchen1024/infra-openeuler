@@ -23,3 +23,7 @@ spec:
               serviceName: openeuler-bot-internal
               servicePort: 8888
             path: /api-cla(/|$)(.*)
+          - backend:
+              serviceName: openeuler-meetingserver-internal
+              servicePort: 80
+            path: /api-sig(/|$)(.*)
