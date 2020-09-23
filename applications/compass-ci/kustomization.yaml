@@ -9,6 +9,6 @@ kind: Kustomization
 images:
 - name: opensourceway/compassciweb
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
-  newTag: 18741183383c9513e99df71d67bb5e998f449f08.1600851435
+  newTag: 18741183383c9513e99df71d67bb5e998f449f08.1600853199
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
   newTag: 0a8c3f7d45fdac7ede7b62ce4eb9b793e13cc6f1.1600679057
