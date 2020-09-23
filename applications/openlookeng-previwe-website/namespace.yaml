@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    name: openlookeng-preview-website
-  name: openlookeng-preview-website
