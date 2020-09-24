@@ -1,6 +1,5 @@
 resources:
 - https://github.com/opensourceways/infra-openeuler/applications/openeuler-website-v2?ref=master
-- service.yaml
 - ingress-backend.yaml
 - ingress-main.yaml
 - www-ingress.yaml
