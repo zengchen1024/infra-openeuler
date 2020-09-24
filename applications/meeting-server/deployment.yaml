@@ -5,6 +5,7 @@ apiVersion: apps/v1
 metadata:
   name: meeting-server
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: meeting-server
