@@ -1,0 +1,5 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: openeuler-v2-www-website-ingress
+$patch: delete
