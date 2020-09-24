@@ -6,6 +6,8 @@ resources:
 - secrets.yaml
 - ingress-main.yaml
 - cibot-service.yaml
+- www-ingress.yaml
+- meeting-service.yaml
 commonLabels:
   app: openeuler-website-v2
 namespace: website-v2
@@ -14,7 +16,7 @@ kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
-  newTag: e5ed096dca5cd84d7b25d30b83165280e37bdffb
+  newTag: 924e91183ea85f1aa0f1cfbea30444ca9a9162a2
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
-  newTag: e5ed096dca5cd84d7b25d30b83165280e37bdffb
+  newTag: 924e91183ea85f1aa0f1cfbea30444ca9a9162a2
