@@ -1,0 +1,10 @@
+resources:
+  - https://github.com/opensourceways/infra-openeuler/applications/openlookeng-website?ref=master
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patchesStrategicMerge:
+- ingress.yaml
+- remove-wwwingress.yaml
+commonLabels:
+  app: openlookeng-website
+namespace: openlookeng-website
