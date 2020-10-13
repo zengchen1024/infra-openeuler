@@ -9,4 +9,4 @@ kind: Kustomization
 images:
 - name: opensourceway/patchtracking
   newName: opensourceway/patchtracking
-  newTag: 202a7c04122d3afa5663bbdfa547358635248011.1602587626
+  newTag: 7e150c9cc6706a54d642ad887bff02f7f0097765.1602594803
