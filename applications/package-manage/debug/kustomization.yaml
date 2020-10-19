@@ -1,5 +1,5 @@
 resources:
-- https://github.com/opensourceways/app-pkgmanage/deploy?ref=master
+- https://github.com/opensourceways/app-pkgmanage/deploy?ref=debug
 - ingress.yaml
 commonLabels:
   app: openeuler-packagemanage-debug
