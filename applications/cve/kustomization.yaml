@@ -14,6 +14,6 @@ images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/cve-backend
   newTag: 127b0e4b9943351a7ffb19d753856e6c735d92ac
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/cve-manager
-  newTag: e9b53d556d3f496fcec8e6037a8996ec3ae5844d
+  newTag: 49e3f6a8852cc8132ec535acfcc28f359ce5ccf5
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/cve-manager-py
   newTag: 31dd2e1651a031c0cf5bb29869b2f1b721648bb6
