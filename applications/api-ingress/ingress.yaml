@@ -17,10 +17,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: cve-manager-service
-              servicePort: 8080
-            path: /cve-manager(/|$)(.*)
-          - backend:
               serviceName: pkgmanage-service-release
               servicePort: 80
             path: /pkgmanage(/|$)(.*)
