@@ -8,6 +8,7 @@ resources:
 - cibot-service.yaml
 - www-ingress.yaml
 - meeting-service.yaml
+- cve.yaml
 commonLabels:
   app: openeuler-website-v2
 namespace: website-v2
