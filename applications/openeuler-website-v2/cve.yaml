@@ -1,8 +1,0 @@
----
-kind: service
-apiVersion: v1
-metadata:
-  name: cve-srv-service
-spec:
-  type: ExternalName
-  externalName: cve-srv-service.cve.svc.cluster.local
