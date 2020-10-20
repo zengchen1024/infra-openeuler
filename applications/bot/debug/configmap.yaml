@@ -36,6 +36,12 @@ data:
         watchOwnerFilePath: sig/*/OWNERS
         watchOwnerFileRef: master
     watchOwnerFileDuration: 80
+    watchFrozenFile:
+      frozenFileOwner: ci-bot
+      frozenFileRepo: release-management
+      frozenFilePath: release-management.yaml
+      frozenFileRef: master
+    watchFrozenDuration: 50
     botName: openeuler-ci-bot-debug
     communityName: ci-bot
     claLink: https://openeuler.org/en/cla.html
