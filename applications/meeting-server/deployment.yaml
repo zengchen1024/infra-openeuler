@@ -68,6 +68,16 @@ spec:
                 secretKeyRef:
                   key: app_secret
                   name: meeting-server-secrets
+            - name: GMAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: gmail_username
+                  name: meeting-server-secrets
+            - name: GMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: gmail_password
+                  name: meeting-server-secrets
           command:
             - /bin/sh
             - -c
