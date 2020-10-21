@@ -40,6 +40,10 @@ spec:
               serviceName: bot-release-service
               servicePort: 8888
             path: /botrelease(/|$)(.*)
+          - backend:
+              serviceName: cve-manager-service
+              servicePort: 80
+            path: /cve-manager(/|$)(.*)
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
