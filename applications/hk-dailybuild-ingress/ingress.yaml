@@ -13,7 +13,7 @@ spec:
   tls:
     - hosts:
         - dailybuild.openeuler.org
-      secretName: hk-dailybuild
+      secretName: dailybuild-tls
   rules:
     - host: dailybuild.openeuler.org
       http:
