@@ -11,18 +11,3 @@ spec:
   selector:
     app: cve-backend-info
   type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: cveservice
-  namespace: cve
-spec:
-  ports:
-    - name: httpport
-      port: 80
-      protocol: TCP
-      targetPort: 80
-  selector:
-    app: cveinfo
-  type: ClusterIP
