@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
+   # cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/server-snippet: |
       rewrite ^/master$ http://121.36.53.23/ redirect;
       rewrite ^/lts$ http://121.36.84.172/ redirect;
