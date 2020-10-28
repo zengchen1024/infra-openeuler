@@ -5,7 +5,6 @@ kind: Service
 metadata:
   name: website-frontend-service
 spec:
-  externalTrafficPolicy: Cluster
   ports:
     - name: httpport
       protocol: TCP
@@ -23,7 +22,6 @@ kind: Service
 metadata:
   name: website-backend-service
 spec:
-  externalTrafficPolicy: Cluster
   ports:
     - name: httpport
       protocol: TCP
