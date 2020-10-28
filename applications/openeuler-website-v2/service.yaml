@@ -13,7 +13,7 @@ spec:
       targetPort: 8080
   selector:
     component: website-frontend
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
 # Config web backend service
@@ -31,4 +31,4 @@ spec:
       targetPort: 8090
   selector:
     component: website-backend
-  type: LoadBalancer
+  type: ClusterIP
