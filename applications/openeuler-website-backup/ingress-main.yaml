@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    # TODO: mark this annotation is not working, we need figure how to handle this in the future.
-    #cert-manager.io/cluster-issuer: letsencrypt-issuer
+    # NOTE: fake-letsencrypt-issuer is definitely not here, we overwrite the default value in order to not generate certs automatically.
+    cert-manager.io/cluster-issuer: fake-letsencrypt-issuer
     nginx.ingress.kubernetes.io/limit-connections: "400"
     nginx.ingress.kubernetes.io/limit-rps: "400"
     nginx.ingress.kubernetes.io/configuration-snippet: |
