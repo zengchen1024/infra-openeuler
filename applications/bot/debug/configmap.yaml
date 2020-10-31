@@ -37,10 +37,10 @@ data:
         watchOwnerFileRef: master
     watchOwnerFileDuration: 80
     watchFrozenFile:
-      frozenFileOwner: ci-bot
-      frozenFileRepo: release-management
-      frozenFilePath: release-management.yaml
-      frozenFileRef: master
+      - frozenFileOwner: ci-bot
+        frozenFileRepo: release-management
+        frozenFilePath: release-management.yaml
+        frozenFileRef: master
     watchFrozenDuration: 50
     botName: openeuler-ci-bot-debug
     communityName: ci-bot
@@ -54,6 +54,7 @@ data:
     tmpservicefile: _service
     tmpservicepath: master/openEuler:Factory/#projectname#/_service
     guideurl: https://gitee.com/georgecaotest/community/tree/master/zh/contributors
+    autoDetectCla: false
   gitee_oauth2_client_code: "stored in secrets and will be injected via environment"
   gitee_oauth2_secret: "stored in secrets and will be injected via environment"
 kind: ConfigMap

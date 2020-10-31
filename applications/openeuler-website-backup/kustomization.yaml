@@ -1,5 +1,6 @@
 resources:
 - https://github.com/opensourceways/infra-openeuler/applications/openeuler-website-v2?ref=master
+- secrets.yaml
 commonLabels:
   app: openeuler-website-v2
 namespace: website-v2

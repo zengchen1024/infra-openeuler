@@ -55,6 +55,11 @@ spec:
                     secretKeyRef:
                       key: app_secret
                       name: meeting-server-secrets
+                - name: CI_BOT_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: ci_bot_token
+                      name: meeting-server-secrets
                 - name: TZ
                   value: Asia/Shanghai
               command:
