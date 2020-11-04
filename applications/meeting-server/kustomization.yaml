@@ -12,4 +12,4 @@ kind: Kustomization
 namespace: meetingserver
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server
-  newTag: 854453efc0a6e136565edddf8907f04d66efbf46
+  newTag: be0f7e552054e544facd72e62c4d6e1d18f020bf
