@@ -92,4 +92,92 @@ spec:
         - name: meeting-data-volume
           persistentVolumeClaim:
             claimName: meeting-data-volume
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: meeting-server-mini-program
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meeting-server
+  template:
+    metadata:
+      labels:
+        app: meeting-server
+    spec:
+      containers:
+        - name: meeting-server-mini-progarm
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
+          volumeMounts:
+            - mountPath: /work/app-meeting-server/meetings/migrations
+              name: meeting-data-volume
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 2000Mi
+          env:
+            - name: ZOOM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: zoom_token
+                  name: meeting-server-secrets
+            - name: DB_USER
+              value: root
+            - name: TZ
+              value: Asia/Shanghai
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: db_password
+                  name: meeting-server-secrets
+            - name: DB_HOST
+              value: 172.16.1.73
+            - name: DB_PORT
+              value: "3306"
+            - name: HOST_GENEDNA
+              valueFrom:
+                secretKeyRef:
+                  key: host_genedna
+                  name: meeting-server-secrets
+            - name: HOST_TOMMYLIKE
+              valueFrom:
+                secretKeyRef:
+                  key: host_tommylike
+                  name: meeting-server-secrets
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secret_key
+                  name: meeting-server-secrets
+            - name: APP_ID
+              valueFrom:
+                secretKeyRef:
+                  key: app_id
+                  name: meeting-server-secrets
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: app_secret
+                  name: meeting-server-secrets
+            - name: GMAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: gmail_username
+                  name: meeting-server-secrets
+            - name: GMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: gmail_password
+                  name: meeting-server-secrets
+          command:
+            - /bin/sh
+            - -c
+            - |
+              python manage.py sendmessages
+      volumes:
+        - name: meeting-data-volume
+          persistentVolumeClaim:
+            claimName: meeting-data-volume
 
