@@ -96,7 +96,7 @@ spec:
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: meeting-server-mini-program
+  name: Schedule-task
 spec:
   replicas: 1
   selector:
@@ -108,15 +108,8 @@ spec:
         app: meeting-server
     spec:
       containers:
-        - name: meeting-server-mini-progarm
+        - name: Schedule-task
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
-          volumeMounts:
-            - mountPath: /work/app-meeting-server/meetings/migrations
-              name: meeting-data-volume
-          resources:
-            requests:
-              cpu: 2000m
-              memory: 2000Mi
           env:
             - name: ZOOM_TOKEN
               valueFrom:
@@ -176,8 +169,4 @@ spec:
             - -c
             - |
               python manage.py sendmessages
-      volumes:
-        - name: meeting-data-volume
-          persistentVolumeClaim:
-            claimName: meeting-data-volume
 
