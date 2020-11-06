@@ -66,6 +66,7 @@ spec:
               apk add vim
               apk add htop
               cp /bot/config.yaml.ro /bot/config.yaml
+              chmod 0666 /bot/config.yaml
               sleep 3600000
       volumes:
         - configMap:
