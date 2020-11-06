@@ -96,7 +96,7 @@ spec:
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: Schedule-task
+  name: schedule-task
 spec:
   replicas: 1
   selector:
@@ -108,7 +108,7 @@ spec:
         app: meeting-server
     spec:
       containers:
-        - name: Schedule-task
+        - name: schedule-task
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
           env:
             - name: ZOOM_TOKEN
