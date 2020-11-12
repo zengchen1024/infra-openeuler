@@ -50,7 +50,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
            - name: STATISTICS_URL
-             value: https://omapi.osinfra.cn
+             value: https://omapi.osinfra.cn/
            - name: API_USER_PASS
              valueFrom:
                secretKeyRef:
