@@ -49,6 +49,8 @@ spec:
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend:94b409b9a2f34c7c722cc5c455b1ab2c4ee1ec26
           imagePullPolicy: IfNotPresent
           env:
+           - name: STATISTICS_URL
+             value: https://omapi.osinfra.cn
            - name: API_USER_PASS
              valueFrom:
                secretKeyRef:
