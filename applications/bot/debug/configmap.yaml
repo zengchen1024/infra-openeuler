@@ -21,7 +21,7 @@ data:
     lgtmCountsRequired: 1
     extraLgtmCountRequired:
       - lcrType: repo
-        lcrName: ci-bot/community
+        lcrName: ci-bot/k9s
         lcrCount: 2
     requiringLabels:
       - ci-bot-cla/yes
