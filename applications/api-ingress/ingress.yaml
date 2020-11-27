@@ -44,6 +44,10 @@ spec:
               serviceName: cve-manager-service
               servicePort: 80
             path: /cve-manager(/|$)(.*)
+          - backend:
+              serviceName: nginx-purger-service
+              servicePort: 80
+            path: /nginx-purger(/|$)(.*)
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
