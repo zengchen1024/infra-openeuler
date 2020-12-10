@@ -50,6 +50,8 @@ spec:
             requests:
               cpu: 300m
               memory: 2000Mi
+          securityContext:
+            privileged: true
       volumes:
         - name: rsync-secrets-volume
           secret:
