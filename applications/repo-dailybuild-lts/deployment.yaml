@@ -46,6 +46,24 @@ spec:
             - mountPath: /root/.ssh/authorized_keys.ro
               name: repo-nginx-configmap-volume
               subPath: ssh.pub
+            - mountPath: /dev/loop1
+              name: loopdevice1
+            - mountPath: /dev/loop2
+              name: loopdevice2
+            - mountPath: /dev/loop3
+              name: loopdevice3
+            - mountPath: /dev/loop4
+              name: loopdevice4
+            - mountPath: /dev/loop5
+              name: loopdevice5
+            - mountPath: /dev/loop6
+              name: loopdevice6
+            - mountPath: /dev/loop7
+              name: loopdevice7
+            - mountPath: /dev/loop8
+              name: loopdevice8
+            - mountPath: /dev/loop-control
+              name: loopdevice9
           resources:
             requests:
               cpu: 300m
@@ -56,6 +74,42 @@ spec:
         - name: rsync-secrets-volume
           secret:
             secretName: rsync-secrets
+        - hostPath:
+            path: /dev/loop1
+            type: ''
+          name: loopdevice1
+        - hostPath:
+            path: /dev/loop2
+            type: ''
+          name: loopdevice2
+        - hostPath:
+            path: /dev/loop3
+            type: ''
+          name: loopdevice3
+        - hostPath:
+            path: /dev/loop4
+            type: ''
+          name: loopdevice4
+        - hostPath:
+            path: /dev/loop5
+            type: ''
+          name: loopdevice5
+        - hostPath:
+            path: /dev/loop6
+            type: ''
+          name: loopdevice6
+        - hostPath:
+            path: /dev/loop7
+            type: ''
+          name: loopdevice7
+        - hostPath:
+            path: /dev/loop8
+            type: ''
+          name: loopdevice8
+        - hostPath:
+            path: /dev/loop-control
+            type: ''
+          name: loopdevice9
         - name: data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
