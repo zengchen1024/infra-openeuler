@@ -62,10 +62,8 @@ spec:
               name: loopdevice6
             - mountPath: /dev/loop7
               name: loopdevice7
-            - mountPath: /dev/loop8
-              name: loopdevice8
             - mountPath: /dev/loop-control
-              name: loopdevice9
+              name: loopdevice8
             - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
           resources:
             requests:
@@ -110,13 +108,9 @@ spec:
             type: ''
           name: loopdevice7
         - hostPath:
-            path: /dev/loop8
-            type: ''
-          name: loopdevice8
-        - hostPath:
             path: /dev/loop-control
             type: ''
-          name: loopdevice9
+          name: loopdevice8
         - name: data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
