@@ -46,8 +46,6 @@ spec:
             - mountPath: /root/.ssh/authorized_keys.ro
               name: repo-nginx-configmap-volume
               subPath: ssh.pub
-            - mountPath: /dev/loop0
-              name: loopdevice
             - mountPath: /dev/loop1
               name: loopdevice1
             - mountPath: /dev/loop2
@@ -62,8 +60,10 @@ spec:
               name: loopdevice6
             - mountPath: /dev/loop7
               name: loopdevice7
-            - mountPath: /dev/loop-control
+            - mountPath: /dev/loop8
               name: loopdevice8
+            - mountPath: /dev/loop-control
+              name: loopdevice9
             - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
           resources:
             requests:
@@ -75,10 +75,6 @@ spec:
         - name: rsync-secrets-volume
           secret:
             secretName: rsync-secrets
-        - hostPath:
-            path: /dev/loop0
-            type: ''
-          name: loopdevice
         - hostPath:
             path: /dev/loop1
             type: ''
@@ -107,6 +103,10 @@ spec:
             path: /dev/loop7
             type: ''
           name: loopdevice7
+        - hostPath:
+            path: /dev/loop8
+            type: ''
+          name: loopdevice8
         - hostPath:
             path: /dev/loop-control
             type: ''
