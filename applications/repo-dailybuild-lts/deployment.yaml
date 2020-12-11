@@ -64,7 +64,6 @@ spec:
               name: loopdevice8
             - mountPath: /dev/loop-control
               name: loopdevice9
-            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
           resources:
             requests:
               cpu: 300m
