@@ -110,7 +110,7 @@ spec:
         - hostPath:
             path: /dev/loop-control
             type: ''
-          name: loopdevice8
+          name: loopdevice9
         - name: data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
