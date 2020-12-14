@@ -5,8 +5,6 @@ resources:
   - service.yaml
   - cibot-service.yaml
   - cache-ingress.yaml
-  - purge-cache.yaml
-  - purge-secrets.yaml
 commonLabels:
   app: openlookeng-website
 patchesJson6902:
