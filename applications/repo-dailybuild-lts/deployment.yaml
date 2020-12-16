@@ -62,8 +62,40 @@ spec:
               name: loopdevice7
             - mountPath: /dev/loop8
               name: loopdevice8
-            - mountPath: /dev/loop-control
+            - mountPath: /dev/loop9
               name: loopdevice9
+            - mountPath: /dev/loop10
+              name: loopdevice10
+            - mountPath: /dev/loop11
+              name: loopdevice11
+            - mountPath: /dev/loop12
+              name: loopdevice12
+            - mountPath: /dev/loop13
+              name: loopdevice13
+            - mountPath: /dev/loop14
+              name: loopdevice14
+            - mountPath: /dev/loop15
+              name: loopdevice15
+            - mountPath: /dev/loop16
+              name: loopdevice16
+            - mountPath: /dev/loop17
+              name: loopdevice17
+            - mountPath: /dev/loop18
+              name: loopdevice18
+            - mountPath: /dev/loop19
+              name: loopdevice19
+            - mountPath: /dev/loop20
+              name: loopdevice20
+            - mountPath: /dev/loop21
+              name: loopdevice21
+            - mountPath: /dev/loop22
+              name: loopdevice22
+            - mountPath: /dev/loop23
+              name: loopdevice23
+            - mountPath: /dev/loop24
+              name: loopdevice24
+            - mountPath: /dev/loop-control
+              name: loopdevice25
           resources:
             requests:
               cpu: 300m
@@ -107,9 +139,73 @@ spec:
             type: ''
           name: loopdevice8
         - hostPath:
-            path: /dev/loop-control
+            path: /dev/loop9
             type: ''
           name: loopdevice9
+        - hostPath:
+            path: /dev/loop10
+            type: ''
+          name: loopdevice10
+        - hostPath:
+            path: /dev/loop11
+            type: ''
+          name: loopdevice11
+        - hostPath:
+            path: /dev/loop12
+            type: ''
+          name: loopdevice12
+        - hostPath:
+            path: /dev/loop13
+            type: ''
+          name: loopdevice13
+        - hostPath:
+            path: /dev/loop14
+            type: ''
+          name: loopdevice14
+        - hostPath:
+            path: /dev/loop15
+            type: ''
+          name: loopdevice15
+        - hostPath:
+            path: /dev/loop16
+            type: ''
+          name: loopdevice16
+        - hostPath:
+            path: /dev/loop17
+            type: ''
+          name: loopdevice17
+        - hostPath:
+            path: /dev/loop18
+            type: ''
+          name: loopdevice18
+        - hostPath:
+            path: /dev/loop19
+            type: ''
+          name: loopdevice19
+        - hostPath:
+            path: /dev/loop20
+            type: ''
+          name: loopdevice20
+        - hostPath:
+            path: /dev/loop21
+            type: ''
+          name: loopdevice21
+        - hostPath:
+            path: /dev/loop22
+            type: ''
+          name: loopdevice22
+        - hostPath:
+            path: /dev/loop23
+            type: ''
+          name: loopdevice23
+        - hostPath:
+            path: /dev/loop24
+            type: ''
+          name: loopdevice24
+        - hostPath:
+            path: /dev/loop-control
+            type: ''
+          name: loopdevice25
         - name: data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
