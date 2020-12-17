@@ -11,6 +11,10 @@ metadata:
       add_header Content-Security-Policy "script-src 'self' *.baidu.com ers.baidu.com 'unsafe-eval' 'unsafe-inline';object-src 'none';frame-ancestors 'self'";
   name: pkgmange-web-debug-ingress
 spec:
+  tls:
+    - hosts:
+        - pkgmanagedebug.openeuler.org
+      secretName: pkgmanagedebug-tls
   rules:
     - host: pkgmanagedebug.openeuler.org
       http:
