@@ -110,6 +110,17 @@ spec:
                     secretKeyRef:
                       key: secret_key
                       name: meeting-server-secrets
+                - name: DB_USER
+                  value: root
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: db_password
+                      name: meeting-server-secrets
+                - name: DB_HOST
+                  value: 172.16.1.73
+                - name: DB_PORT
+                  value: "3306"
                 - name: TZ
                   value: Asia/Shanghai
               command:
