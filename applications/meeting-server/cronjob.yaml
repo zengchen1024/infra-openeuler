@@ -85,25 +85,25 @@ spec:
             - name: meeting-server
               image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
               env:
-                - name: AK_ID
+                - name: ACCESS_KEY_ID
                   valueFrom:
                     secretKeyRef:
-                      key: ACCESS_KEY_ID
+                      key: access_key_id
                       name: meeting-server-secrets
-                - name: SK
+                - name: SECRET_ACCESS_KEY
                   valueFrom:
                     secretKeyRef:
-                      key: SECRET_ACCESS_KEY
+                      key: secret_access_key
                       name: meeting-server-secrets
                 - name: OBS_ENDPOINT
                   valueFrom:
                     secretKeyRef:
-                      key: OBS_ENDPOINT
+                      key: obs_endpoint
                       name: meeting-server-secrets
                 - name: OBS_BUCKETNAME
                   valueFrom:
                     secretKeyRef:
-                      key: OBS_BUCKETNAME
+                      key: obs_bucketname
                       name: meeting-server-secrets
                 - name: TZ
                   value: Asia/Shanghai
