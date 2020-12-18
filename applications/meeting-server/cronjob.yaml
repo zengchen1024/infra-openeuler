@@ -105,6 +105,11 @@ spec:
                     secretKeyRef:
                       key: obs_bucketname
                       name: meeting-server-secrets
+                - name: SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: secret_key
+                      name: meeting-server-secrets
                 - name: TZ
                   value: Asia/Shanghai
               command:
