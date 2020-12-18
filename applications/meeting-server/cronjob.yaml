@@ -1,3 +1,4 @@
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -67,3 +68,47 @@ spec:
                 - -c
                 - |
                   python manage.py genegroup
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: upload-meeting-video
+spec:
+  schedule: "0 */1 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: meeting-server
+              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              env:
+                - name: AK_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: ACCESS_KEY_ID
+                      name: meeting-server-secrets
+                - name: SK
+                  valueFrom:
+                    secretKeyRef:
+                      key: SECRET_ACCESS_KEY
+                      name: meeting-server-secrets
+                - name: OBS_ENDPOINT
+                  valueFrom:
+                    secretKeyRef:
+                      key: OBS_ENDPOINT
+                      name: meeting-server-secrets
+                - name: OBS_BUCKETNAME
+                  valueFrom:
+                    secretKeyRef:
+                      key: OBS_BUCKETNAME
+                      name: meeting-server-secrets
+                - name: TZ
+                  value: Asia/Shanghai
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  python manage.py handle_recordings
