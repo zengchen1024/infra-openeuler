@@ -14,6 +14,7 @@ spec:
         openeuler.ci/task: common
       containers:
         - name: repo-nginx
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/nginx-extras:1.10.3-with-sshd
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
@@ -70,6 +71,9 @@ spec:
               name: loopdevice24
             - mountPath: /dev/loop-control
               name: loopdevice25
+            - mountPath: /root/.ssh/authorized_keys.ro
+              name: repo-nginx-configmap-volume
+              subPath: ssh.pub
           resources:
             requests:
               cpu: 300m
@@ -82,76 +86,15 @@ spec:
             - -c
             - |
               mkdir -p /repo/openeuler
+              cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
+              chmod 0400 /root/.ssh/authorized_keys
+              chown root:root /root/.ssh/authorized_keys
+              /usr/sbin/sshd &
               exec nginx -g "daemon off;"
-        - name: rsync-server
-          volumeMounts:
-            - mountPath: /etc/rsyncd.conf
-              name: repo-nginx-configmap-volume
-              subPath: rsyncd.conf
-            - mountPath: /etc/rsyncd.secrets.ro
-              name: rsync-secrets-volume
-              subPath: rsyncd_secrets
-            - mountPath: /repo/openeuler
-              name: data-volume
-            - mountPath: /root/.ssh/authorized_keys.ro
-              name: repo-nginx-configmap-volume
-              subPath: ssh.pub
-            - mountPath: /dev/loop1
-              name: loopdevice1
-            - mountPath: /dev/loop2
-              name: loopdevice2
-            - mountPath: /dev/loop3
-              name: loopdevice3
-            - mountPath: /dev/loop4
-              name: loopdevice4
-            - mountPath: /dev/loop5
-              name: loopdevice5
-            - mountPath: /dev/loop6
-              name: loopdevice6
-            - mountPath: /dev/loop7
-              name: loopdevice7
-            - mountPath: /dev/loop8
-              name: loopdevice8
-            - mountPath: /dev/loop9
-              name: loopdevice9
-            - mountPath: /dev/loop10
-              name: loopdevice10
-            - mountPath: /dev/loop11
-              name: loopdevice11
-            - mountPath: /dev/loop12
-              name: loopdevice12
-            - mountPath: /dev/loop13
-              name: loopdevice13
-            - mountPath: /dev/loop14
-              name: loopdevice14
-            - mountPath: /dev/loop15
-              name: loopdevice15
-            - mountPath: /dev/loop16
-              name: loopdevice16
-            - mountPath: /dev/loop17
-              name: loopdevice17
-            - mountPath: /dev/loop18
-              name: loopdevice18
-            - mountPath: /dev/loop19
-              name: loopdevice19
-            - mountPath: /dev/loop20
-              name: loopdevice20
-            - mountPath: /dev/loop21
-              name: loopdevice21
-            - mountPath: /dev/loop22
-              name: loopdevice22
-            - mountPath: /dev/loop23
-              name: loopdevice23
-            - mountPath: /dev/loop24
-              name: loopdevice24
-            - mountPath: /dev/loop-control
-              name: loopdevice25
-          resources:
-            requests:
-              cpu: 300m
-              memory: 2000Mi
           securityContext:
             privileged: true
+        - name: rsync-server
+          $patch: delete
       volumes:
         - name: rsync-secrets-volume
           secret:
