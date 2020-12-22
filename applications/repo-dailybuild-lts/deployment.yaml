@@ -5,6 +5,9 @@ apiVersion: apps/v1
 metadata:
   name: repo-server
 spec:
+  strategy:
+    # NOTE(tommylikehu): The strategy is recreate due to the multi-write issues if we running new pods while old one stays terminating.
+    type: Recreate
   template:
     metadata:
       labels:
@@ -14,38 +17,13 @@ spec:
         openeuler.ci/task: common
       containers:
         - name: repo-nginx
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/nginx-extras:1.10.3-with-sshd-repo
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
-          resources:
-            requests:
-              cpu: 300m
-              memory: 2000Mi
-          env:
-            - name: TZ
-              value: Asia/Shanghai
-          command:
-            - /bin/sh
-            - -c
-            - |
-              mkdir -p /repo/openeuler
-              exec nginx -g "daemon off;"
-        - name: rsync-server
-          volumeMounts:
-            - mountPath: /etc/rsyncd.conf
-              name: repo-nginx-configmap-volume
-              subPath: rsyncd.conf
-            - mountPath: /etc/rsyncd.secrets.ro
-              name: rsync-secrets-volume
-              subPath: rsyncd_secrets
-            - mountPath: /repo/openeuler
-              name: data-volume
-            - mountPath: /root/.ssh/authorized_keys.ro
-              name: repo-nginx-configmap-volume
-              subPath: ssh.pub
             - mountPath: /dev/loop1
               name: loopdevice1
             - mountPath: /dev/loop2
@@ -96,12 +74,30 @@ spec:
               name: loopdevice24
             - mountPath: /dev/loop-control
               name: loopdevice25
+            - mountPath: /root/.ssh/authorized_keys.ro
+              name: repo-nginx-configmap-volume
+              subPath: ssh.pub
           resources:
             requests:
-              cpu: 300m
-              memory: 2000Mi
+              cpu: 2000m
+              memory: 4000Mi
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /repo/openeuler
+              cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
+              chmod 0400 /root/.ssh/authorized_keys
+              chown root:root /root/.ssh/authorized_keys
+              /usr/sbin/sshd &
+              exec nginx -g "daemon off;"
           securityContext:
             privileged: true
+        - name: rsync-server
+          $patch: delete
       volumes:
         - name: rsync-secrets-volume
           secret:
