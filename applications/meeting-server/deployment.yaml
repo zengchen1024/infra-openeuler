@@ -85,8 +85,8 @@ spec:
               # incase the __init__.py does not exist in the mounted volume
               touch /work/app-meeting-server/meetings/migrations/__init__.py
               python manage.py collectstatic
-              python manage.py makemigrations
-              python manage.py migrate
+              # python manage.py makemigrations
+              # python manage.py migrate
               uwsgi --ini /work/app-meeting-server/deploy/production/uwsgi.ini
       volumes:
         - name: meeting-data-volume
