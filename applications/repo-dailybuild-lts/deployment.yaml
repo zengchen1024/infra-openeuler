@@ -5,6 +5,9 @@ apiVersion: apps/v1
 metadata:
   name: repo-server
 spec:
+  strategy:
+    # NOTE(tommylikehu): The strategy is recreate due to the multi-write issues if we running new pods while old one stays terminating.
+    type: Recreate
   template:
     metadata:
       labels:
@@ -14,7 +17,7 @@ spec:
         openeuler.ci/task: common
       containers:
         - name: repo-nginx
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/nginx-extras:1.10.3-with-sshd
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/nginx-extras:1.10.3-with-sshd-repo
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
@@ -76,8 +79,8 @@ spec:
               subPath: ssh.pub
           resources:
             requests:
-              cpu: 300m
-              memory: 2000Mi
+              cpu: 2000m
+              memory: 4000Mi
           env:
             - name: TZ
               value: Asia/Shanghai
