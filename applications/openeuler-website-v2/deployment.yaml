@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: openeuler-website-v2-frontend
 spec:
-  replicas: 8
+  replicas: 12
   strategy:
     rollingUpdate:
       maxUnavailable: 0
