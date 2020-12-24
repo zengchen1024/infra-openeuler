@@ -23,21 +23,6 @@ spec:
                 secretKeyRef:
                   key: jenkins-admin-user
                   name: openeuler-jenkins
-            - name: ES_URL
-              valueFrom:
-                secretKeyRef:
-                  key: es_url
-                  name: openeuler-jenkins-es
-            - name: ES_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  key: es_username
-                  name: openeuler-jenkins-es
-            - name: ES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: es_password
-                  name: openeuler-jenkins-es
           resources:
             limits:
               cpu: 12000m
