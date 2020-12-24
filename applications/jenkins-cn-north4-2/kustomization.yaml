@@ -2,6 +2,7 @@ resources:
   - https://github.com/opensourceways/app-jenkins/deploy-without-agent?ref=stable
   - secrets.yaml
   - namespace.yaml
+  - es-secrets.yaml
 commonLabels:
   app: openeuler-jenkins
 patchesStrategicMerge:
