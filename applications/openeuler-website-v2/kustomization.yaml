@@ -19,7 +19,7 @@ kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
-  newTag: de91e79205cbd0e8b0d005f45a1c1297ff2c47d7
+  newTag: facf4f1553dc079b56bf394e72b37e9f8b163ce4
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
-  newTag: de91e79205cbd0e8b0d005f45a1c1297ff2c47d7
+  newTag: facf4f1553dc079b56bf394e72b37e9f8b163ce4
