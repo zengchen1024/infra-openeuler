@@ -5,6 +5,8 @@ metadata:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/custom-http-errors: "403,400,401,500,404"
+    nginx.ingress.kubernetes.io/default-backend: "cve-srv-service"
   name: website-v2-ingress-backend
 spec:
   tls:
