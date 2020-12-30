@@ -22,4 +22,16 @@ patchesJson6902:
       kind: Service
       name: openlookeng-bot-internal
     path: selector.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: newyear-backend
+    path: selector.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: newyear-frontend
+    path: selector.yaml
 namespace: openlookeng-website
