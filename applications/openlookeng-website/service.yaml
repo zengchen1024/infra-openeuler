@@ -29,7 +29,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 8001
+      targetPort: 8004
 ---
 kind: Endpoints
 apiVersion: v1
@@ -39,7 +39,7 @@ subsets:
   - addresses:
       - ip: 159.138.45.71
     ports:
-      - port: 8001
+      - port: 8004
 ---
 kind: Service
 apiVersion: v1

@@ -67,7 +67,7 @@ metadata:
   name: oauth2-proxy
 spec:
   rules:
-    - host: opengauss.org
+    - host: events.opengauss.org
       http:
         paths:
           - backend:
