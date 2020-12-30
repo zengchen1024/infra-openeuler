@@ -1,0 +1,8 @@
+resources:
+- namespace.yaml
+- service.yaml
+- secrets.yaml
+- oauth-proxy.yaml
+commonLabels:
+  app: opengauss-website
+namespace: website
