@@ -11,6 +11,7 @@ resources:
 - cve-backend.yaml
 - purge-cache.yaml
 - purge-secrets.yaml
+- oauth-proxy.yaml
 commonLabels:
   app: openeuler-website-v2
 namespace: website-v2
