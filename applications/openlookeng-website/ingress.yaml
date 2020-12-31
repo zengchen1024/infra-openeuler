@@ -43,3 +43,7 @@ spec:
               serviceName: openlookeng-website-internal
               servicePort: 80
             path: /
+          - backend:
+              serviceName: newyear-backend
+              servicePort: 80
+            path: /blessapi

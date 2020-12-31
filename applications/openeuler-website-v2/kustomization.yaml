@@ -11,9 +11,23 @@ resources:
 - cve-backend.yaml
 - purge-cache.yaml
 - purge-secrets.yaml
+- oauth-proxy.yaml
 commonLabels:
   app: openeuler-website-v2
 namespace: website-v2
+patchesJson6902:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: newyear-backend
+    path: selector.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: newyear-frontend
+    path: selector.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:

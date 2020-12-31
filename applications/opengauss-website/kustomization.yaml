@@ -1,0 +1,22 @@
+resources:
+- namespace.yaml
+- service.yaml
+- secrets.yaml
+- oauth-proxy.yaml
+- ingress.yaml
+commonLabels:
+  app: opengauss-website
+patchesJson6902:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: newyear-backend
+    path: selector.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: newyear-frontend
+    path: selector.yaml
+namespace: opengauss-website

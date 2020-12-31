@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -19,3 +20,29 @@ spec:
               serviceName: website-frontend-service
               servicePort: 80
             path: /
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Groups, X-Auth-Request-Email, X-Auth-Request-Preferred-Username"
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: website-ingress-protected
+spec:
+  tls:
+    - hosts:
+        - openeuler.org
+      secretName: openeuler-v2-www-website-tls
+  rules:
+    - host: openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: newyear-frontend
+              servicePort: 80
+            path: /events(/|$)(.*)
