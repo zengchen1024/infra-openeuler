@@ -16,24 +16,22 @@ commonLabels:
   app: openeuler-website-v2
 namespace: website-v2
 patchesJson6902:
-  - target:
-      group: ""
-      version: v1
-      kind: Service
-      name: newyear-backend
-    path: selector.yaml
-  - target:
-      group: ""
-      version: v1
-      kind: Service
-      name: newyear-frontend
-    path: selector.yaml
+- path: selector.yaml
+  target:
+    kind: Service
+    name: newyear-backend
+    version: v1
+- path: selector.yaml
+  target:
+    kind: Service
+    name: newyear-frontend
+    version: v1
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
-  newTag: f6bcb0cef0bc027ca5cc5b4ac87120ed557eca1d
+  newTag: 29c0a7b455f89c2a2cd154fdffba4226a8818a08
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
-  newTag: f6bcb0cef0bc027ca5cc5b4ac87120ed557eca1d
+  newTag: 29c0a7b455f89c2a2cd154fdffba4226a8818a08
