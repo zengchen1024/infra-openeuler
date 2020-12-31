@@ -51,6 +51,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
     nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
   name: website-ingress-protected
 spec:
   tls:
@@ -64,4 +65,4 @@ spec:
           - backend:
               serviceName: newyear-frontend
               servicePort: 80
-            path: /
+            path: /2020summary(/|$)(.*)
