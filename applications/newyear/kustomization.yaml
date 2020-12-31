@@ -17,7 +17,7 @@ images:
   newTag: 8c5505cb65d32cc8aba9d119a8acb297fc5b5ed7
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/opengauss-newyear
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/opengauss-newyear
-  newTag: cb683bfd87ceb3492874e2dc9619fc83ec40c05a
+  newTag: 988c2797c1cc1a543ae10c62dde27417d6092d98
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng-newyear
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng-newyear
   newTag: 79a3dac89eb5dd7d0f79db6705d72dfc5b2d5f33
