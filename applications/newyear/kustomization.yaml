@@ -14,7 +14,7 @@ images:
   newTag: 48634bac1db03eec3895ec20462d5e4a6c24544c
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-newyear
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-newyear
-  newTag: 823afde24fa7fcdcc555d2f6310d6258bb40470c
+  newTag: c6374c47d06f1a97ef369b3f2d43da30735b2fda
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/opengauss-newyear
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/opengauss-newyear
   newTag: 73c4737e90fb6431edeb392c5a904c2e39f31b04
