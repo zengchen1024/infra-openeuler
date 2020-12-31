@@ -37,7 +37,7 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: newyear-backend
+              serviceName: opengauss-backend
               servicePort: 80
             path: /blessapi
 ---
@@ -63,6 +63,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: newyear-frontend
+              serviceName: opengauss-frontend
               servicePort: 80
             path: /2020summary(/|$)(.*)

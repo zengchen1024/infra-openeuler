@@ -43,6 +43,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: newyear-frontend
+              serviceName: openeuler-frontend
               servicePort: 80
             path: /2020summary(/|$)(.*)
