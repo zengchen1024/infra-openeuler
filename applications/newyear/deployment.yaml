@@ -1,0 +1,140 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: bless-server
+  name: bless-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bless-server
+  template:
+    metadata:
+      labels:
+        app: bless-server
+    spec:
+      containers:       
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bless-server
+          imagePullPolicy: IfNotPresent
+          name: bless-server
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: openeuler-frontend
+  name: openeuler-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openeuler-frontend
+  template:
+    metadata:
+      labels:
+        app: openeuler-frontend
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-frontend
+          imagePullPolicy: IfNotPresent
+          name: openeuler-frontend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: mindspore-frontend
+  name: mindspore-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mindspore-frontend
+  template:
+    metadata:
+      labels:
+        app: mindspore-frontend
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/mindspore-frontend
+          imagePullPolicy: IfNotPresent
+          name: mindspore-frontend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: opengauss-frontend
+  name: opengauss-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opengauss-frontend
+  template:
+    metadata:
+      labels:
+        app: opengauss-frontend
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/opengauss-frontend
+          imagePullPolicy: IfNotPresent
+          name: opengauss-frontend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: openlookeng-frontend
+  name: openlookeng-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openlookeng-frontend
+  template:
+    metadata:
+      labels:
+        app: openlookeng-frontend
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng-frontend
+          imagePullPolicy: IfNotPresent
+          name: openlookeng-frontend
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP

@@ -1,0 +1,7 @@
+resources:
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+commonLabels:
+  app: summary
+namespace: summary
