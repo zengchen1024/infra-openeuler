@@ -14,18 +14,6 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: mindspore-frontend
-spec:
-  type: ClusterIP
-  ports:
-    - port: 80
-      targetPort: 8080
-  selector:
-    app: mindspore-frontend
----
-kind: Service
-apiVersion: v1
-metadata:
   name: opengauss-frontend
 spec:
   type: ClusterIP

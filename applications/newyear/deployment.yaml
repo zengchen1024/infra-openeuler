@@ -59,34 +59,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: mindspore-frontend
-  name: mindspore-frontend
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: mindspore-frontend
-  template:
-    metadata:
-      labels:
-        app: mindspore-frontend
-    spec:
-      containers:
-        - env:
-            - name: TZ
-              value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/mindspore-newyear:5bcbda708b98d6ca2a3d95bbf171e037a98d35af
-          imagePullPolicy: IfNotPresent
-          name: mindspore-frontend
-          ports:
-            - containerPort: 8080
-              name: http
-              protocol: TCP
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  labels:
     app: opengauss-frontend
   name: opengauss-frontend
 spec:

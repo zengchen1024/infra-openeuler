@@ -47,6 +47,6 @@ spec:
               servicePort: 8888
             path: /cla
           - backend:
-              serviceName: newyear-backend
+              serviceName: openeuler-backend
               servicePort: 80
             path: /blessapi
