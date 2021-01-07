@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: sync-bot
+  name: sync-bot
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: sync-bot
+  template:
+    metadata:
+      labels:
+        app: sync-bot
+    spec:
+      containers:
+        - env:
+            - name: GITEE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cve-secrets
+                  key: gitee-token
+            - name: EMAIL_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cve-secrets
+                  key: cve-email-sendaddr
+            - name: EMAIL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: cve-secrets
+                  key: cve-email-password
+            - name: TZ
+              value: Asia/Shanghai
+          command:
+            - /bin/sh
+            - -c
+            - |
+              exec syn-bot --gitee-token=/etc/token.conf --webhook-secrec=/etc/secret.conf --port=8765
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot:v1.0.0
+          imagePullPolicy: IfNotPresent
+          securityContext:
+              privileged: true
+          volumeMounts:
+            - mountPath: /etc/secret.conf
+              name: secret-volume
+              subPath: secret
+            - mountPath: /etc/token.conf
+              name: token-volume
+              subPath: token
+      volumes:
+        - name: secrets-volume
+          secret:
+            secretName: secret
+        - name: token-volume
+          secret:
+            secretName: token
+          name: sync-bot
+          ports:
+            - containerPort: 8765
+              name: http
+              protocol: TCP
