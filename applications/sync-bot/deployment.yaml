@@ -17,21 +17,6 @@ spec:
     spec:
       containers:
         - env:
-            - name: GITEE_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: cve-secrets
-                  key: gitee-token
-            - name: EMAIL_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: cve-secrets
-                  key: cve-email-sendaddr
-            - name: EMAIL_PWD
-              valueFrom:
-                secretKeyRef:
-                  name: cve-secrets
-                  key: cve-email-password
             - name: TZ
               value: Asia/Shanghai
           command:
@@ -50,6 +35,10 @@ spec:
             - mountPath: /etc/token.conf
               name: token-volume
               subPath: token
+          ports:
+            - containerPort: 8765
+              name: http
+              protocol: TCP
       volumes:
         - name: secrets-volume
           secret:
@@ -58,7 +47,3 @@ spec:
           secret:
             secretName: token
           name: sync-bot
-          ports:
-            - containerPort: 8765
-              name: http
-              protocol: TCP
