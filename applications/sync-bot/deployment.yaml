@@ -26,6 +26,7 @@ spec:
               exec syn-bot --gitee-token=/etc/token.conf --webhook-secrec=/etc/secret.conf --port=8765
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot:v1.0.0
           imagePullPolicy: IfNotPresent
+          name: sync-bot
           securityContext:
               privileged: true
           volumeMounts:
