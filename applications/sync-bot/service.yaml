@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sync-bot-service
+  namespace: sync-bot
+spec:
+  ports:
+    - name: sync-bot
+      port: 80
+      protocol: TCP
+      targetPort: 8765
+  selector:
+    app: sync-bot
+  type: ClusterIP
