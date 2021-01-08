@@ -2,12 +2,7 @@ resources:
 - namespace.yaml
 - deployment.yaml
 - service.yaml
+- secrets.yaml
 commonLabels:
   app: sync-bot
 namespace: sync-bot
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot
-  newTag: e56c79582ebb9deceede7d80c3b24ea8d36a18fe
