@@ -72,6 +72,24 @@ spec:
               name: loopdevice23
             - mountPath: /dev/loop24
               name: loopdevice24
+            - mountPath: /dev/loop26
+              name: loopdevice26
+            - mountPath: /dev/loop27
+              name: loopdevice27
+            - mountPath: /dev/loop28
+              name: loopdevice28
+            - mountPath: /dev/loop29
+              name: loopdevice29
+            - mountPath: /dev/loop30
+              name: loopdevice30
+            - mountPath: /dev/loop31
+              name: loopdevice31
+            - mountPath: /dev/loop32
+              name: loopdevice32
+            - mountPath: /dev/loop33
+              name: loopdevice33
+            - mountPath: /dev/loop34
+              name: loopdevice34
             - mountPath: /dev/loop-control
               name: loopdevice25
             - mountPath: /root/.ssh/authorized_keys.ro
@@ -198,6 +216,42 @@ spec:
             path: /dev/loop24
             type: ''
           name: loopdevice24
+        - hostPath:
+            path: /dev/loop26
+            type: ''
+          name: loopdevice26
+        - hostPath:
+            path: /dev/loop27
+            type: ''
+          name: loopdevice27
+        - hostPath:
+            path: /dev/loop28
+            type: ''
+          name: loopdevice28
+        - hostPath:
+            path: /dev/loop29
+            type: ''
+          name: loopdevice29
+        - hostPath:
+            path: /dev/loop30
+            type: ''
+          name: loopdevice30
+        - hostPath:
+            path: /dev/loop31
+            type: ''
+          name: loopdevice31
+        - hostPath:
+            path: /dev/loop32
+            type: ''
+          name: loopdevice32
+        - hostPath:
+            path: /dev/loop33
+            type: ''
+          name: loopdevice33
+        - hostPath:
+            path: /dev/loop34
+            type: ''
+          name: loopdevice34
         - hostPath:
             path: /dev/loop-control
             type: ''
