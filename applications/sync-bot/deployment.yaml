@@ -34,6 +34,8 @@ spec:
             - mountPath: /etc/token.conf
               name: sync-bot-volume
               subPath: token
+            - mountPath: /repos
+              name: sync-bot-repo-volume
           ports:
             - containerPort: 8765
               name: http
@@ -42,3 +44,6 @@ spec:
         - name: sync-bot-volume
           secret:
             secretName: sync-bot-secrets
+        - name: sync-bot-repo-volume
+          persistentVolumeClaim:
+            claimName: openeuler-sync-bot-volume
