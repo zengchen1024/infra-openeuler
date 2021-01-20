@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: openeuler-data-volume
+  name: openeuler-sync-bot-volume
 spec:
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 10000Gi
+      storage: 300Gi
   storageClassName: ssd

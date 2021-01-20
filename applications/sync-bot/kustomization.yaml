@@ -3,6 +3,7 @@ resources:
 - deployment.yaml
 - service.yaml
 - secrets.yaml
+- pvc.yaml
 commonLabels:
   app: sync-bot
 namespace: sync-bot
@@ -11,4 +12,4 @@ kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot
-  newTag: 3f98328518e74c6e9bb595c61dda18e9fdc2e3a0
+  newTag: 1ffac3ddd7ed0630317eef4d5d21b20050ac7787
