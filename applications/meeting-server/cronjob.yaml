@@ -132,7 +132,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: upload_to_bilibili
+  name: upload-to-bilibili
 spec:
   schedule: "10 * * * *"
   concurrencyPolicy: Forbid
@@ -202,7 +202,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: check_examination
+  name: check-examination
 spec:
   schedule: "20 * * * *"
   concurrencyPolicy: Forbid
