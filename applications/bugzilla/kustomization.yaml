@@ -1,0 +1,12 @@
+resources:
+- https://github.com/opensourceways/app-bugzilla/deploy?ref=master
+- ingress.yaml
+commonLabels:
+  app: bugzilla
+namespace: bugzilla
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bugzilla
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bugzilla
+  newTag: 6e7b5388d9f325c59643955874779d14f2a047e4.1610004189

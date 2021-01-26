@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+  name: bugzilla-ingress
+spec:
+  tls:
+    - hosts:
+        - bugzilla.openeuler.org
+      secretName: bugzilla-tls
+  rules:
+    - host: bugzilla.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: bugzilla
+              servicePort: 80
+            path: /
