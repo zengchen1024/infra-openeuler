@@ -16,6 +16,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: mailman-web-service
+              serviceName: mailman-web-service-new
               servicePort: 80
             path: /
