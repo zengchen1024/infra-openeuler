@@ -1,0 +1,9 @@
+resources:
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+- purge-cache.yaml
+- purge-secrets.yaml
+commonLabels:
+  app: openlookeng-website-frontend
+namespace: openlookeng-website-frontend
