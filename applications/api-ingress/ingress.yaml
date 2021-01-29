@@ -40,6 +40,18 @@ spec:
               serviceName: bot-release-service
               servicePort: 8888
             path: /botrelease(/|$)(.*)
+          - backend:
+              serviceName: cve-manager-service
+              servicePort: 80
+            path: /cve-manager(/|$)(.*)
+          - backend:
+              serviceName: nginx-purger-service
+              servicePort: 80
+            path: /nginx-purger(/|$)(.*)
+          - backend:
+              serviceName: sync-bot-service
+              servicePort: 80
+            path: /sync-bot(/|$)(.*)
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress

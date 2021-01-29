@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: openeuler-website-v2-frontend
 spec:
-  replicas: 8
+  replicas: 4
   strategy:
     rollingUpdate:
       maxUnavailable: 0
@@ -20,7 +20,7 @@ spec:
       containers:
       - name: vuepress
         image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend:94b409b9a2f34c7c722cc5c455b1ab2c4ee1ec26
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
           name: http
@@ -47,8 +47,10 @@ spec:
       containers:
         - name: nodejs
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend:94b409b9a2f34c7c722cc5c455b1ab2c4ee1ec26
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           env:
+           - name: STATISTICS_URL
+             value: https://omapi.osinfra.cn/
            - name: API_USER_PASS
              valueFrom:
                secretKeyRef:

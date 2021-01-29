@@ -4,6 +4,9 @@ resources:
   - namespace.yaml
   - service.yaml
   - cibot-service.yaml
+  - cache-ingress.yaml
+  - oauth-proxy.yaml
+  - secrets.yaml
 commonLabels:
   app: openlookeng-website
 patchesJson6902:
@@ -18,5 +21,17 @@ patchesJson6902:
       version: v1
       kind: Service
       name: openlookeng-bot-internal
+    path: selector.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: newyear-backend
+    path: selector.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: newyear-frontend
     path: selector.yaml
 namespace: openlookeng-website

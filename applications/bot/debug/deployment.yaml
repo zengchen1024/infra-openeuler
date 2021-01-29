@@ -53,7 +53,7 @@ spec:
           imagePullPolicy: IfNotPresent
           name: botinfod
           volumeMounts:
-            - mountPath: /bot/config.yaml
+            - mountPath: /bot/config.yaml.ro
               name: configmap-volume
               subPath: config.yaml
             - mountPath: /bot/_service
@@ -63,7 +63,11 @@ spec:
             - /bin/sh
             - -c
             - |
-              sleep 3600              
+              apk add vim
+              apk add htop
+              cp /bot/config.yaml.ro /bot/config.yaml
+              chmod 0666 /bot/config.yaml
+              sleep 3600000
       volumes:
         - configMap:
             name: bot-configmap

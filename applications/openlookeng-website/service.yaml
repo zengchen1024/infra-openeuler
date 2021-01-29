@@ -20,3 +20,59 @@ subsets:
       - ip: 10.0.0.191
     ports:
       - port: 31110
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: newyear-frontend
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8004
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: newyear-frontend
+subsets:
+  - addresses:
+      - ip: 159.138.45.71
+    ports:
+      - port: 8004
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: newyear-backend
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8081
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: newyear-backend
+subsets:
+  - addresses:
+      - ip: 159.138.45.71
+    ports:
+      - port: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openlookeng-frontend
+spec:
+  type: ExternalName
+  externalName: openlookeng-frontend.summary.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openlookeng-backend
+spec:
+  type: ExternalName
+  externalName: bless-server.summary.svc.cluster.local

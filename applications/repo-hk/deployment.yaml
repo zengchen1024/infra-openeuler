@@ -5,6 +5,9 @@ apiVersion: apps/v1
 metadata:
   name: repo-server
 spec:
+  strategy:
+    # NOTE(tommylikehu): The strategy is recreate due to the multi-write issues if we running new pods while old one stays terminating.
+    type: Recreate
   template:
     metadata:
       labels:
@@ -53,6 +56,7 @@ spec:
               sed -i "s/<password>/${PASSWORD}/g" ~/.fscrawler/openeuler/_settings.yaml
               exec fscrawler openeuler
         - name: rsync-server
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:cf6df893333da15daf1b0ade7ef03db3a83e1b6e
           volumeMounts:
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
@@ -62,6 +66,15 @@ spec:
             - mountPath: /root/.ssh/authorized_keys.ro
               name: repo-nginx-configmap-volume
               subPath: ssh.pub
+          env:
+            - name: TARGET_DIR
+              value: "/repo/openeuler"
+            - name: RSYNC_INTERNAL
+              value: "21600"
+            - name: SYNC_HOST
+              value: "rsync://root@121.36.97.194/openeuler"
+            - name: ADDITIONAL_PARAMETERS
+              value: "--delete"
           # Use the combination of sync & sleep to sync the repo from main repo periodically
           command:
             - /bin/sh
@@ -69,15 +82,11 @@ spec:
             - |
               cp /etc/rsyncd.secrets.ro /etc/rsyncd.secrets
               chmod 0400 /etc/rsyncd.secrets
-              cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
-              chmod 0400 /root/.ssh/authorized_keys
-              chown root:root /root/.ssh/authorized_keys
-              /usr/sbin/sshd &
-              while :; do echo "Starting to sync repos @ $(date)"; rsync -av --partial --progress --delete --password-file=/etc/rsyncd.secrets  rsync://root@121.36.97.194/openeuler  /repo/openeuler; sleep 21600; done
+              exec tini -- entrypoint.sh
           resources:
             requests:
-              cpu: 2000m
-              memory: 6000Mi
+              cpu: 4000m
+              memory: 8000Mi
       volumes:
         - name: rsync-secrets-volume
           secret:

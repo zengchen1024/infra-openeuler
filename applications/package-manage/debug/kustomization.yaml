@@ -10,10 +10,10 @@ kind: Kustomization
 images:
 - name: opensourceway/dbgetinit
   newName: opensourceway/dbgetinit
-  newTag: 21a245c3711e6bbbdb99c51c558cd6561e71b3f3.1603105411
+  newTag: ab970d27dc358acef8804eb3677de541411eaee0.1606785163
 - name: opensourceway/packagemanage
   newName: opensourceway/packagemanage
-  newTag: 21a245c3711e6bbbdb99c51c558cd6561e71b3f3.1603105411
+  newTag: ab970d27dc358acef8804eb3677de541411eaee0.1606785163
 - name: opensourceway/pkgmanageweb
   newName: opensourceway/pkgmanageweb
-  newTag: f619a3723cf1a868235233be0e9615cd905995b8.1602592417
+  newTag: 389acc726688d0aa8d3f1b38cadd78bd3f8bbb5b.1605511292

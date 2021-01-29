@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: sync-bot
+  name: sync-bot
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: sync-bot
+  template:
+    metadata:
+      labels:
+        app: sync-bot
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          command:
+            - /bin/sh
+            - -c
+            - |
+              exec /sync-bot --gitee-token=/etc/token.conf --webhook-secret=/etc/secret.conf --port=8765
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot:v1.0.0
+          imagePullPolicy: IfNotPresent
+          name: sync-bot
+          volumeMounts:
+            - mountPath: /etc/secret.conf
+              name: sync-bot-volume
+              subPath: secret
+            - mountPath: /etc/token.conf
+              name: sync-bot-volume
+              subPath: token
+            - mountPath: /repos
+              name: sync-bot-repo-volume
+          ports:
+            - containerPort: 8765
+              name: http
+              protocol: TCP
+      volumes:
+        - name: sync-bot-volume
+          secret:
+            secretName: sync-bot-secrets
+        - name: sync-bot-repo-volume
+          persistentVolumeClaim:
+            claimName: openeuler-sync-bot-volume
