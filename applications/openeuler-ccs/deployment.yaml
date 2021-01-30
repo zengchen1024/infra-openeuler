@@ -288,8 +288,6 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: active_profile
-            - name: JAVA_OPTS1
-              value: -Dspring.config.location=/app/config/
             - name: TZ
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-server:127b0e4b9943351a7ffb19d753856e6c735d92ac
@@ -299,20 +297,3 @@ spec:
             - containerPort: 8086
               name: http
               protocol: TCP
-          volumeMounts:
-            - mountPath: 
-              name: sync-bot-volume
-              subPath: secret
-            - mountPath: /app/config/
-              name: config
-      volumes:
-        - name: sync-bot-volume
-          secret:
-            secretName: sync-bot-secrets
-        - hostPath:
-            path: /var/ccs/ccs-server/resources/
-            type: ''
-          name: config
-        - name: sync-bot-repo-volume
-          persistentVolumeClaim:
-            claimName: openeuler-sync-bot-volume
