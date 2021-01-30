@@ -1,0 +1,318 @@
+---
+apiVersion: extensions/v1beta1
+kind: StatefulSet
+metadata:
+  labels:
+    app: openeuler-ccs
+  name: ccs-eureka
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: openeuler-ccs
+  template:
+    metadata:
+      labels:
+        app: openeuler-ccs
+    spec:
+      containers:
+        - env:
+            - name: APP_NAME
+              value: "ccs-eureka"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: ENCRYPTOR_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_user
+            - name: ENCRYPTOR_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_pass
+            - name: EUREKA_CLIENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka.client.name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka.client.password
+            - name: APP_OPTS
+              value: "
+                     --spring.profiles.active=prod
+                     --eureka.instance.hostname=${POD_NAME}.${APP_NAME}
+                     --registerWithEureka=true
+                     --fetchRegistry=true
+                     --eureka.instance.preferIpAddress=false
+                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@${POD_NAME}.${APP_NAME}/eureka/
+                     "
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          imagePullPolicy: IfNotPresent
+          name: ccs-eureka
+          ports:
+            - containerPort: 9761
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 1024Mi
+            requests:
+              cpu: 2000m
+              memory: 1024Mi
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health
+              port: 8081
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health
+              port: 8081
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: openeuler-ccs
+  name: ccs-gateway
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: openeuler-ccs
+  template:
+    metadata:
+      labels:
+        app: openeuler-ccs
+    spec:
+      containers:
+        - env:
+            - name: EUREKA_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_host
+            - name: EUREKA_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_port
+            - name: ENCRYPTOR_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_user
+            - name: ENCRYPTOR_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_pass
+            - name: ACTIVE_PROFILE
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: active_profile
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          imagePullPolicy: IfNotPresent
+          name: ccs-gateway
+          ports:
+            - containerPort: 8088
+              name: http
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: openeuler-ccs
+  name: ccs-config
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: openeuler-ccs
+  template:
+    metadata:
+      labels:
+        app: openeuler-ccs
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          imagePullPolicy: IfNotPresent
+          name: ccs-config
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: openeuler-ccs
+  name: ccs-server
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: openeuler-ccs
+  template:
+    metadata:
+      labels:
+        app: openeuler-ccs
+    spec:
+      containers:
+        - env:
+            - name: TALENT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: talent-key
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: db_port
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: db_user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: db_password
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_port 
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_pass
+            - name: OBS_END_POINT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: obs_end_point
+            - name: OBS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: obs_access_key
+            - name: OBS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: obs_secret_key
+            - name: OBS_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: obs_bucket_name
+            - name: MAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_host
+            - name: MAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_port
+            - name: MAIL_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_auth
+            - name: MAIL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_user
+            - name: MAIL_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_from
+            - name: HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: hostname
+            - name: ENCRYPTOR_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_pass
+            - name: ACTIVE_PROFILE
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: active_profile
+            - name: JAVA_OPTS1
+              value: -Dspring.config.location=/app/config/
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-server:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          imagePullPolicy: IfNotPresent
+          name: ccs-server
+          ports:
+            - containerPort: 8086
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - mountPath: 
+              name: sync-bot-volume
+              subPath: secret
+            - mountPath: /app/config/
+              name: config
+      volumes:
+        - name: sync-bot-volume
+          secret:
+            secretName: sync-bot-secrets
+        - hostPath:
+            path: /var/ccs/ccs-server/resources/
+            type: ''
+          name: config
+        - name: sync-bot-repo-volume
+          persistentVolumeClaim:
+            claimName: openeuler-sync-bot-volume

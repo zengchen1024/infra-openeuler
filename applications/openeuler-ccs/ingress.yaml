@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+#    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/custom-http-errors: "400,500"
+  name: openeuler-ccs-ingress
+spec:
+  tls:
+    - hosts:
+        - ccs.openeuler.org
+      secretName: openeuler-ccs-secret
+  rules:
+    - host: ccs.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: eureka-nodeport
+              servicePort: 80
+#            path: /ccs(/|$)(.*)
+            path: /
