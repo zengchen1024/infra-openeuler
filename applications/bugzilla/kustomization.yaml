@@ -9,4 +9,4 @@ kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bugzilla
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bugzilla
-  newTag: 0920e26c4f111cdd54f1742acbd97d05e832d546.1612076531
+  newTag: bf490dc98cd7f40ca24473bc6e90274c6b9a386e.1612088275
