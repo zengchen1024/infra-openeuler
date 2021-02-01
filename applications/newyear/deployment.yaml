@@ -6,7 +6,8 @@ metadata:
     app: bless-server
   name: bless-server
 spec:
-  replicas: 4
+  replicas: 0
+#  replicas: 4
   selector:
     matchLabels:
       app: bless-server
@@ -34,7 +35,8 @@ metadata:
     app: openeuler-frontend
   name: openeuler-frontend
 spec:
-  replicas: 2
+  replicas: 0
+#  replicas: 2
   selector:
     matchLabels:
       app: openeuler-frontend
@@ -62,7 +64,8 @@ metadata:
     app: opengauss-frontend
   name: opengauss-frontend
 spec:
-  replicas: 2
+  replicas: 0
+#  replicas: 2
   selector:
     matchLabels:
       app: opengauss-frontend
@@ -90,7 +93,8 @@ metadata:
     app: openlookeng-frontend
   name: openlookeng-frontend
 spec:
-  replicas: 2
+  replicas: 0
+#  replicas: 2
   selector:
     matchLabels:
       app: openlookeng-frontend
