@@ -7,3 +7,9 @@ resources:
 commonLabels:
   app: openeuler-ccs
 namespace: openeuler-ccs
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka
+  newTag: "1612346456"
