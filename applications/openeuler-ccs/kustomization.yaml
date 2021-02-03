@@ -1,0 +1,9 @@
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- secrets.yaml
+- ingress.yaml
+commonLabels:
+  app: openeuler-ccs
+namespace: openeuler-ccs
