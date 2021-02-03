@@ -10,6 +10,9 @@ namespace: openeuler-ccs
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config
+  newTag: "1612352384"
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka
   newTag: "1612346456"
