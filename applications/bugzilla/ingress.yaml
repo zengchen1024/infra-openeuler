@@ -4,18 +4,17 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/permanent-redirect: https://openlookeng.io
-  name: openlookeng-website-ingress
+  name: bugzilla-ingress
 spec:
   tls:
     - hosts:
-        - www.openlookeng.io
-      secretName: openlookeng-website-tls
+        - bugzilla.openeuler.org
+      secretName: bugzilla-tls
   rules:
-    - host: www.openlookeng.io
+    - host: bugzilla.openeuler.org
       http:
         paths:
           - backend:
-              serviceName: openlookeng-website-frontend-service
+              serviceName: bugzilla
               servicePort: 80
             path: /

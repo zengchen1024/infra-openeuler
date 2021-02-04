@@ -1,0 +1,15 @@
+resources:
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+- purge-cache.yaml
+- purge-secrets.yaml
+commonLabels:
+  app: openlookeng-website-frontend
+namespace: openlookeng-website-frontend
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
+  newTag: 5e972ea753885edfa8e5bfd82ce3737d9abaf9da

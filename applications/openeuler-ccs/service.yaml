@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openeuler-ccs-eureka-service
+  namespace: openeuler-ccs
+  labels:
+    app: ccs-eureka
+spec:
+  clusterIP: None
+  ports:
+    - name: 
+      port: 80
+      targetPort: 9761
+  selector:
+    app: openeuler-ccs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-nodeport
+  namespace: openeuler-ccs
+  labels:
+    app: eureka-nodeport
+spec:
+  type: NodePort
+  ports:
+  - name: server
+    port: 80
+    targetPort: 9761
+    nodePort: 31011
+  selector:
+    app: openeuler-ccs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openeuler-ccs-service
+  namespace: openeuler-ccs
+spec:
+  ports:
+    - name: openeuler-ccs
+      port: 80
+      protocol: TCP
+      targetPort: 8086
+  selector:
+    app: openeuler-ccs
+  type: ClusterIP

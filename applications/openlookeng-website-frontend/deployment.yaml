@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openlookeng-website-frontend
+spec:
+  replicas: 4
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: websiteinfo
+  template:
+    metadata:
+      labels:
+        app: websiteinfo
+    spec:
+      containers:
+      - name: websitepod
+        image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website:316d472106cb1d806350d86ad587d6944627e22f
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP

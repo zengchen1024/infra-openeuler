@@ -46,7 +46,7 @@ spec:
               serviceName: openeuler-bot-internal
               servicePort: 8888
             path: /cla
-          - backend:
-              serviceName: openeuler-backend
-              servicePort: 80
-            path: /blessapi
+#          - backend:
+#              serviceName: openeuler-backend
+#              servicePort: 80
+#            path: /blessapi
