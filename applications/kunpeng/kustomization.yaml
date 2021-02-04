@@ -2,8 +2,9 @@ resources:
   - https://github.com/opensourceways/app-jenkins/deploy-without-agent?ref=stable
   - secrets.yaml
   - namespace.yaml
+  - ingress.yaml
 commonLabels:
-  app: openeuler-jenkins
+  app: kunpeng-jenkins
 patchesStrategicMerge:
   - pvc.yaml
   - deployment.yaml
