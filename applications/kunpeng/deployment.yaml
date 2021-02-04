@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  template:
+    spec:
+      nodeSelector:
+        openeuler.ci/task: common
+      containers:
+        - name: jenkins
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: jenkins-admin-password
+                  name: openeuler-jenkins
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  key: jenkins-admin-user
+                  name: openeuler-jenkins
+          resources:
+            limits:
+              cpu: 12000m
+              memory: 32000Mi
+            requests:
+              cpu: 6000m
+              memory: 16000Mi
+      initContainers:
+        - name: copy-default-config
+          env:
+            - name: JENKINS_UC_DOWNLOAD
+              value: "https://mirrors.tuna.tsinghua.edu.cn/jenkins"
+            - name: JENKINS_UC
+              value: "https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json"
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: jenkins-admin-password
+                  name: openeuler-jenkins
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  key: jenkins-admin-user
+                  name: openeuler-jenkins
