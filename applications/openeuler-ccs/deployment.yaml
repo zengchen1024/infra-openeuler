@@ -142,6 +142,7 @@ spec:
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway:127b0e4b9943351a7ffb19d753856e6c735d92ac
           imagePullPolicy: IfNotPresent
+          command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
           name: ccs-gateway
           ports:
             - containerPort: 8088
@@ -217,6 +218,7 @@ spec:
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config:127b0e4b9943351a7ffb19d753856e6c735d92ac
           imagePullPolicy: IfNotPresent
+          command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
           name: ccs-config
           ports:
             - containerPort: 8080
@@ -246,7 +248,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: talent-key
+                  key: talent_key
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
