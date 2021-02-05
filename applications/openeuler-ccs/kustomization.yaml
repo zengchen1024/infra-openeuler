@@ -12,7 +12,7 @@ kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config
-  newTag: "1612352384"
+  newTag: "1612508830"
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka
   newTag: "1612508745"
