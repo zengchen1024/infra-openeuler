@@ -1,11 +1,12 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: v1
 kind: StatefulSet
 metadata:
   labels:
     app: openeuler-ccs
   name: ccs-eureka
 spec:
+  serviceName: "ccs-eureka"
   replicas: 1
   revisionHistoryLimit: 10
   selector:
@@ -24,12 +25,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            - name: ENCRYPTOR_USER
-              valueFrom:
-                secretKeyRef:
-                  name: ccs-secrets
-                  key: encryptor_user
-            - name: ENCRYPTOR_PASS
+            - name: JASYPT_ENCRYPTOR_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
@@ -38,14 +34,15 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: eureka.client.name
+                  key: eureka_client_name
             - name: EUREKA_CLIENT_PASS
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: eureka.client.password
-            - name: APP_OPTS
+                  key: eureka_client_password
+            - name: JAVA_OPTS1
               value: "
+                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      --spring.profiles.active=prod
                      --eureka.instance.hostname=${POD_NAME}.${APP_NAME}
                      --registerWithEureka=true
@@ -105,35 +102,47 @@ spec:
     spec:
       containers:
         - env:
-            - name: EUREKA_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: ccs-secrets
-                  key: eureka_host
-            - name: EUREKA_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: ccs-secrets
-                  key: eureka_port
-            - name: ENCRYPTOR_USER
-              valueFrom:
-                secretKeyRef:
-                  name: ccs-secrets
-                  key: encryptor_user
-            - name: ENCRYPTOR_PASS
+            - name: JASYPT_ENCRYPTOR_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
                   key: encryptor_pass
-            - name: ACTIVE_PROFILE
+            - name: EUREKA_CLIENT_NAME
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: active_profile
+                  key: eureka_client_name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:                  
+                  name: ccs-secrets
+                  key: eureka_client_password
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_port
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_pass
+            - name: JAVA_OPTS1
+              value: "
+                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     --spring.profiles.active=prod
+                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     "
             - name: TZ
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway:127b0e4b9943351a7ffb19d753856e6c735d92ac
           imagePullPolicy: IfNotPresent
+          command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
           name: ccs-gateway
           ports:
             - containerPort: 8088
@@ -159,10 +168,57 @@ spec:
     spec:
       containers:
         - env:
+            - name: JASYPT_ENCRYPTOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_pass
+            - name: EUREKA_CLIENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_password
+            - name: CONFIG_GIT_URI
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_uri
+            - name: CONFIG_GIT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_username
+            - name: CONFIG_GIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_password
+            - name: CONFIG_GIT_DEFAULT_LABEL
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_default_label
+            - name: CONFIG_GIT_SEARCH_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_search_path
+            - name: JAVA_OPTS1
+              value: "
+                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     --spring.profiles.active=prod
+                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     "
             - name: TZ
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config:127b0e4b9943351a7ffb19d753856e6c735d92ac
           imagePullPolicy: IfNotPresent
+          command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
           name: ccs-config
           ports:
             - containerPort: 8080
@@ -192,7 +248,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: talent-key
+                  key: talent_key
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
@@ -268,26 +324,61 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: mail_user
+            - name: MAIL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_pass
             - name: MAIL_FROM
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
                   key: mail_from
-            - name: HOSTNAME
-              valueFrom:
-                secretKeyRef:
-                  name: ccs-secrets
-                  key: hostname
-            - name: ENCRYPTOR_PASS
+            - name: JASYPT_ENCRYPTOR_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
                   key: encryptor_pass
-            - name: ACTIVE_PROFILE
+            - name: CCS_GATEWAY_DOMAIN
+              value: https://ccs.openeuler.org/ccs
+            - name: SECURITY_ENCRYPTKEY
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: active_profile
+                  key: security_encryptkey
+            - name: MAINTAINER_MAILS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: maintainer_mails
+            - name: MQS_APPID
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mqs_appid
+            - name: MQS_APPSECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mqs_appsecret
+            - name: MQS_ENCRYPTTRANSPORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mqs_encrypttransport
+            - name: MQS_UMPNAMESRVURLS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mqs_umpnamesrvurls
+            - name: MQS_PUBLLBATCHSIZE
+              value: "30"
+            - name: JAVA_OPTS1
+              value: "
+                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     --spring.profiles.active=prod
+                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     "
             - name: TZ
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-server:127b0e4b9943351a7ffb19d753856e6c735d92ac
