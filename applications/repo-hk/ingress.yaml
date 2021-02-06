@@ -4,7 +4,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/limit-rate: "1024"
+    nginx.ingress.kubernetes.io/limit-rate: "10240"
     nginx.ingress.kubernetes.io/proxy-buffering: "on"
     cert-manager.io/cluster-issuer: letsencrypt-issuer
   name: repo-ingress
