@@ -4,7 +4,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: meeting-server
-  component: web-server
 spec:
   replicas: 2
   selector:
