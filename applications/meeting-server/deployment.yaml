@@ -4,15 +4,18 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: meeting-server
+  component: web-server
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: meeting-server
+      component: web-server
   template:
     metadata:
       labels:
         app: meeting-server
+        component: web-server
     spec:
       containers:
         - name: meeting-server
