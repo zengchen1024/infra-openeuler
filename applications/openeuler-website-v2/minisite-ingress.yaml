@@ -5,15 +5,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/server-snippet: |
-      rewrite  https://openeuler.org/zh/other/minisite/isula/ redirect;
-      return 404;
+    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/minisite/isula/
   name: isula-ingress
 spec:
   tls:
     - hosts:
         - isula.openeuler.org
-      secretName: openeuler-v2-www-website-tls
+      secretName: isula-tls
   rules:
     - host: isula.openeuler.org
 ---
@@ -23,15 +21,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/server-snippet: |
-      rewrite  https://openeuler.org/zh/other/minisite/atune/ redirect;
-      return 404;
+    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/minisite/atune/
   name: a-tune-ingress
 spec:
   tls:
     - hosts:
         - a-tune.openeuler.org
-      secretName: openeuler-v2-www-website-tls
+      secretName: a-tune-tls
   rules:
     - host: a-tune.openeuler.org
 ---
@@ -41,14 +37,12 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/server-snippet: |
-      rewrite  https://openeuler.org/zh/other/minisite/stratovirt/ redirect;
-      return 404;
+    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/minisite/stratovirt/
   name: stratovirt-ingress
 spec:
   tls:
     - hosts:
         - stratovirt.openeuler.org
-      secretName: openeuler-v2-www-website-tls
+      secretName: stratovirt-tls
   rules:
     - host: stratovirt.openeuler.org
