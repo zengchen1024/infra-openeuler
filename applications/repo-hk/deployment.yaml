@@ -22,7 +22,7 @@ spec:
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
             - mountPath: /etc/nginx/conf/static/baidu.html
-              name: repo-nginx-configmap-volume                                                                                                                                   │
+              name: repo-nginx-configmap-volume
               subPath: baidu.html
           resources:
             requests:
