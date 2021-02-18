@@ -21,6 +21,9 @@ spec:
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
+            - mountPath: /etc/nginx/conf/static/baidu.html
+              name: repo-nginx-configmap-volume                                                                                                                                   │
+              subPath: baidu.html
           resources:
             requests:
               cpu: 4000m
