@@ -17,7 +17,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: eureka-nodeport
+              serviceName: eureka-service
               servicePort: 80
-#            path: /ccs(/|$)(.*)
             path: /

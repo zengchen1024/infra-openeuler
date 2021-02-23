@@ -11,7 +11,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       partition: 0
-  replicas: 1
+  replicas: 3
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -52,7 +52,7 @@ spec:
                      -DregisterWithEureka=true
                      -DfetchRegistry=true
                      -Deureka.instance.preferIpAddress=false
-                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@${APP_NAME}/eureka/
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-0.${APP_NAME}:9761/eureka/,http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-1.${APP_NAME}:9761/eureka/,http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-2.${APP_NAME}:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
@@ -140,6 +140,8 @@ spec:
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
+                     -Deureka.client.fetch-registry=true 
+                     -Deureka.client.register-with-eureka=true
                      -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
@@ -215,6 +217,8 @@ spec:
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
+                     -Deureka.client.fetch-registry=true 
+                     -Deureka.client.register-with-eureka=true
                      -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
@@ -270,7 +274,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: db_passwd
+                  key: db_password
             - name: REDIS_HOST
               valueFrom:
                 secretKeyRef:
@@ -389,6 +393,8 @@ spec:
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
+                     -Deureka.client.fetch-registry=true 
+                     -Deureka.client.register-with-eureka=true
                      -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
