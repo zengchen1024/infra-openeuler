@@ -140,7 +140,7 @@ spec:
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
-                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local/eureka/
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
@@ -215,7 +215,7 @@ spec:
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
-                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local/eureka/
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
@@ -265,12 +265,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: db_user
+                  key: db_username
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: db_password
+                  key: db_passwd
             - name: REDIS_HOST
               valueFrom:
                 secretKeyRef:
@@ -373,13 +373,23 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: mqs_umpnamesrvurls
+            - name: EUREKA_CLIENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_password
             - name: MQS_PUBLLBATCHSIZE
               value: "30"
             - name: JAVA_OPTS1
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
-                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local/eureka/
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
