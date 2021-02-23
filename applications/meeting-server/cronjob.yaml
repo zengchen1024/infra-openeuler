@@ -85,6 +85,11 @@ spec:
             - name: meeting-server
               image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
               env:
+                - name: ZOOM_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: zoom_token
+                      name: meeting-server-secrets
                 - name: ACCESS_KEY_ID
                   valueFrom:
                     secretKeyRef:
