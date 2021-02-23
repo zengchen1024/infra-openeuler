@@ -3,10 +3,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app: openeuler-ccs
+    app: ccs-eureka
   name: ccs-eureka
 spec:
-  serviceName: "ccs-eureka"
+  serviceName: "eureka-service"
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
@@ -15,11 +15,11 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: openeuler-ccs
+      app: ccs-eureka
   template:
     metadata:
       labels:
-        app: openeuler-ccs
+        app: ccs-eureka
     spec:
       containers:
         - env:
@@ -46,13 +46,13 @@ spec:
                   key: eureka_client_password
             - name: JAVA_OPTS1
               value: "
-#                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     --spring.profiles.active=prod
-                     --eureka.instance.hostname=${POD_NAME}.${APP_NAME}
-                     --registerWithEureka=true
-                     --fetchRegistry=true
-                     --eureka.instance.preferIpAddress=false
-                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@${POD_NAME}.${APP_NAME}/eureka/
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.instance.hostname=${POD_NAME}.${APP_NAME}
+                     -DregisterWithEureka=true
+                     -DfetchRegistry=true
+                     -Deureka.instance.preferIpAddress=false
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@${APP_NAME}/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
@@ -91,18 +91,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: openeuler-ccs
+    app: ccs-gateway
   name: ccs-gateway
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: openeuler-ccs
+      app: ccs-gateway
   template:
     metadata:
       labels:
-        app: openeuler-ccs
+        app: ccs-gateway
     spec:
       containers:
         - env:
@@ -138,9 +138,9 @@ spec:
                   key: redis_pass
             - name: JAVA_OPTS1
               value: "
-#                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     --spring.profiles.active=prod
-                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
@@ -156,18 +156,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: openeuler-ccs
+    app: ccs-config
   name: ccs-config
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: openeuler-ccs
+      app: ccs-config
   template:
     metadata:
       labels:
-        app: openeuler-ccs
+        app: ccs-config
     spec:
       containers:
         - env:
@@ -213,9 +213,9 @@ spec:
                   key: config_git_search_path
             - name: JAVA_OPTS1
               value: "
-#                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     --spring.profiles.active=prod
-                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
@@ -231,18 +231,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: openeuler-ccs
+    app: ccs-server
   name: ccs-server
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: openeuler-ccs
+      app: ccs-server
   template:
     metadata:
       labels:
-        app: openeuler-ccs
+        app: ccs-server
     spec:
       containers:
         - env:
@@ -377,9 +377,9 @@ spec:
               value: "30"
             - name: JAVA_OPTS1
               value: "
-#                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     --spring.profiles.active=prod
-                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
