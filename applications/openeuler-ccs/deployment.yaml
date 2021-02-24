@@ -44,11 +44,14 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: eureka_client_password
+            - name: HOSTNAME
+              value: eureka-service.openeuler-ccs.svc.cluster.local
             - name: JAVA_OPTS1
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
-                     -Deureka.instance.hostname=${POD_NAME}.${APP_NAME}
+                     -Deureka.instance.hostname=${HOSTNAME}
+                     -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
                      -DregisterWithEureka=true
                      -DfetchRegistry=true
                      -Deureka.instance.preferIpAddress=false
@@ -136,10 +139,14 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: redis_pass
+            - name: HOSTNAME
+              value: openeuler-ccs-gateway-service.openeuler-ccs.svc.cluster.local
             - name: JAVA_OPTS1
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
+                     -Deureka.instance.hostname=${HOSTNAME}
+                     -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
                      -Deureka.client.fetch-registry=true 
                      -Deureka.client.register-with-eureka=true
                      -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
@@ -213,11 +220,15 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: config_git_search_path
+            - name: HOSTNAME
+              value: openeuler-ccs-config-service.openeuler-ccs.svc.cluster.local
             - name: JAVA_OPTS1
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
-                     -Deureka.client.fetch-registry=true 
+                     -Deureka.instance.hostname=${HOSTNAME}
+                     -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
+                     -Deureka.client.fetch-registry=true
                      -Deureka.client.register-with-eureka=true
                      -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
@@ -389,10 +400,14 @@ spec:
                   key: eureka_client_password
             - name: MQS_PUBLLBATCHSIZE
               value: "30"
+            - name: HOSTNAME
+              value: openeuler-ccs-service.openeuler-ccs.svc.cluster.local
             - name: JAVA_OPTS1
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
                      -Dspring.profiles.active=prod
+                     -Deureka.instance.hostname=${HOSTNAME}
+                     -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
                      -Deureka.client.fetch-registry=true 
                      -Deureka.client.register-with-eureka=true
                      -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
