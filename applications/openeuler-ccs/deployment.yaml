@@ -1,21 +1,25 @@
 ---
-apiVersion: v1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app: openeuler-ccs
+    app: ccs-eureka
   name: ccs-eureka
 spec:
-  serviceName: "ccs-eureka"
-  replicas: 1
+  serviceName: "eureka-service"
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  replicas: 3
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: openeuler-ccs
+      app: ccs-eureka
   template:
     metadata:
       labels:
-        app: openeuler-ccs
+        app: ccs-eureka
     spec:
       containers:
         - env:
@@ -42,13 +46,13 @@ spec:
                   key: eureka_client_password
             - name: JAVA_OPTS1
               value: "
-                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     --spring.profiles.active=prod
-                     --eureka.instance.hostname=${POD_NAME}.${APP_NAME}
-                     --registerWithEureka=true
-                     --fetchRegistry=true
-                     --eureka.instance.preferIpAddress=false
-                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@${POD_NAME}.${APP_NAME}/eureka/
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.instance.hostname=${POD_NAME}.${APP_NAME}
+                     -DregisterWithEureka=true
+                     -DfetchRegistry=true
+                     -Deureka.instance.preferIpAddress=false
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-0.${APP_NAME}:9761/eureka/,http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-1.${APP_NAME}:9761/eureka/,http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-2.${APP_NAME}:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
@@ -62,10 +66,10 @@ spec:
           resources:
             limits:
               cpu: 2000m
-              memory: 1024Mi
+              memory: 4096Mi
             requests:
               cpu: 2000m
-              memory: 1024Mi
+              memory: 4096Mi
           readinessProbe:              #就绪探针
             initialDelaySeconds: 20    #延迟加载时间
             periodSeconds: 5           #重试时间间隔
@@ -87,18 +91,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: openeuler-ccs
+    app: ccs-gateway
   name: ccs-gateway
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: openeuler-ccs
+      app: ccs-gateway
   template:
     metadata:
       labels:
-        app: openeuler-ccs
+        app: ccs-gateway
     spec:
       containers:
         - env:
@@ -134,15 +138,16 @@ spec:
                   key: redis_pass
             - name: JAVA_OPTS1
               value: "
-                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     --spring.profiles.active=prod
-                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.client.fetch-registry=true 
+                     -Deureka.client.register-with-eureka=true
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway:127b0e4b9943351a7ffb19d753856e6c735d92ac
           imagePullPolicy: IfNotPresent
-          command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
           name: ccs-gateway
           ports:
             - containerPort: 8088
@@ -153,18 +158,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: openeuler-ccs
+    app: ccs-config
   name: ccs-config
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: openeuler-ccs
+      app: ccs-config
   template:
     metadata:
       labels:
-        app: openeuler-ccs
+        app: ccs-config
     spec:
       containers:
         - env:
@@ -210,15 +215,16 @@ spec:
                   key: config_git_search_path
             - name: JAVA_OPTS1
               value: "
-                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     --spring.profiles.active=prod
-                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.client.fetch-registry=true 
+                     -Deureka.client.register-with-eureka=true
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config:127b0e4b9943351a7ffb19d753856e6c735d92ac
           imagePullPolicy: IfNotPresent
-          command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
           name: ccs-config
           ports:
             - containerPort: 8080
@@ -229,18 +235,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: openeuler-ccs
+    app: ccs-server
   name: ccs-server
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: openeuler-ccs
+      app: ccs-server
   template:
     metadata:
       labels:
-        app: openeuler-ccs
+        app: ccs-server
     spec:
       containers:
         - env:
@@ -263,7 +269,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: db_user
+                  key: db_username
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -371,13 +377,25 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: mqs_umpnamesrvurls
+            - name: EUREKA_CLIENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_password
             - name: MQS_PUBLLBATCHSIZE
               value: "30"
             - name: JAVA_OPTS1
               value: "
-                     --jasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     --spring.profiles.active=prod
-                     --eureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka.ccs-eureka-0/eureka/
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.client.fetch-registry=true 
+                     -Deureka.client.register-with-eureka=true
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.openeuler-ccs.svc.cluster.local:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
