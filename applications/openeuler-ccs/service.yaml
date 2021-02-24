@@ -11,7 +11,7 @@ spec:
       port: 80
       targetPort: 9761
   selector:
-    app: ccs-eureka
+    server: ccs-eureka
 ---
 apiVersion: v1
 kind: Service
@@ -26,7 +26,7 @@ spec:
     targetPort: 9761
     nodePort: 31011
   selector:
-    app: ccs-eureka
+    server: ccs-eureka
 ---
 apiVersion: v1
 kind: Service
@@ -40,7 +40,7 @@ spec:
       port: 80
       targetPort: 8087
   selector:
-    app: ccs-config
+    server: ccs-config
 ---
 apiVersion: v1
 kind: Service
@@ -54,7 +54,7 @@ spec:
       port: 80
       targetPort: 8088
   selector:
-    app: ccs-gateway
+    server: ccs-gateway
 ---
 apiVersion: v1
 kind: Service
@@ -68,5 +68,5 @@ spec:
       protocol: TCP
       targetPort: 8086
   selector:
-    app: ccs-server
+    server: ccs-server
   type: ClusterIP

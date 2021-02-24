@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app: ccs-eureka
+    server: ccs-eureka
   name: ccs-eureka
 spec:
   serviceName: "eureka-service"
@@ -11,15 +11,15 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       partition: 0
-  replicas: 3
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: ccs-eureka
+      server: ccs-eureka
   template:
     metadata:
       labels:
-        app: ccs-eureka
+        server: ccs-eureka
     spec:
       containers:
         - env:
@@ -52,7 +52,7 @@ spec:
                      -DregisterWithEureka=true
                      -DfetchRegistry=true
                      -Deureka.instance.preferIpAddress=false
-                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-0.${APP_NAME}:9761/eureka/,http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-1.${APP_NAME}:9761/eureka/,http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-2.${APP_NAME}:9761/eureka/
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-0.eureka-service:9761/eureka/
                      "
             - name: TZ
               value: Asia/Shanghai
@@ -70,39 +70,39 @@ spec:
             requests:
               cpu: 2000m
               memory: 4096Mi
-          readinessProbe:              #就绪探针
-            initialDelaySeconds: 20    #延迟加载时间
-            periodSeconds: 5           #重试时间间隔
-            timeoutSeconds: 10         #超时时间设置
-            failureThreshold: 5        #探测失败的重试次数
-            httpGet:
-              path: /actuator/health
-              port: 8081
-          livenessProbe:               #存活探针
-            initialDelaySeconds: 60    #延迟加载时间
-            periodSeconds: 5           #重试时间间隔
-            timeoutSeconds: 5          #超时时间设置
-            failureThreshold: 3        #探测失败的重试次数
-            httpGet:
-              path: /actuator/health
-              port: 8081
+#          readinessProbe:              #就绪探针
+#            initialDelaySeconds: 20    #延迟加载时间
+#            periodSeconds: 5           #重试时间间隔
+#            timeoutSeconds: 10         #超时时间设置
+#            failureThreshold: 5        #探测失败的重试次数
+#            httpGet:
+#              path: /actuator/health
+#              port: 8081
+#          livenessProbe:               #存活探针
+#            initialDelaySeconds: 60    #延迟加载时间
+#            periodSeconds: 5           #重试时间间隔
+#            timeoutSeconds: 5          #超时时间设置
+#            failureThreshold: 3        #探测失败的重试次数
+#            httpGet:
+#              path: /actuator/health
+#              port: 8081
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: ccs-gateway
+    server: ccs-gateway
   name: ccs-gateway
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: ccs-gateway
+      server: ccs-gateway
   template:
     metadata:
       labels:
-        app: ccs-gateway
+        server: ccs-gateway
     spec:
       containers:
         - env:
@@ -158,18 +158,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: ccs-config
+    server: ccs-config
   name: ccs-config
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: ccs-config
+      server: ccs-config
   template:
     metadata:
       labels:
-        app: ccs-config
+        server: ccs-config
     spec:
       containers:
         - env:
@@ -235,18 +235,18 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: ccs-server
+    server: ccs-server
   name: ccs-server
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: ccs-server
+      server: ccs-server
   template:
     metadata:
       labels:
-        app: ccs-server
+        server: ccs-server
     spec:
       containers:
         - env:
