@@ -132,6 +132,7 @@ spec:
                 - /bin/sh
                 - -c
                 - |
+                  strip -R .note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.11.3
                   python manage.py handle_recordings
 ---
 apiVersion: batch/v1beta1
