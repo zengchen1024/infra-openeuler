@@ -398,7 +398,12 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: eureka_client_password
-            - name: MQS_PUBLLBATCHSIZE
+            - name: RECERTIFICATION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: recertification_url
+            - name: MQS_PULLBATCHSIZE
               value: "30"
             - name: HOSTNAME
               value: openeuler-ccs-service.openeuler-ccs.svc.cluster.local
