@@ -62,11 +62,11 @@ metadata:
   name: openeuler-ccs-service
   namespace: openeuler-ccs
 spec:
+  clusterIP: None
   ports:
-    - name: openeuler-ccs
+    - name:
       port: 80
       protocol: TCP
       targetPort: 8086
   selector:
     server: ccs-server
-  type: ClusterIP
