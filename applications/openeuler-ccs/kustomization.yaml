@@ -18,7 +18,7 @@ images:
   newTag: "1612508745"
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway
-  newTag: "1614591710"
+  newTag: "1614651617"
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-server
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-server
   newTag: "1614587439"
