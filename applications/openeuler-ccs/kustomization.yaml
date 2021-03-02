@@ -15,7 +15,7 @@ images:
   newTag: "1614656132"
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka
-  newTag: "1612508745"
+  newTag: "1614656468"
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway
   newTag: "1614651617"
