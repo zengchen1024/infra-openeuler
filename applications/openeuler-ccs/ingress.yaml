@@ -17,6 +17,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: eureka-service
+              serviceName: openeuler-ccs-gateway-service
               servicePort: 80
             path: /

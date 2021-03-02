@@ -73,22 +73,22 @@ spec:
             requests:
               cpu: 2000m
               memory: 4096Mi
-#          readinessProbe:              #就绪探针
-#            initialDelaySeconds: 20    #延迟加载时间
-#            periodSeconds: 5           #重试时间间隔
-#            timeoutSeconds: 10         #超时时间设置
-#            failureThreshold: 5        #探测失败的重试次数
-#            httpGet:
-#              path: /actuator/health
-#              port: 8081
-#          livenessProbe:               #存活探针
-#            initialDelaySeconds: 60    #延迟加载时间
-#            periodSeconds: 5           #重试时间间隔
-#            timeoutSeconds: 5          #超时时间设置
-#            failureThreshold: 3        #探测失败的重试次数
-#            httpGet:
-#              path: /actuator/health
-#              port: 8081
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9761
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9761
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -160,6 +160,22 @@ spec:
             - containerPort: 8088
               name: http
               protocol: TCP
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8088
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8088
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -238,9 +254,25 @@ spec:
           imagePullPolicy: IfNotPresent
           name: ccs-config
           ports:
-            - containerPort: 8080
+            - containerPort: 8087
               name: http
               protocol: TCP
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8087
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8087
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -426,3 +458,19 @@ spec:
             - containerPort: 8086
               name: http
               protocol: TCP
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8086
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8086
