@@ -1,0 +1,5 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: mindspore-www-website-ingress
+$patch: delete

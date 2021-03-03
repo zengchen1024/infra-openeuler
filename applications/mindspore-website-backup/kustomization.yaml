@@ -1,0 +1,15 @@
+resources:
+- https://github.com/opensourceways/infra-mindspore/applications/website?ref=master
+replicas:
+- name: mindspore-website
+  count: 1
+commonLabels:
+  label: mindspore-website
+namespace: website
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patchesStrategicMerge:
+- secrets.yaml
+- deployment.yaml
+- ingress.yaml
+- remove-wwwingress.yaml

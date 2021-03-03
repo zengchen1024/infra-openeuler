@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindspore-website
+spec:
+  replicas: 4
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: mindsporewebsite
+  template:
+    metadata:
+      labels:
+        app: mindsporewebsite
+    spec:
+      containers:
+      - name: website
+        image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/mindspore-website:16583c712a53b54d30f4d7a60f7d98fe52fb6f41
+        resources:
+          $patch: delete
