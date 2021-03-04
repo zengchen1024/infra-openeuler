@@ -9,7 +9,7 @@ spec:
   resources:
     requests:
       storage: 200Gi
-  storageClassName: SAS
+  storageClassName: sas
   volumeMode: Filesystem
 
 ---
@@ -23,5 +23,5 @@ spec:
   resources:
     requests:
       storage: 100Gi
-  storageClassName: SAS
+  storageClassName: sas
   volumeMode: Filesystem
