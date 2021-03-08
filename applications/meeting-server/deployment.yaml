@@ -55,6 +55,16 @@ spec:
                 secretKeyRef:
                   key: host_tommylike
                   name: meeting-server-secrets
+            - name: HOST_GEORGE
+              valueFrom:
+                secretKeyRef:
+                  key: host_george
+                  name: meeting-server-secrets
+            - name: HOST_NIC
+              valueFrom:
+                secretKeyRef:
+                  key: host_nic
+                  name: meeting-server-secrets
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
