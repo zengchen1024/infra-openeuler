@@ -59,6 +59,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/custom-http-errors: '400,500,404'
   name: euler-icon-service
 spec:
   tls:
