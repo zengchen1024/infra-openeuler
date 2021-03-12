@@ -293,6 +293,21 @@ spec:
     spec:
       containers:
         - env:
+            - name: MAIL_STARTTLS_ENABLE
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_starttls_enable
+            - name: MAIL_FACTORY_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_factory_port
+            - name: MAIL_SSL_ENABLE
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_ssl_enable
             - name: TALENT_KEY
               valueFrom:
                 secretKeyRef:
@@ -388,8 +403,16 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: encryptor_pass
-            - name: CCS_GATEWAY_DOMAIN
-              value: https://ccs.openeuler.org/ccs
+            - name: CCS_VERIFY_ADDRESS_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  value: ccs_verify_address_domain
+            - name: CCS_VERIFY_DOWNLOADPATH_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  value: ccs_verify_downloadpath_domain
             - name: SECURITY_ENCRYPTKEY
               valueFrom:
                 secretKeyRef:
