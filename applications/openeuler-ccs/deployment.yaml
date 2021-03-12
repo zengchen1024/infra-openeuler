@@ -403,16 +403,16 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: encryptor_pass
-            - name: CCS_VERIFY_ADDRESS_DOMAIN
+            - name: URL_VERIFY_ADDRESS_DOMAIN
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: ccs_verify_address_domain
-            - name: CCS_VERIFY_DOWNLOADPATH_DOMAIN
+                  key: url_verify_address_domain
+            - name: URL_VERIFY_DOWNLOADPATH_DOMAIN
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: ccs_verify_downloadpath_domain
+                  key: url_verify_downloadpath_domain
             - name: SECURITY_ENCRYPTKEY
               valueFrom:
                 secretKeyRef:
