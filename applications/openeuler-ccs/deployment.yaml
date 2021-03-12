@@ -298,11 +298,11 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: mail_starttls_enable
-            - name: MAIL_FACTORY_PORT
+            - name: MAIL_SOCKET_FACTORY_PORT
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  key: mail_factory_port
+                  key: mail_socket_factory_port
             - name: MAIL_SSL_ENABLE
               valueFrom:
                 secretKeyRef:
