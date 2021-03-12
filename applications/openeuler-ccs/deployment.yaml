@@ -407,12 +407,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  value: ccs_verify_address_domain
+                  key: ccs_verify_address_domain
             - name: CCS_VERIFY_DOWNLOADPATH_DOMAIN
               valueFrom:
                 secretKeyRef:
                   name: ccs-secrets
-                  value: ccs_verify_downloadpath_domain
+                  key: ccs_verify_downloadpath_domain
             - name: SECURITY_ENCRYPTKEY
               valueFrom:
                 secretKeyRef:
