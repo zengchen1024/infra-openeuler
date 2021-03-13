@@ -64,6 +64,9 @@ spec:
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
+            - mountPath: /etc/rsyncd.server.secrets.ro
+              name: rsync-secrets-volume
+              subPath: rsync_server_secrets
             - mountPath: /repo/openeuler
               name: data-volume
             - mountPath: /root/.ssh/authorized_keys.ro
@@ -84,7 +87,10 @@ spec:
             - -c
             - |
               cp /etc/rsyncd.secrets.ro /etc/rsyncd.secrets
+              cp /etc/rsyncd.server.secrets.ro /etc/rsyncd.server.secrets
               chmod 0400 /etc/rsyncd.secrets
+              chmod 0400 /etc/rsyncd.server.secrets
+              /usr/bin/rsync --daemon --config /etc/rsyncd.conf
               exec tini -- entrypoint.sh
           resources:
             requests:
