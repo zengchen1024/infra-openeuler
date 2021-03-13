@@ -118,24 +118,24 @@ data:
           access_log off;
         }
     }
-  rsyncd.conf:
-  ----
-  use chroot = yes
-  uid = root
-  gid = root
-  max connections = 10
-  timeout = 600
-  read only = yes
+  rsyncd.conf: |-
+    ----
+    use chroot = yes
+    uid = root
+    gid = root
+    max connections = 10
+    timeout = 600
+    read only = yes
 
-  [openeuler]
-        path = /repo/openeuler
-        comment = openeuler repo folder
-        read only = true
-        auth users = repo
-        secrets file = /etc/rsyncd.server.secrets
-        ignore nonreadable = yes
-        refuse options = checksum
-        dont compress = *
+    [openeuler]
+          path = /repo/openeuler
+          comment = openeuler repo folder
+          read only = true
+          auth users = repo
+          secrets file = /etc/rsyncd.server.secrets
+          ignore nonreadable = yes
+          refuse options = checksum
+          dont compress = *
   nginx.conf: |-
     user  root;
     worker_processes  auto;
