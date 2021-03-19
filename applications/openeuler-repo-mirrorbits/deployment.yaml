@@ -1,0 +1,86 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: repo-mirrorbits
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: repo-mirrorbits
+    spec:
+      containers:
+        - name: repo-mirrorbits
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-mirrorbits:64c3e71fc9dbd1cafe3935026078083d8aa69e78
+          volumeMounts:
+            - mountPath: /repo/openeuler
+              name: data-volume
+            - mountPath: /etc/mirrorbits.conf
+              name: mirrorbits-configmap-volume
+              subPath: mirrorbits.conf
+            - mountPath: /usr/local/etc/GeoIP.conf
+              name: mirrorbits-secrets-volume
+              subPath: geoip_conf
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -pv /usr/local/share/GeoIP
+              geoipupdate -v
+              exec /usr/bin/mirrorbits daemon --config /etc/mirrorbits.conf
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /healthz
+              port: 8080
+        - name: rsync-server
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:cf6df893333da15daf1b0ade7ef03db3a83e1b6e
+          volumeMounts:
+            - mountPath: /etc/rsyncd.secrets.ro
+              name: mirrorbits-secrets-volume
+              subPath: rsyncd_secrets
+            - mountPath: /etc/rsyncd.server.secrets.ro
+              name: mirrorbits-secrets-volume
+              subPath: rsyncd_server_secrets
+            - mountPath: /repo/openeuler
+              name: data-volume
+            - mountPath: /root/.ssh/authorized_keys.ro
+              name: mirrorbits-configmap-volume
+              subPath: ssh.pub
+          env:
+            - name: TARGET_DIR
+              value: "/repo/openeuler"
+            - name: RSYNC_INTERNAL
+              value: "21600"
+            - name: SYNC_HOST
+              value: "rsync://root@121.36.97.194/openeuler"
+            - name: ADDITIONAL_PARAMETERS
+              value: "--delete"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              cp -a /etc/rsyncd.secrets.ro /etc/rsyncd.secrets
+              cp -a /etc/rsyncd.server.secrets.ro /etc/rsyncd.server.secrets
+              chmod 0400 /etc/rsyncd.secrets
+              chmod 0400 /etc/rsyncd.server.secrets
+              exec tini -- entrypoint.sh
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 4000Mi
+      volumes:
+        - name: mirrorbits-configmap-volume
+          configMap:
+            name: mirrorbits-configmap
+        - name: mirrorbits-secrets-volume
+          secret:
+            secretName: mirrorbits-secrets
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: openeuler-data-volume

@@ -5,6 +5,8 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Forwarded-For "$remote_addr, $server_addr";
     nginx.ingress.kubernetes.io/rewrite-target: /$2
   name: api-ingress
 spec:
@@ -52,6 +54,10 @@ spec:
               serviceName: sync-bot-service
               servicePort: 80
             path: /sync-bot(/|$)(.*)
+          - backend:
+              serviceName: repo-mirrorbits-service
+              servicePort: 80
+            path: /mirrors(/|$)(.*)
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
