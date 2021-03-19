@@ -13,6 +13,7 @@ resources:
   - cve-manager-service.yaml
   - nginx-purger.yaml
   - sync-bot-service.yaml
+  - repo-mirrorbits-service.yaml
 commonLabels:
   app: openeuler-api
 namespace: openeuler-api
