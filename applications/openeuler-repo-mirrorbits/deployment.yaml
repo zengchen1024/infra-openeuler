@@ -39,7 +39,7 @@ spec:
               path: /healthz
               port: 8080
         - name: rsync-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:cf6df893333da15daf1b0ade7ef03db3a83e1b6e
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:474bf9a0c93f0ba0be97b593f5e2e79bbad63509
           volumeMounts:
             - mountPath: /etc/rsyncd.secrets.ro
               name: mirrorbits-secrets-volume
