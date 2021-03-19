@@ -1,0 +1,7 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: repo-mirrorbits-service
+spec:
+  type: ExternalName
+  externalName: repo-mirrorbits-service.repo-mirrorbits.svc.cluster.local

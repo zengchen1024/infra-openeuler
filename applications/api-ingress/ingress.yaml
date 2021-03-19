@@ -52,6 +52,10 @@ spec:
               serviceName: sync-bot-service
               servicePort: 80
             path: /sync-bot(/|$)(.*)
+          - backend:
+              serviceName: repo-mirrorbits-service
+              servicePort: 80
+            path: /mirrors(/|$)(.*)
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
