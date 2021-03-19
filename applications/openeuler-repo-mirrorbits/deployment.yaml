@@ -61,7 +61,7 @@ spec:
               value: "rsync://root@121.36.97.194/openeuler"
             - name: ADDITIONAL_PARAMETERS
               #only sync the iso and its related files.
-              value: "-m --delete --include=\"*/\" --include=\"*.iso\" --include=\"*.iso.sha256sum\" --exclude=\"*\""
+              value: "-m --delete --include=*/ --include=*.iso --include=*.iso.sha256sum --exclude=*"
           command:
             - /bin/sh
             - -c
