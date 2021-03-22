@@ -30,6 +30,9 @@ spec:
               mkdir -pv /usr/local/share/GeoIP
               geoipupdate -v
               exec /usr/bin/mirrorbits daemon --config /etc/mirrorbits.conf -debug
+          env:
+            - name: TZ
+              value: Asia/Shanghai
           livenessProbe:               #存活探针
             initialDelaySeconds: 60    #延迟加载时间
             periodSeconds: 5           #重试时间间隔
