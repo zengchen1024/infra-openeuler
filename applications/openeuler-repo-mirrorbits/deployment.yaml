@@ -115,10 +115,7 @@ spec:
       - name: redis
         image: redis:rc-alpine3.12
         imagePullPolicy: IfNotPresent
-        command:
-        - sh
-        - -c
-        - "exec redis-server /data/redis/conf/redis.conf"
+        command: ['redis-server', '/data/redis/conf/redis.conf']
         ports:
         - containerPort: 6379
           name: redis
