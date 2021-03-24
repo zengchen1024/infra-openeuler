@@ -88,3 +88,71 @@ spec:
         - name: data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  serviceName: redis
+  selector:
+    matchLabels:
+      name: redis
+  template:
+    metadata:
+      labels:
+        name: redis
+    spec:
+      initContainers:
+      - name: init-redis
+        image: busybox
+        command: ['sh', '-c', 'mkdir -p /data/redis/log/;mkdir -p /data/redis/conf/;mkdir -p /data/redis/data/']
+        volumeMounts:
+        - name: redis-data-volume
+          mountPath: /data/redis/
+      containers:
+      - name: redis
+        image: redis:rc-alpine3.12
+        imagePullPolicy: IfNotPresent
+        command: ['redis-server', '/data/redis/conf/redis.conf']
+        ports:
+        - containerPort: 6379
+          name: redis
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+          requests:
+            cpu: 1000m
+            memory: 1024Mi
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 300
+          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: mirrorbits-configmap-volume
+          mountPath: /data/redis/conf/redis.conf
+          subPath: redis.conf
+        - name: redis-data-volume
+          mountPath: /data/redis/
+      volumes:
+        - name: mirrorbits-configmap-volume
+          configMap:
+            name: mirrorbits-configmap
+        - name: redis-data-volume
+          persistentVolumeClaim:
+            claimName: redis-data-volume
