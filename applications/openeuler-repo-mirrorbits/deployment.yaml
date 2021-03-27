@@ -45,8 +45,8 @@ spec:
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-mirrorbits:64c3e71fc9dbd1cafe3935026078083d8aa69e78
           command:
             - /bin/sh
-              - -c
-              - |
+            - -c
+            - |
               cd /
               exec python3 /refresh_mirrors.py
         - name: rsync-server
