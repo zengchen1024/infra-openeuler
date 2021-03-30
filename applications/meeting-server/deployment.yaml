@@ -27,6 +27,26 @@ spec:
               cpu: 2000m
               memory: 2000Mi
           env:
+            - name: ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: access_key_id
+                  name: meeting-server-secrets
+            - name: SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secret_access_key
+                  name: meeting-server-secrets
+            - name: OBS_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  key: obs_endpoint
+                  name: meeting-server-secrets
+            - name: OBS_BUCKETNAME_SECOND
+              valueFrom:
+                secretKeyRef:
+                  key: obs_bucketname_second
+                  name: meeting-server-secrets
             - name: ZOOM_TOKEN
               valueFrom:
                 secretKeyRef:
