@@ -8,3 +8,7 @@ commonLabels:
 namespace: website-docs
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-docs
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-docs
+  newTag: d08649617e16e1129510c50ad0599e726d70f23a
