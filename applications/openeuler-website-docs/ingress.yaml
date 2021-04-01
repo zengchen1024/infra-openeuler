@@ -5,7 +5,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/custom-http-errors: "400,500,404"
+    nginx.ingress.kubernetes.io/custom-http-errors: "400,500"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
   name: openeuler-website-docs-ingress
 spec:
@@ -28,7 +28,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/custom-http-errors: "400,500,404"
+    nginx.ingress.kubernetes.io/custom-http-errors: "400,500"
   name: openeuler-docs-ingress
 spec:
   tls:
