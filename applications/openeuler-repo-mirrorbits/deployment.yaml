@@ -49,6 +49,9 @@ spec:
             - |
               cd /
               exec python3 /refresh_mirrors.py
+          env:
+            - name: TZ
+              value: Asia/Shanghai
         - name: rsync-server
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:474bf9a0c93f0ba0be97b593f5e2e79bbad63509
           volumeMounts:
