@@ -8,7 +8,6 @@ metadata:
     #kubernetes.io/elb.id: 2c584f78-38f9-4197-abc4-50d1d63dc746
     #kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
 spec:
-  loadBalancerIP: 119.3.233.150
   ports:
     - name: http
       port: 80
@@ -16,7 +15,7 @@ spec:
     - name: slavelistener
       port: 50000
       targetPort: 50000
-  externalTrafficPolicy: Cluster
+  type: NodePort
 ---
 apiVersion: v1
 kind: Service
