@@ -95,5 +95,6 @@ data:
 
         #gzip  on;
 
+        server_tokens off;
         include /etc/nginx/conf/conf.d/*.conf;
     }
