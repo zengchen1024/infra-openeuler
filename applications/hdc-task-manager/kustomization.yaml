@@ -8,3 +8,6 @@ commonLabels:
 namespace: hdc-task-manager
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/hdc-task-manager
+  newTag: a19f6d8772c5fa7a40684ef25bedb5a829a4c46b
