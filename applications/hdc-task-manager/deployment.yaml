@@ -37,11 +37,11 @@ spec:
                 secretKeyRef:
                   name: hdc-task-secrets
                   key: aes-key
-            - name: HOOK_PWD
+            - name: HDC_HOOK_PWD
               valueFrom:
                 secretKeyRef:
                   name: hdc-task-secrets
-                  key: hook-pwd
+                  key: hdc-hook-pwd
             - name: GITEE_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -61,7 +61,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: hdc-task-secrets
-                  key: gitee_gauss_token
+                  key: gitee-gauss-token
             - name: TZ
               value: Asia/Shanghai
           image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/hdc-task-manager:v0.0.1
