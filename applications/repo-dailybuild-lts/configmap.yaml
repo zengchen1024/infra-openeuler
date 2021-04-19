@@ -87,7 +87,6 @@ data:
                           '[$time_local] "$request" $status $body_bytes_sent "$http_referer" '
                           '"$http_user_agent" $request_filename';
 
-        server_tokens   off;
         sendfile        on;
         tcp_nopush      on;
 
