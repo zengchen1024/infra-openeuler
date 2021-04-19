@@ -11,6 +11,7 @@ resources:
   - bot-release-service.yaml
   - euler-icon-service.yaml
   - cve-manager-service.yaml
+  - hdc-task-manager-service.yaml
   - nginx-purger.yaml
   - sync-bot-service.yaml
   - repo-mirrorbits-service.yaml
