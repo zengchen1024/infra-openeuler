@@ -45,6 +45,10 @@ spec:
               servicePort: 80
             path: /cve-manager(/|$)(.*)
           - backend:
+              serviceName: hdc-task-manager-service
+              servicePort: 80
+            path: /hdc-task-manager(/|$)(.*)
+          - backend:
               serviceName: nginx-purger-service
               servicePort: 80
             path: /nginx-purger(/|$)(.*)
