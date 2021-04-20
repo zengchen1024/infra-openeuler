@@ -10,4 +10,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/hdc-task-manager
-  newTag: 31724d95df2a93cb1296057599a4ba36ba8a977a
+  newTag: 9313ac8f130b49b9f1a7348c5de9d9dcfd32b7c4
