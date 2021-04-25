@@ -18,6 +18,7 @@ metadata:
       rewrite ^/en/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
       rewrite ^/zh/docs(/|$)(.*) https://docs.openeuler.org/zh/docs/$2 redirect;
       rewrite ^/en/docs(/|$)(.*) https://docs.openeuler.org/en/docs/$2 redirect;
+      rewrite ^/ru(/|$)(.*) https://openeuler.org/en/$2 redirect;
       proxy_cache statics_cache;
       proxy_cache_lock on;
       proxy_cache_key $server_name$uri$is_args$args;
