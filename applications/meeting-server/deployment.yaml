@@ -110,6 +110,11 @@ spec:
                 secretKeyRef:
                   key: gmail_password
                   name: meeting-server-secrets
+            - name: GENEGROUP_AUTH
+              valueFrom:
+                secretKeyRef:
+                  key: genegroup_auth
+                  name: meeting-server-secrets
           command:
             - /bin/sh
             - -c
