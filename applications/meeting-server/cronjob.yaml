@@ -61,6 +61,11 @@ spec:
                     secretKeyRef:
                       key: ci_bot_token
                       name: meeting-server-secrets
+                - name: GENEGROUP_AUTH
+                  valueFrom:
+                    secretKeyRef:
+                      key: genegroup_auth
+                      name: meeting-server-secrets
                 - name: TZ
                   value: Asia/Shanghai
               command:
