@@ -13,4 +13,4 @@ namespace: repo-mirrorbits
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-mirrorbits
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-mirrorbits
-  newTag: e37b0350388b2dc48e727b8a7f07d835561b6295
+  newTag: 0ada8509abe41c9619e1479123c1f5f64612db29
