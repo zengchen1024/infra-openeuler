@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    flux.weave.works/sync-checksum: 7c28fbd9630f99cd5e7f4723ee3d96695a2eaa0c
+  labels:
+    app: mail-suit-service
+    flux.weave.works/sync-gc-mark: sha256.pnVshMFxJ8hobsYIYPOmTbVmuASz8jJjWGfhYgyNZP8
+  name: mailman-database
+  namespace: mail
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: mail-suit-service
+  serviceName: mail-suit-service
+  template:
+    metadata:
+      labels:
+        app: mail-suit-service
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          value: mailmandb
+        - name: POSTGRES_USER
+          value: mailman
+        - name: POSTGRES_PASSWORD
+          value: mailmanpass
+        - name: PGDATA
+          value: /var/lib/postgresql/data/postgres
+        image: postgres:9.6-alpine
+        imagePullPolicy: IfNotPresent
+        name: mailman-database
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: mailman-database-volume
+          subPath: postgres
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: mailman-database-volume
+        persistentVolumeClaim:
+          claimName: db-data-vol
+  updateStrategy:
+    type: OnDelete

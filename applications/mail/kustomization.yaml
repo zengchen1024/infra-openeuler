@@ -1,7 +1,14 @@
 resources:
   - ingress.yaml
+  - config.yaml
+  - mailcore.yaml
+  - maildatabase.yaml
+  - mtaservice.yaml
+  - namespace.yaml
+  - secrets.yaml
+  - storage.yaml
+  - suiteservice.yaml
+  - webservice.yaml
 commonLabels:
   app: openeuler-mail
 namespace: mail
-
-
