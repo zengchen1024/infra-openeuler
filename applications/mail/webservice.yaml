@@ -58,7 +58,10 @@ spec:
         - name: MAILMAN_ADMIN_USER
           value: openeuler
         - name: MAILMAN_ADMIN_EMAIL
-          value: freesky.edward@gmail.com
+          valueFrom:
+            secretKeyRef:
+              key: mailman_admin_email
+              name: mailsecret
         - name: SERVE_FROM_DOMAIN
           value: mailweb.openeuler.org
         image: swr.cn-north-1.myhuaweicloud.com/openeuler/mail-web:v1.0.3
