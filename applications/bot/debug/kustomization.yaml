@@ -13,4 +13,4 @@ patchesStrategicMerge:
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ci-bot
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ci-bot
-  newTag: 3a1f0b986500727935a61db7babc7123a64486a0.1621593362
+  newTag: f38bc1bf7c2caf05b3395610a2d58c89909f66e5.1621593960
