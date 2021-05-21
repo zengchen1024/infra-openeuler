@@ -1,11 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  annotations:
-    flux.weave.works/sync-checksum: a8176237503b28d5ee88ea5f2c3f370eae9c789d
   labels:
     app: mail-suit-service
-    flux.weave.works/sync-gc-mark: sha256.sxh5J1XTyJamMlLTHSisydGKLvE0RfvrNISuxc6fZ1E
   name: mailman-core
   namespace: mail
 spec:

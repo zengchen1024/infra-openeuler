@@ -5,9 +5,6 @@ metadata:
   labels:
     app: mail-suit-service
     component: mail-exim4-service
-    flux.weave.works/sync-gc-mark: sha256._uvgKCYLl8Ba47CyROcSZxk64p5aNHwpkFnZ3KE3bfU
-  annotations:
-    flux.weave.works/sync-checksum: c665c7e9cfd998b886c2fee72bb72910ca1c1dd4
   name: mailman-exim4
   namespace: mail
 spec:
@@ -84,14 +81,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    flux.weave.works/sync-gc-mark: sha256.gZSJxAXnVhCOYhj8NMq9r3sk4qQ6rV_hV6thE975J74
   annotations:
     kubernetes.io/elb.class: union
     kubernetes.io/elb.id: f4efa65e-8e29-492b-8408-92b8ad20d6aa
     kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
     kubernetes.io/elb.mark: "3"
-    flux.weave.works/sync-checksum: ad30946ee1f4a1bd3fa75c4d9c7b72b8cd06f3b4
   name: mailman-exim4-service
   namespace: mail
 spec:
