@@ -115,6 +115,10 @@ spec:
                 secretKeyRef:
                   key: genegroup_auth
                   name: meeting-server-secrets
+            - name: SMTP_SERVER_HOST
+              value: mailman-exim4-service.mail.svc.cluster.local
+            - name: SMTP_SERVER_PORT
+              value: 25
           command:
             - /bin/sh
             - -c
