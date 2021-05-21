@@ -3,6 +3,9 @@ kind: Service
 metadata:
   labels:
     app: mail-suit-service
+    flux.weave.works/sync-gc-mark: sha256.1SYIomMrvDCd9Rpdv6LhKRNRi16VoZ7QueHMF-Fa69E
+  annotations:
+    flux.weave.works/sync-checksum: 22388099afffa85dd059ccd680f498a81a4d32ea
   name: mail-suit-service
   namespace: mail
 spec:
