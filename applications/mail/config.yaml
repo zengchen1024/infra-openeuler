@@ -1,0 +1,1025 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mailman-core-configmap
+  namespace: mail
+data:
+  command.py: |
+    # Copyright (C) 1998-2021 by the Free Software Foundation, Inc.
+    #
+    # This file is part of GNU Mailman.
+    #
+    # GNU Mailman is free software: you can redistribute it and/or modify it under
+    # the terms of the GNU General Public License as published by the Free
+    # Software Foundation, either version 3 of the License, or (at your option)
+    # any later version.
+    #
+    # GNU Mailman is distributed in the hope that it will be useful, but WITHOUT
+    # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    # FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+    # more details.
+    #
+    # You should have received a copy of the GNU General Public License along with
+    # GNU Mailman.  If not, see <https://www.gnu.org/licenses/>.
+
+    """-request robot command runner."""
+
+    # See the delivery diagram in IncomingRunner.py.  This module handles all
+    # email destined for mylist-request, -join, and -leave.  It no longer handles
+    # bounce messages (i.e. -admin or -bounces), nor does it handle mail to
+    # -owner.
+
+    import base64
+    import re
+    import logging
+
+    from contextlib import suppress
+    from email.errors import HeaderParseError
+    from email.header import decode_header, make_header
+    from email.iterators import typed_subpart_iterator
+    from io import StringIO
+    from mailman.config import config
+    from mailman.core.i18n import _
+    from mailman.core.runner import Runner
+    from mailman.email.message import UserNotification
+    from mailman.interfaces.autorespond import ResponseAction
+    from mailman.interfaces.command import ContinueProcessing, IEmailResults
+    from mailman.interfaces.languages import ILanguageManager
+    from public import public
+    from zope.component import getUtility
+    from zope.interface import implementer
+
+
+    NL = '\n'
+    log = logging.getLogger('mailman.vette')
+    class CommandFinder:
+        """Generate commands from the content of a message."""
+        def __init__(self, msg, msgdata, results):
+            self.command_lines = []
+            self.ignored_lines = []
+            self.processed_lines = []
+            self.send_response = True
+            # Depending on where the message was destined to, add some implicit
+            # commands.  For example, if this was sent to the -join or -leave
+            # addresses, it's the same as if 'join' or 'leave' commands were sent
+            # to the -request address.
+            is_address_command = False
+            subaddress = msgdata.get('subaddress')
+            if subaddress == 'join':
+                self.command_lines.append('join')
+                self.send_response = False
+                is_address_command = True
+            elif subaddress == 'leave':
+                self.command_lines.append('leave')
+                is_address_command = True
+                self.send_response = False
+            elif subaddress == 'confirm':
+                mo = re.match(config.mta.verp_confirm_regexp, msg.get('to', ''))
+                if mo:
+                    self.command_lines.append('confirm ' + mo.group('cookie'))
+                    is_address_command = True
+                    self.send_response = False
+            # Stop processing if the address already contained a valid command
+            if is_address_command:
+                return
+            # Extract the subject header and do RFC 2047 decoding.
+            raw_subject = msg.get('subject', '')
+            try:
+                subject = str(make_header(decode_header(raw_subject)))
+                # Mail commands must be ASCII.
+                # NOTE(tommylikehu): remove all none ascii characters via encoding with ignore option.
+                self.command_lines.append(subject.encode('us-ascii', 'ignore'))
+            except (HeaderParseError, UnicodeError, LookupError):
+                # The Subject header was unparseable or not ASCII.  If the raw
+                # subject is a unicode object, convert it to ASCII ignoring all
+                # bogus characters.  Otherwise, there's nothing in the subject
+                # that we can use.
+                if isinstance(raw_subject, str):
+                    safe_subject = raw_subject.encode('us-ascii', 'ignore')
+                    self.command_lines.append(safe_subject)
+            # Find the first text/plain part of the message.
+            part = None
+            for part in typed_subpart_iterator(msg, 'text', 'plain'):
+                break
+            if part is None or part is not msg:
+                # Either there was no text/plain part or we ignored some
+                # non-text/plain parts.
+                print(_('Ignoring non-text/plain MIME parts'), file=results)
+            if part is None:
+                # There was no text/plain part to be found.
+                return
+            body = part.get_payload(decode=True)
+            # text/plain parts better have string payloads.
+            assert body is not None, 'Non-string decoded payload'
+            body = body.decode(part.get_content_charset('us-ascii'), errors='replace')
+            lines = body.splitlines()
+            # Use no more lines than specified
+            max_lines = int(config.mailman.email_commands_max_lines)
+            self.command_lines.extend(lines[:max_lines])
+            self.ignored_lines.extend(lines[max_lines:])
+        def __iter__(self):
+            """Return each command line, split into space separated arguments."""
+            while self.command_lines:
+                line = self.command_lines.pop(0)
+                self.processed_lines.append(line)
+                parts = line.strip().split()
+                if len(parts) == 0:
+                    continue
+                # Ensure that all the parts are unicodes.  Since we only accept
+                # ASCII commands and arguments, ignore anything else.
+                parts = [(part.lower()
+                          if isinstance(part, str)
+                          else part.decode('ascii', 'ignore').lower())
+                         for part in parts]
+                yield parts
+    @public
+    @implementer(IEmailResults)
+    class Results:
+        """The email command results."""
+        def __init__(self, charset='us-ascii'):
+            self._output = StringIO()
+            self.charset = charset
+            print(_("""\
+    The results of your email command are provided below.
+    """), file=self._output)
+        def write(self, text):
+            if isinstance(text, bytes):
+                text = text.decode(self.charset, 'ignore')
+            self._output.write(text)
+        def __str__(self):
+            value = self._output.getvalue()
+            assert isinstance(value, str), 'Not a string: %r' % value
+            return value
+    @public
+    class CommandRunner(Runner):
+        """The email command runner."""
+        def _dispose(self, mlist, msg, msgdata):
+            message_id = msg.get('message-id', 'n/a')
+            # The policy here is similar to the Replybot policy.  If a message has
+            # "Precedence: bulk|junk|list" and no "X-Ack: yes" header, we discard
+            # the command message.
+            precedence = msg.get('precedence', '').lower()
+            ack = msg.get('x-ack', '').lower()
+            if ack != 'yes' and precedence in ('bulk', 'junk', 'list'):
+                log.info('%s Precedence: %s message discarded by: %s',
+                         message_id, precedence, mlist.request_address)
+                return False
+            # Do replybot for commands.
+            replybot = config.handlers['replybot']
+            replybot.process(mlist, msg, msgdata)
+            if mlist.autorespond_requests == ResponseAction.respond_and_discard:
+                # Respond and discard.
+                log.info('%s -request message replied and discarded', message_id)
+                return False
+            # Now craft the response and process the command lines.
+            charset = msg.get_param('charset')
+            if charset is None:
+                charset = 'us-ascii'
+            results = Results(charset)
+            # Include just a few key pieces of information from the original: the
+            # sender, date, and message id.
+            print(_('- Original message details:'), file=results)
+            subject = msg.get('subject', 'n/a')                      # noqa: F841
+            date = msg.get('date', 'n/a')                            # noqa: F841
+            from_ = msg.get('from', 'n/a')                           # noqa: F841
+            print(_('    From: $from_'), file=results)
+            print(_('    Subject: $subject'), file=results)
+            print(_('    Date: $date'), file=results)
+            print(_('    Message-ID: $message_id'), file=results)
+            print(_('\n- Results:'), file=results)
+            finder = CommandFinder(msg, msgdata, results)
+            for parts in finder:
+                command = None
+                # Try to find a command on this line.  There may be a Re: prefix
+                # (possibly internationalized) so try with the first and second
+                # words on the line.
+                if len(parts) > 0:
+                    command_name = parts.pop(0)
+                    command = config.commands.get(command_name)
+                if command is None and len(parts) > 0:
+                    command_name = parts.pop(0)
+                    command = config.commands.get(command_name)
+                if command is None:
+                    print(_('No such command: $command_name'), file=results)
+                else:
+                    status = command.process(
+                        mlist, msg, msgdata, parts, results)
+                    assert status in ContinueProcessing, (
+                        'Invalid status: %s' % status)
+                    if status == ContinueProcessing.no:
+                        break
+            # All done. If we don't need to send response, return.
+            if not finder.send_response:
+                return
+            # Strip blank lines and send the response.
+            lines = [line.strip() for line in finder.command_lines if line]
+            if len(lines) > 0:
+                print(_('\n- Unprocessed:'), file=results)
+                for line in lines:
+                    print(line, file=results)
+            lines = [line.strip() for line in finder.ignored_lines if line]
+            if len(lines) > 0:
+                print(_('\n- Ignored:'), file=results)
+                for line in lines:
+                    print(line, file=results)
+            print(_('\n- Done.'), file=results)
+            # Send a reply, but do not attach the original message.  This is a
+            # compromise because the original message is often helpful in tracking
+            # down problems, but it's also a vector for backscatter spam.
+            language = getUtility(ILanguageManager)[msgdata['lang']]
+            reply = UserNotification(msg.sender, mlist.bounces_address,
+                                     _('The results of your email commands'),
+                                     lang=language)
+            cte = msg.get('content-transfer-encoding')
+            if cte is not None:
+                reply['Content-Transfer-Encoding'] = cte
+            # Find a charset for the response body.  Try the original message's
+            # charset first, then ascii, then latin-1 and finally falling back to
+            # utf-8.
+            reply_body = str(results)
+            for charset in (results.charset, 'us-ascii', 'latin-1'):
+                with suppress(UnicodeError):
+                    reply_body.encode(charset)
+                    break
+            else:
+                charset = 'utf-8'
+            reply.set_payload(reply_body, charset=charset)
+            reply.send(mlist)
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mailman-exim4-configmap
+  namespace: mail
+data:
+  00_local_macros: |
+    CHECK_RCPT_SPF = true
+    DKIM_CANON = relaxed
+    DKIM_SELECTOR = 20190905
+    DKIM_DOMAIN = openeuler.org
+    DKIM_FILE = /etc/exim4/dkim/openeuler.org-private.pem
+    DKIM_PRIVATE_KEY=${if exists{DKIM_FILE}{DKIM_FILE}{0}}
+  01_exim4-config_listmacrosdefs: |
+    ######################################################################
+    #      Runtime configuration file for Exim 4 (Debian Packaging)      #
+    ######################################################################
+
+    ######################################################################
+    # /etc/exim4/exim4.conf.template is only used with the non-split
+    #   configuration scheme.
+    # /etc/exim4/conf.d/main/01_exim4-config_listmacrosdefs is only used
+    #   with the split configuration scheme.
+    # If you find this comment anywhere else, somebody copied it there.
+    # Documentation about the Debian exim4 configuration scheme can be
+    # found in /usr/share/doc/exim4-base/README.Debian.gz.
+    ######################################################################
+
+    ######################################################################
+    #                    MAIN CONFIGURATION SETTINGS                     #
+    ######################################################################
+
+    # Just for reference and scripts.
+    # On Debian systems, the main binary is installed as exim4 to avoid
+    # conflicts with the exim 3 packages.
+    exim_path = /usr/sbin/exim4
+
+    # Macro defining the main configuration directory.
+    # We do not use absolute paths.
+    .ifndef CONFDIR
+    CONFDIR = /etc/exim4
+    .endif
+
+    # debconf-driven macro definitions get inserted after this line
+    UPEX4CmacrosUPEX4C = 1
+
+    # Create domain and host lists for relay control
+    # '@' refers to 'the name of the local host'
+
+    # List of domains considered local for exim. Domains not listed here
+    # need to be deliverable remotely.
+    domainlist local_domains = MAIN_LOCAL_DOMAINS
+
+    # List of recipient domains to relay _to_. Use this list if you're -
+    # for example - fallback MX or mail gateway for domains.
+    domainlist relay_to_domains = MAIN_RELAY_TO_DOMAINS
+
+    # List of sender networks (IP addresses) to _unconditionally_ relay
+    # _for_. If you intend to be SMTP AUTH server, you do not need to enter
+    # anything here.
+    hostlist relay_from_hosts = MAIN_RELAY_NETS
+
+
+    # Decide which domain to use to add to all unqualified addresses.
+    # If MAIN_PRIMARY_HOSTNAME_AS_QUALIFY_DOMAIN is defined, the primary
+    # hostname is used. If not, but MAIN_QUALIFY_DOMAIN is set, the value
+    # of MAIN_QUALIFY_DOMAIN is used. If both macros are not defined,
+    # the first line of /etc/mailname is used.
+    .ifndef MAIN_PRIMARY_HOSTNAME_AS_QUALIFY_DOMAIN
+    .ifndef MAIN_QUALIFY_DOMAIN
+    qualify_domain = ETC_MAILNAME
+    .else
+    qualify_domain = MAIN_QUALIFY_DOMAIN
+    .endif
+    .endif
+
+    # listen on all all interfaces?
+    .ifdef MAIN_LOCAL_INTERFACES
+    local_interfaces = MAIN_LOCAL_INTERFACES
+    .endif
+
+    .ifndef LOCAL_DELIVERY
+    # The default transport, set in /etc/exim4/update-exim4.conf.conf,
+    # defaulting to mail_spool. See CONFDIR/conf.d/transport/ for possibilities
+    LOCAL_DELIVERY=mail_spool
+    .endif
+
+    # The gecos field in /etc/passwd holds not only the name. see passwd(5).
+    gecos_pattern = ^([^,:]*)
+    gecos_name = $1
+
+    # define macros to be used in acl/30_exim4-config_check_rcpt to check
+    # recipient local parts for strange characters.
+
+    # This macro definition really should be in
+    # acl/30_exim4-config_check_rcpt but cannot be there due to
+    # http://www.exim.org/bugzilla/show_bug.cgi?id=101 as of exim 4.62.
+
+    # These macros are documented in acl/30_exim4-config_check_rcpt,
+    # can be changed here or overridden by a locally added configuration
+    # file as described in README.Debian chapter 2.1.2
+
+    .ifndef CHECK_RCPT_LOCAL_LOCALPARTS
+    CHECK_RCPT_LOCAL_LOCALPARTS = ^[.] : ^.*[@%!/|`#&?]
+    .endif
+
+    .ifndef CHECK_RCPT_REMOTE_LOCALPARTS
+    CHECK_RCPT_REMOTE_LOCALPARTS = ^[./|] : ^.*[@%!`#&?] : ^.*/\\.\\./
+    .endif
+
+    # always log tls_peerdn as we use TLS for outgoing connects by default
+    .ifndef MAIN_LOG_SELECTOR
+    MAIN_LOG_SELECTOR = +tls_peerdn
+    .endif
+    log_file_path = /var/log/exim4/%s.%M
+  25_mm3_macros: |
+    # Place this file at
+    # /etc/exim4/conf.d/main/25_mm3_macros
+
+    domainlist mm3_domains=openeuler.org
+    MM3_LMTP_HOST=mailman-core-0.mail-suit-service.mail.svc.cluster.local
+    MM3_LMTP_PORT=8024
+    # According to the configuration of: https://mailman.readthedocs.io/en/release-3.0/src/mailman/docs/MTA.html
+    # We need updating this, for the purpose of delivering emails to the mailman
+    MM3_HOME=/opt/mailman/var
+
+    ################################################################
+    # The configuration below is boilerplate:
+    # you should not need to change it.
+
+    # The path to the list receipt (used as the required file when
+    # matching list addresses)
+    MM3_LISTCHK=MM3_HOME/lists/${local_part}.${domain}
+  55_mm3_transport: |
+    # Place this file at
+    # /etc/exim4/conf.d/transport/55_mm3_transport
+
+    mailman3_transport:
+      debug_print = "Email for mailman"
+      driver = smtp
+      protocol = lmtp
+      allow_localhost
+      hosts = MM3_LMTP_HOST
+      port = MM3_LMTP_PORT
+      rcpt_include_affixes = true
+  455_mm3_router: |
+    # Place this file at
+    # /etc/exim4/conf.d/router/455_mm3_router
+
+    mailman3_router:
+      driver = accept
+      domains = +mm3_domains
+      require_files = MM3_LISTCHK
+      local_part_suffix_optional
+      local_part_suffix = -admin : \
+         -bounces   : -bounces+* : \
+         -confirm   : -confirm+* : \
+         -join      : -leave     : \
+         -owner     : -request   : \
+         -subscribe : -unsubscribe
+      transport = mailman3_transport
+  update-exim4-conf.conf: |
+    dc_eximconfig_configtype='internet'
+    dc_other_hostnames='openeuler.org;'
+    dc_local_interfaces=''
+    dc_readhost=''
+    # NOTE: Do not used wildchart here, use `dc_relay_nets` to control which IP is valid.
+    dc_relay_domains=''
+    dc_minimaldns='false'
+    # NOTE: Please update this into the correct CIDR of the cluster pods.
+    dc_relay_nets='172.17.0.0/16'
+    dc_smarthost=''
+    CFILEMODE='644'
+    dc_use_split_config='true'
+    dc_hide_mailname=''
+    dc_mailname_in_oh='true'
+    dc_localdelivery='mail_spool'
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mailman-nginx-configmap
+  namespace: mail
+data:
+  default.conf: |
+    server {
+        listen 80 default_server;
+
+        root /opt/mailman-web-data;
+        index index.html;
+
+        server_name mailweb.openeuler.org;
+
+        location /static {
+        alias /opt/mailman-web-data/static;
+        }
+
+        location / {
+        uwsgi_pass 127.0.0.1:8080;
+        include uwsgi_params;
+        uwsgi_read_timeout 300;
+        }
+        location /accounts/signup {
+        rewrite ^/accounts/signup(.*)$ /postorius/lists/;
+        }
+    }
+  nginx.conf: |
+    user  nginx;
+    worker_processes  auto;
+
+    error_log  /var/log/nginx/error.log warn;
+    pid        /var/run/nginx.pid;
+
+
+    events {
+        worker_connections  2048;
+    }
+
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                          '$status $body_bytes_sent "$http_referer" '
+                          '"$http_user_agent" "$http_x_forwarded_for"';
+
+        access_log  /var/log/nginx/access.log  main;
+
+        sendfile        on;
+
+        keepalive_timeout  65;
+
+        gzip  on;
+        server_tokens off;
+        include /etc/nginx/conf.d/*.conf;
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mailman-web-configmap
+  namespace: mail
+data:
+  base.html: |
+    {% load i18n %}
+    {% load staticfiles %}
+    {% load gravatar %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    	<meta charset="UTF-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<title>{% block head_title %}{{ site_name }}{% endblock %}</title>
+    	<link rel="shortcut icon" href="{% static 'postorius/img/favicon.ico' %}">
+    	<link rel="stylesheet" href="{% static 'postorius/libs/bootstrap/css/bootstrap.min.css' %}">
+    	<link rel="stylesheet" href="{% static 'django-mailman3/css/main.css' %}">
+    	<link rel="stylesheet" href="{% static 'postorius/css/style.css' %}">
+    	{% block additionalcss %}{% endblock %}
+    	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    	<!--[if lt IE 9]>
+    	  <script src="{% static 'postorius/libs/html5shiv/html5shiv.min.js' %}"></script>
+    	  <script src="{% static 'postorius/libs/respond/respond.min.js' %}"></script>
+    	<![endif]-->
+    </head>
+    <body>
+    
+    	<nav class="navbar navbar-default">
+    		<div class="container">
+    			<div class="navbar-header">
+    				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-nav" aria-expanded="false">
+    					<span class="sr-only">Toggle navigation</span>
+    					<span class="icon-bar"></span>
+    					<span class="icon-bar"></span>
+    					<span class="icon-bar"></span>
+    				</button>
+    				<a class="navbar-brand" href="{% url 'list_index' %}"><span><img src="{% static 'postorius/img/mailman_logo_small_trans.png' %}" alt="{% trans 'Mailman logo' %}"/> Postorius</span></a>
+    			</div>
+    			<div class="collapse navbar-collapse" id="header-nav">
+    				<ul class="nav navbar-nav">
+    					<li><a href="{% url 'list_index' %}">
+    						<span class="glyphicon glyphicon-envelope"></span>
+    						{% trans 'Lists' %}
+    					</a></li>
+    					{% if user.is_superuser %}
+    						<li><a href="{% url 'domain_index' %}">
+    							<span class="glyphicon glyphicon-globe"></span>
+    							{% trans 'Domains' %}
+    						</a></li>
+    						<li>
+    							<a href="{% url 'system_information' %}">
+    								<span class="glyphicon glyphicon-list-alt"></span>
+    								{% trans 'System Information' %}
+    							</a>
+    						</li>
+    					{% endif %}
+    					{% if 'hyperkitty' in INSTALLED_APPS %}
+    						<li><a href="{% url 'hk_root' %}">
+    							<span class="glyphicon glyphicon-comment"></span>
+    							{% trans 'Archives' %}
+    						</a></li>
+    					{% endif %}
+    				</ul>
+    				<ul class="nav navbar-nav navbar-right">
+    					{% if user.is_authenticated %}
+    						<li class="dropdown">
+    							<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+    							   role="button" aria-haspopup="true" aria-expanded="false">
+    								{% gravatar user.email 20 %}
+    								{{ user.username|truncatechars:"35" }}
+    								<span class="caret"></span>
+    							</a>
+    							<ul class="dropdown-menu">
+    								<li><a href="{% url 'mm_user_profile' %}">
+    									<span class="glyphicon glyphicon-user"></span>
+    									{% trans 'Account' %}
+    								</a></li>
+    								<li><a href="{% url 'ps_user_profile' %}">
+    									<span class="glyphicon glyphicon-cog"></span>
+    									{% trans 'Mailman settings' %}
+    								</a></li>
+    								{% if 'hyperkitty' in INSTALLED_APPS %}
+    								<li><a href="{% url 'hk_user_profile' %}">
+    								<span class="glyphicon glyphicon-comment"></span>
+    									{% trans 'Posting activity' %}
+    								</a></li>
+    								{% endif %}
+    								<li role="separator" class="divider"></li>
+    								<li><a href="{% url LOGOUT_URL %}?next={% url 'list_index' %}">
+    									<span class="glyphicon glyphicon-log-out"></span>
+    									{% trans 'Logout' %}
+    								</a></li>
+    							</ul>
+    						</li>
+    					{% else %}
+    						<li><a href="{% url LOGIN_URL %}?next={{ next|default:request.path|urlencode }}">
+    							<span class="glyphicon glyphicon-log-in"></span>
+    							{% trans 'Login' %}
+    						</a></li>
+    						<!-- <li><a href="{% url 'account_signup' %}?next={{next|default:request.path|urlencode}}">
+    							<span class="glyphicon glyphicon-plus-sign"></span>
+    							{% trans 'Sign Up' %}
+    						</a></li> -->
+    					{% endif %}
+    				</ul>
+    			</div>
+    		</div>
+    	</nav>
+    
+    	<div class="container" role="main">
+    		{% for message in messages %}
+    			<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    		{% endfor %}
+    		{% block content %}{% endblock content %}
+    	</div>
+    
+    	<footer class="footer">
+    		<div class="container">
+    			<p class="text-center">
+    				<a href="https://postorius.readthedocs.org">{% trans 'Postorius Documentation' %}</a>
+    				&bull;
+    				<a href="http://list.org">GNU Mailman</a>
+    				&bull;
+    				{% trans 'Postorius Version' %} {{ POSTORIUS_VERSION }}
+    			</p>
+    		</div>
+    	</footer>
+    
+    	<script src="{% static 'postorius/libs/jquery/jquery-1.11.3.min.js' %}"></script>
+    	<script src="{% static 'postorius/libs/bootstrap/js/bootstrap.min.js' %}"></script>
+    	<script src="{% static 'django-mailman3/js/main.js' %}"></script>
+    	<script src="{% static 'postorius/js/script.js' %}"></script>
+    	{% block additionaljs %}{% endblock %}
+    </body>
+    </html>
+  base2.html: |
+    {% load i18n %}
+    {% load compress %}
+    {% load static %}
+    {% load gravatar %}
+    <!DOCTYPE HTML>
+    <html>
+    	<head>
+    		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    		<meta name="ROBOTS" content="INDEX, FOLLOW" />
+    		<title>{% block head_title %}{{ site_name }}{% endblock %}</title>
+    		<meta name="author" content="" />
+    		<meta name="dc.language" content="en" />
+    		<link rel="shortcut icon" href="{% static 'hyperkitty/img/favicon.ico' %}" />
+    		<link rel="stylesheet" href="{% static 'hyperkitty/libs/jquery/smoothness/jquery-ui-1.10.3.custom.min.css' %}" type="text/css" media="all" />
+    		<link rel="stylesheet" href="{% static 'hyperkitty/libs/fonts/font-awesome/css/font-awesome.min.css' %}" type="text/css" media="all" />
+    		{% compress css %}
+    		<link rel="stylesheet" href="{% static 'hyperkitty/libs/fonts/icomoon/icomoon.css' %}" type="text/css" media="all" />
+    		<link rel="stylesheet" href="{% static 'hyperkitty/libs/fonts/droid/droid.css' %}" type="text/css" media="all" />
+    		<link rel="stylesheet" href="{% static 'django-mailman3/css/main.css' %}" />
+    		<link rel="stylesheet" type="text/x-scss" media="all" href="{% static 'hyperkitty/sass/hyperkitty.scss' %}" />
+    		{% endcompress %}
+    		{% block additional_stylesheets %} {% endblock %}
+    		{% include 'hyperkitty/headers.html' %}
+    	</head>
+    
+    	<body>
+    
+    	{% include 'hyperkitty/top.html' %}
+    
+    	<nav class="navbar navbar-fixed-top navbar-default">
+    		<div class="container">
+    			<div class="navbar-header col-md"> <!--part of navbar that's always present-->
+    				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+    					<span class="icon-bar"></span>
+    					<span class="icon-bar"></span>
+    					<span class="icon-bar"></span>
+    				</button>
+    				{% include 'hyperkitty/navbar-brand.html' %}
+    			</div> <!-- /navbar-header -->
+    
+    			<div class="navbar-collapse collapse"> <!--part of navbar that's collapsed on small screens-->
+    				<!-- show dropdown for smaller viewports b/c login name/email may be too long -->
+    				<!-- only show this extra button/dropdown if we're in small screen sizes -->
+    				<div class="nav navbar-nav navbar-right auth dropdown navbar-form hidden-tn hidden-xs hidden-md hidden-lg">
+    					<button type="button" class="btn dropdown-toggle" id="loginDropdownMenu" data-toggle="dropdown">
+    						{% if user.is_authenticated %}
+    							{% gravatar user.email 20 %}
+    						{% else %}
+    							<span class="fa fa-bars"></span>
+    						{% endif %}
+    					</button>
+    					<ul class="dropdown-menu" role="menu" aria-labelledby="loginDropdownMenu">
+    						{% if user.is_authenticated %}
+    							<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'mm_user_profile' %}">
+    								<span class="fa fa-user"></span>
+    								{% trans 'Account' %}
+    							</a></li>
+    							{% if 'postorius' in INSTALLED_APPS %}
+    							<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'ps_user_profile' %}">
+    								<span class="fa fa-cog"></span>
+    								{% trans 'Mailman settings' %}
+    							</a></li>
+    							{% endif %}
+    							<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'hk_user_profile' %}">
+    								<span class="fa fa-comments"></span>
+    								{% trans 'Posting activity' %}
+    							</a></li>
+    							<li role="separator" class="divider"></li>
+    							<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url LOGOUT_URL %}?next={% url 'hk_root' %}">
+    								<span class="fa fa-sign-out"></span>
+    								{% trans "Logout" %}
+    							</a></li>
+    						{% else %}
+    							<li role="presentation"><a role="menuitem" tabindex="-1" href="{% url LOGIN_URL %}?next={{next|default:request.path|urlencode}}">
+    								<span class="fa fa-sign-in"></span>
+    								{% trans "Sign In" %}
+    							</a></li>
+    							<!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account_signup' %}?next={{next|default:request.path|urlencode}}">
+    								<span class="fa fa-user-plus"></span>
+    								{% trans "Sign Up" %}
+    							</a></li> -->
+    						{% endif %}
+    					</ul>
+    				</div>
+    				<!-- larger viewports -->
+    				<ul class="nav navbar-nav navbar-right hidden-sm auth">
+    					{% if user.is_authenticated %}
+    						<li class="dropdown">
+    							<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+    							   role="button" aria-haspopup="true" aria-expanded="false">
+    								{% gravatar user.email 20 %}
+    								{{ user.username|truncatechars:"35" }}
+    								<span class="caret"></span>
+    							</a>
+    							<ul class="dropdown-menu">
+    								<li><a href="{% url 'mm_user_profile' %}">
+    									<span class="fa fa-user"></span>
+    									{% trans 'Account' %}
+    								</a></li>
+    								{% if 'postorius' in INSTALLED_APPS %}
+    								<li><a href="{% url 'ps_user_profile' %}">
+    									<span class="fa fa-cog"></span>
+    									{% trans 'Mailman settings' %}
+    								</a></li>
+    								{% endif %}
+    								<li><a href="{% url 'hk_user_profile' %}">
+    									<span class="fa fa-comments"></span>
+    									{% trans 'Posting activity' %}
+    								</a></li>
+    								<li role="separator" class="divider"></li>
+    								<li><a href="{% url LOGOUT_URL %}?next={% url 'hk_root' %}">
+    									<span class="fa fa-sign-out"></span>
+    									{% trans "Logout" %}
+    								</a></li>
+    							</ul>
+    						</li>
+    					{% else %}
+    						<li><a href="{% url LOGIN_URL %}?next={{next|default:request.path|urlencode}}">
+    							<span class="fa fa-sign-in"></span>
+    							{% trans "Sign In" %}
+    						</a></li>
+    						<!-- <li><a href="{% url 'account_signup' %}?next={{next|default:request.path|urlencode}}">
+    							<span class="fa fa-user-plus"></span>
+    							{% trans "Sign Up" %}
+    						</a></li> -->
+    					{% endif %}
+    				</ul>
+    
+    				{% if 'postorius' in INSTALLED_APPS %}
+    				<ul class="nav navbar-nav navbar-right"><li>
+    					{% if mlist %}
+    					<a href="{% url 'list_summary' mlist.list_id %}">
+    						<span class="fa fa-cog"></span>
+    						{% trans 'Manage this list' %}
+    					</a>
+    					{% else %}
+    					<a href="{% url 'list_index' %}">
+    						<span class="fa fa-cog"></span>
+    						{% trans 'Manage lists' %}
+    					</a>
+    					{% endif %}
+    				</li></ul>
+    				{% endif %}
+    
+    				<form name="search" method="get" action="{% url 'hk_search' %}" class="navbar-form navbar-right" role="search">
+    					{% if mlist %}<input type="hidden" name="mlist" value="{{ mlist.name }}" />{% endif %}
+    					<div class="form-group">
+    						<div class="input-group">
+    							<input name="q" type="text" class="form-control"
+    								   placeholder="Search {% if mlist %}this list{% else %}all lists{% endif %}"
+    								   {% if query %}value="{{ query }}"{% endif %}
+    								   />
+    							<span class="input-group-btn">
+    								<button class="btn btn-default" type="submit"><span class="fa fa-search"></span></button>
+    							</span>
+    						</div>
+    					</div>
+    				</form>
+    
+    			</div> <!--/navbar-collapse -->
+    		</div> <!-- /container for navbar -->
+    	</nav>
+    
+    	{% if messages %}
+    	<div class="flashmsgs">
+    	{% for msg in messages %}
+    		<div class="flashmsg-wrapper">
+    			<!--<div class="alert alert-{{ msg.level_tag }} {{ msg.extra_tags }}">-->
+    			<div class="alert {{ msg.tags }}
+    				{% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    				">
+    				{% else %}
+    				alert-dismissible">
+    				<button type="button" class="close" data-dismiss="alert">&times;</button>
+    				{% endif %}
+    			{{ msg }}
+    			</div>
+    		</div>
+    	{% endfor %}
+    	</div>
+    	{% endif %}
+    
+    	<div class="container">
+    
+    		{% block content %} {% endblock %}
+    
+    	</div> <!-- /container for content -->
+    
+    	<footer class="footer">
+    	  <div class="container">
+    		<p class="text-muted">
+    			Powered by <a href="http://hyperkitty.readthedocs.org">HyperKitty</a> version {{ HYPERKITTY_VERSION }}.
+    		</p>
+    	  </div>
+    	</footer>
+    
+    	<script src="{% static 'hyperkitty/libs/jquery/jquery-1.10.1.min.js' %}"></script>
+    	<script src="{% static 'hyperkitty/libs/jquery/jquery-ui-1.10.3.custom.min.js' %}"></script>
+    	{% compress js %}
+    	<script type="text/javascript" src="{% static 'hyperkitty/libs/bootstrap/javascripts/bootstrap.min.js' %}" />
+    	<script type="text/javascript" src="{% static 'hyperkitty/libs/jquery.expander.js' %}" />
+    	<script type="text/javascript" src="{% static 'hyperkitty/libs/d3.v2.min.js' %}" />
+    	<script type="text/javascript" src="{% static 'hyperkitty/libs/jquery.hotkeys.js' %}" />
+    	<script type="text/javascript" src="{% static 'django-mailman3/js/main.js' %}" />
+    	<script type="text/javascript" src="{% static 'hyperkitty/js/hyperkitty-common.js' %}" />
+    	<script type="text/javascript" src="{% static 'hyperkitty/js/hyperkitty-index.js' %}" />
+    	<script type="text/javascript" src="{% static 'hyperkitty/js/hyperkitty-overview.js' %}" />
+    	<script type="text/javascript" src="{% static 'hyperkitty/js/hyperkitty-thread.js' %}" />
+    	<script type="text/javascript" src="{% static 'hyperkitty/js/hyperkitty-userprofile.js' %}" />
+    	{% endcompress %}
+    	{% block additionaljs %} {% endblock %}
+    
+    	{% include 'hyperkitty/bottom.html' %}
+    
+    	</body>
+    </html>
+  settings_local.py: "import os\nimport socket\nimport ipaddress\n\t\nDEBUG = False\n\t\nEMAIL_BACKEND
+    = 'django.core.mail.backends.smtp.EmailBackend'\n#NOTE: this is the MTA host,we
+    need to update it.\nEMAIL_HOST = 'mailman-exim4-service.mail.svc.cluster.local'\nEMAIL_PORT
+    = 25\n\t\nmailman_ip_address = socket.gethostbyname(os.environ.get('MAILMAN_HOST_IP')).split('.')\nmailman_ip_cidr
+    = \"{0}.{1}.0.0/16\".format(mailman_ip_address[0], mailman_ip_address[1])\nMAILMAN_ARCHIVER_FROM
+    = [str(ip) for ip in ipaddress.IPv4Network(mailman_ip_cidr)]\n\t\nSERVICE_IP =
+    socket.gethostbyname(\"mailweb.openeuler.org\")\n\nALLOWED_HOSTS = [\n    \"localhost\",
+    \ # Archiving API from Mailman, keep it.\n    # Add here all production URLs you
+    may have.\n    \"mailman-database-0.mail-suit-service.mail.svc.cluster.local\",\t\n
+    \   \"mailman-core-0.mail-suit-service.mail.svc.cluster.local\",\n    \"mailman-web-0.mail-suit-service.mail.svc.cluster.local\",\n
+    \   \"mailman-web-service.mail.svc.cluster.local\",\n    #NOTE: This is the public
+    ip address of the served host\n    \"openeuler.org\",\n    \"mailweb.openeuler.org\",\n
+    \   \"mail.openeuler.org\",\n    \"mailman-web\",\n    SERVICE_IP,\n    os.environ.get('SERVE_FROM_DOMAIN'),\n
+    \   os.environ.get('DJANGO_ALLOWED_HOSTS'),\n]\n\t\nCOMPRESS_CSS_HASHING_METHOD
+    = 'content'\nINSTALLED_APPS = [\n  'hyperkitty',\n  'postorius',\n  'django_mailman3',\n
+    \ 'django.contrib.admin',\n  'django.contrib.auth',\n  'django.contrib.contenttypes',\n
+    \ 'django.contrib.sessions',\n  'django.contrib.sites',\n  'django.contrib.messages',\n
+    \ 'django.contrib.staticfiles',\n  'rest_framework',\n  'django_gravatar',\n  'compressor',\n
+    \ 'haystack',\n  'django_extensions',\n  'django_q',\n  'allauth',\n  'allauth.account',\n
+    \ 'allauth.socialaccount',\n]\n"
+  uwsgi.ini: |
+    [uwsgi]
+    # Port on which uwsgi will be listening.
+    uwsgi-socket = 0.0.0.0:8080
+    # http-socket = 0.0.0.0:8000
+
+    #Enable threading for python
+    enable-threads = true
+
+    # Move to the directory wher the django files are.
+    chdir = /opt/mailman-web
+
+    # Use the wsgi file provided with the django project.
+    wsgi-file = wsgi.py
+
+    # Setup default number of processes and threads per process.
+    master = true
+    process = 4
+
+    # Drop privielges and don't run as root.
+    uid = mailman
+    gid = mailman
+
+    # Setup the django_q related worker processes.
+    attach-daemon = ./manage.py qcluster
+
+    # Setup hyperkitty's cron jobs.
+    # 'minutely' jobs are run hourly for perf reasons.
+    # See https://github.com/maxking/docker-mailman/issues/327
+    # unique-cron = 0 -1 -1 -1 -1 ./manage.py runjobs minutely
+    unique-cron = -15 -1 -1 -1 -1 ./manage.py runjobs quarter_hourly
+    unique-cron = 0 -1 -1 -1 -1 ./manage.py runjobs hourly
+    unique-cron = 0 0 -1 -1 -1 ./manage.py runjobs daily
+    unique-cron = 0 0 1 -1 -1 ./manage.py runjobs monthly
+    unique-cron = 0 0 -1 -1 0 ./manage.py runjobs weekly
+    unique-cron = 0 0 1 1 -1 ./manage.py runjobs yearly
+
+    # Setup the request log.
+    req-logger = file:/opt/mailman-web-data/logs/uwsgi.log
+
+    # Log cron seperately.
+    logger = cron file:/opt/mailman-web-data/logs/uwsgi-cron.log
+    log-route = cron uwsgi-cron
+
+    # Log qcluster commands seperately.
+    logger = qcluster file:/opt/mailman-web-data/logs/uwsgi-qcluster.log
+    log-route = qcluster uwsgi-daemons
+
+    # Last log and it logs the rest of the stuff.
+    logger = file:/opt/mailman-web-data/logs/uwsgi-error.log
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+  name: mailman-webpage-hack
+  namespace: mail
+data:
+  summary.html: |
+    {% extends "postorius/base.html" %}
+    {% load i18n %}
+    {% load bootstrap_tags %}
+    {% load nav_helpers %}
+
+    {% block head_title %}
+    {% trans 'Info' %} | {{ list.fqdn_listname }} - {{ block.super }}
+    {% endblock %}
+
+    {% block content %}
+
+    {% list_nav 'list_summary' 'Summary' %}
+
+    <p>{{ list.settings.description }}</p>
+    {% if list.settings.info %}
+    <p><pre style="white-space: pre-wrap; word-break: normal; border: none; background: none;">{{ list.settings.info }}</pre></p>
+    {% endif %}
+    <p>{% trans 'To contact the list owners, use the following email address:' %} <em>{{ list.settings.owner_address }}</em></p>
+
+    {# Archives #}
+    {% if hyperkitty_enabled %}
+    {% if not public_archive and not user.is_authenticated %}
+    <p>
+        {% trans 'You have to login to visit the archives of this list.' %}
+    </p>
+    {% else %}
+    {% url 'hk_list_overview' list.fqdn_listname as hyperkitty_list_url %}
+    <p>
+        {% blocktrans %}
+        To see the prior postings to this list, visit
+        <a href="{{ hyperkitty_list_url }}">the archives</a>.
+        {% endblocktrans %}
+    </p>
+    {% endif %}
+    {% endif %}
+
+    <hr />
+
+    {# Subscription #}
+    {% if user.is_authenticated %}
+    {% if user_subscribed %}
+    <h2>{% trans 'Subscription / Unsubscription' %}</h2>
+    <p>
+        {% trans 'You are subscribed to this list with the following address:' %} <em>{{ subscribed_address }}</em>
+    </p>
+    {% url 'user_list_options' list.list_id as user_list_options_url %}
+    <p>
+        {% blocktrans %}
+        You can manage your subscription on <a href="{{ user_list_options_url }}">your list options page</a>
+        {% endblocktrans %}
+    </p>
+    <p>
+    <form method="post" action="{% url 'list_unsubscribe' list.list_id %}">
+        {% csrf_token %}
+        <input type="hidden" name="email" value="{{ subscribed_address }}" />
+        <button type="submit" class="btn btn-danger">{% trans 'Unsubscribe' %}</button>
+    </form>
+    </p>
+    {% elif user_request_pending %}
+    <h4>{% trans "You have a subscription request pending. If you don't hear back soon, please contact the list owners." %}</h4>
+    {% else %}
+    <h2>{% trans 'Subscribe to this list' %}</h2>
+    <p>
+        {% blocktrans with address=list.settings.join_address %}
+        To subscribe you can send an email with 'subscribe' in the subject to
+        <a href="mailto:{{ address }}?subject=Subscribe">{{ address }}</a>
+        or use the form below:
+        {% endblocktrans %}
+    </p>
+    <form action="{% url 'list_subscribe' list.list_id %}" method="post" class="form-horizontal">
+        {% bootstrap_form_horizontal subscribe_form 2 8 'Subscribe' %}
+    </form>
+    {% endif %}
+    {% else %}
+    <div>
+        <p>
+            {% blocktrans %}
+            You can also subscribe without creating an account.
+            If you wish to do so, please use the form below.
+            {% endblocktrans%}
+        </p>
+        <form action="{% url 'list_anonymous_subscribe' list.list_id %}"
+              method="post" class="form-horizontal">
+            {% bootstrap_form_horizontal anonymous_subscription_form 2 8 'Subscribe' %}
+        </form>
+    </div>
+    {% endif %}
+
+    {# List metrics #}
+    {% if user.is_authenticated %}
+    {% if user.is_list_owner or user.is_superuser %}
+    <hr />
+    <h3>{% trans 'List metrics' %}</h3>
+    <dl class="dl-horizontal">
+        <dt>{% trans 'Created at' %}</dt><dd>{{ list.settings.created_at }}</dd>
+        <dt>{% trans 'Last post at' %}</dt><dd>{{ list.settings.last_post_at }}</dd>
+        <dt>{% trans 'Digest last sent at' %}</dt><dd>{{ list.settings.digest_last_sent_at }}</dd>
+        <dt>{% trans 'Volume' %}</dt><dd>{{ list.settings.volume }}</dd>
+    </dl>
+    {% endif %}
+    {% endif %}
+    {% endblock %}
