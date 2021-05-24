@@ -43,12 +43,12 @@ spec:
           valueFrom:
             secretKeyRef:
               key: HYPERKITTY_API_KEY
-              name: mailsecret
+              name: mailman-secrets
         - name: SECRET_KEY
           valueFrom:
             secretKeyRef:
               key: SECRET_KEY
-              name: mailsecret
+              name: mailman-secrets
         - name: UWSGI_STATIC_MAP
           value: /static=/opt/mailman-web-data/static
         - name: MAILMAN_REST_URL
@@ -61,7 +61,7 @@ spec:
           valueFrom:
             secretKeyRef:
               key: mailman_admin_email
-              name: mailsecret
+              name: mailman-secrets
         - name: SERVE_FROM_DOMAIN
           value: mailweb.openeuler.org
         image: swr.cn-north-1.myhuaweicloud.com/openeuler/mail-web:v1.0.3
