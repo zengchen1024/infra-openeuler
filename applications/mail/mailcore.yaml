@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   labels:
     app: mail-suit-service
-    flux.weave.works/sync-gc-mark: sha256.sxh5J1XTyJamMlLTHSisydGKLvE0RfvrNISuxc6fZ1E
   name: mailman-core
   namespace: mail
 spec:

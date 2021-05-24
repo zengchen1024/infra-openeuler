@@ -1,11 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  annotations:
-    flux.weave.works/sync-checksum: 7c28fbd9630f99cd5e7f4723ee3d96695a2eaa0c
   labels:
     app: mail-suit-service
-    flux.weave.works/sync-gc-mark: sha256.pnVshMFxJ8hobsYIYPOmTbVmuASz8jJjWGfhYgyNZP8
   name: mailman-database
   namespace: mail
 spec:
@@ -26,9 +23,15 @@ spec:
         - name: POSTGRES_DB
           value: mailmandb
         - name: POSTGRES_USER
-          value: mailman
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: postgres_user
         - name: POSTGRES_PASSWORD
-          value: mailmanpass
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: postgres_password
         - name: PGDATA
           value: /var/lib/postgresql/data/postgres
         image: postgres:9.6-alpine
