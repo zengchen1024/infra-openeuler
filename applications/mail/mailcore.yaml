@@ -36,7 +36,7 @@ spec:
           valueFrom:
             secretKeyRef:
               key: HYPERKITTY_API_KEY
-              name: mailsecret
+              name: mailman-secrets
         - name: HYPERKITTY_URL
           value: http://mailman-web-service.mail.svc.cluster.local:8000/hyperkitty
         - name: SMTP_HOST
