@@ -4,55 +4,6 @@ kind: ConfigMap
 metadata:
   name: repo-configmap
 data:
-  baidu.html: |
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width">
-        <style type="text/css">
-        body,html {
-        background:#fff;
-        font-family:"Bitstream Vera Sans","Lucida Grande",
-        "Lucida Sans Unicode",Lucidux,Verdana,Lucida,sans-serif;
-        }
-        tr:nth-child(even) {
-        background:#f4f4f4;
-        }
-        th,td {
-        padding:0.1em 0.5em;
-        }
-        th {
-        text-align:left;
-        font-weight:bold;
-        background:#eee;
-        border-bottom:1px solid #aaa;
-        }
-        #list {
-        border:1px solid #aaa;
-        width:100%;
-        }
-        a {
-        color:#a33;
-        }
-        a:hover {
-        color:#e33;
-        }
-        </style>
-        <script type="text/javascript">
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?0a01dec0acfa92e4509c3e2ee7dbd6b4";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-        </script>
-        <title>Files....
-        </title>
-      </head>
-      <body>
-        <h1>Index of
   _settings.yaml: |
     name: "openeuler"
     fs:
@@ -107,11 +58,12 @@ data:
             root   /repo/openeuler;
             fancyindex on;
             fancyindex_exact_size off;
-            fancyindex_header /baidu.html;
+            fancyindex_header /fancySource/header.html;
+            fancyindex_footer /fancySource/footer.html;
             autoindex   on;
         }
-        location /baidu.html {
-            root /etc/nginx/conf/static;
+        location /fancySource {
+           root /etc/nginx/conf/static;
         }
         location = /favicon.ico {
           log_not_found off;
