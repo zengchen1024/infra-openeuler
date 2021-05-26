@@ -156,4 +156,4 @@ spec:
     targetPort: 80
   selector:
     component: mail-web-service
-  type: ClusterIP
+  type: NodePort
