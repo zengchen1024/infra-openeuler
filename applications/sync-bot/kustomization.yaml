@@ -12,4 +12,4 @@ kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/sync-bot
-  newTag: ede34f6293d0676eec892a2e537c22fae58a961f
+  newTag: a87d6918086fadb9db3ef1d9db231057d9b06e91
