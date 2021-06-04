@@ -83,8 +83,6 @@ data:
           path = /repo/openeuler
           comment = openeuler repo folder
           read only = true
-          auth users = repo
-          secrets file = /etc/rsyncd.server.secrets
           ignore nonreadable = yes
           refuse options = checksum
           dont compress = *

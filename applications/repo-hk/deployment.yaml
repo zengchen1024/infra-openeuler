@@ -60,14 +60,8 @@ spec:
               sed -i "s/<password>/${PASSWORD}/g" ~/.fscrawler/openeuler/_settings.yaml
               exec fscrawler openeuler
         - name: rsync-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:cf6df893333da15daf1b0ade7ef03db3a83e1b6e
+          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:d8e5d2d93ffbeae4ec0ea9372c47cd6d1853fb14
           volumeMounts:
-            - mountPath: /etc/rsyncd.secrets.ro
-              name: rsync-secrets-volume
-              subPath: rsyncd_secrets
-            - mountPath: /etc/rsyncd.server.secrets.ro
-              name: rsync-secrets-volume
-              subPath: rsync_server_secrets
             - mountPath: /repo/openeuler
               name: data-volume
             - mountPath: /root/.ssh/authorized_keys.ro
@@ -87,10 +81,6 @@ spec:
             - /bin/sh
             - -c
             - |
-              cp /etc/rsyncd.secrets.ro /etc/rsyncd.secrets
-              cp /etc/rsyncd.server.secrets.ro /etc/rsyncd.server.secrets
-              chmod 0400 /etc/rsyncd.secrets
-              chmod 0400 /etc/rsyncd.server.secrets
               /usr/bin/rsync --daemon --config /etc/rsyncd.conf
               exec tini -- entrypoint.sh
           resources:
