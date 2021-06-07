@@ -12,4 +12,4 @@ kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
-  newTag: 6b76229a2f84b370a5cda3c5173d0ac526f5acff
+  newTag: 34aeb9508d1f69c9a943f47191aed10d76393d9f
