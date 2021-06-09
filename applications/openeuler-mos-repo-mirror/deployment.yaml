@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: repo-nginx
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/nginx-extras:1.20.0-with-fancy-templates-repo
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.20.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
@@ -27,32 +27,8 @@ spec:
             - |
               mkdir -p /repo/openeuler
               exec nginx -g "daemon off;"
-        - name: fscrawler-client
-          volumeMounts:
-            - mountPath: /repo/openeuler
-              name: data-volume
-          env:
-            - name: USERNAME
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: rsync-secrets
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: rsync-secrets
-          command:
-            - /bin/sh
-            - -c
-            - |
-              mkdir -p ~/.fscrawler/openeuler
-              cp /fscrawler/_settings.yaml ~/.fscrawler/openeuler/_settings.yaml
-              sed -i "s/<username>/${USERNAME}/g" ~/.fscrawler/openeuler/_settings.yaml
-              sed -i "s/<password>/${PASSWORD}/g" ~/.fscrawler/openeuler/_settings.yaml
-              exec fscrawler openeuler
         - name: rsync-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:d8e5d2d93ffbeae4ec0ea9372c47cd6d1853fb14
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:d8e5d2d93ffbeae4ec0ea9372c47cd6d1853fb14
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
