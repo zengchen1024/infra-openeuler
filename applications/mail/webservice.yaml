@@ -145,15 +145,13 @@ metadata:
 spec:
   ports:
   - name: website-port-uwsgi-http
-    nodePort: 30059
     port: 8000
     protocol: TCP
     targetPort: 8000
   - name: website-port-http
-    nodePort: 30061
     port: 80
     protocol: TCP
     targetPort: 80
   selector:
     component: mail-web-service
-  type: NodePort
+  type: ClusterIP
