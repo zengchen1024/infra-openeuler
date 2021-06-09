@@ -1,0 +1,20 @@
+resources:
+  - https://github.com/opensourceways/app-repo/deploy_with_crawler?ref=stable
+  - pvc.yaml
+  - namespace.yaml
+  - secrets.yaml
+  - ingress.yaml
+commonLabels:
+  app: openeuler-repo-mirror-mos
+patchesStrategicMerge:
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+patchesJson6902:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: repo-service
+    path: remove-traffic-strategy.yaml
+namespace: repo-mirror
