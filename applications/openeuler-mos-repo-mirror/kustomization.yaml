@@ -17,4 +17,10 @@ patchesJson6902:
       kind: Service
       name: repo-service
     path: remove-traffic-strategy.yaml
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: repo-server
+    path: deployment.json
 namespace: repo-mirror
