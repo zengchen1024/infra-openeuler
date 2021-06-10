@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - secrets.yaml
   - ingress.yaml
+  - rsync-service.yaml
 commonLabels:
   app: openeuler-repo-mirror-hk
 patchesStrategicMerge:
