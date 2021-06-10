@@ -17,6 +17,7 @@ patchesJson6902:
       kind: Service
       name: repo-service
     path: remove-traffic-strategy.yaml
+    path: remove-ports.yaml
 namespace: repo-mirror
 
 
