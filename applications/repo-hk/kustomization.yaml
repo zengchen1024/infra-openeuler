@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - secrets.yaml
   - ingress.yaml
+  - rsync-service.yaml
 commonLabels:
   app: openeuler-repo-mirror-hk
 patchesStrategicMerge:
@@ -17,7 +18,6 @@ patchesJson6902:
       kind: Service
       name: repo-service
     path: remove-traffic-strategy.yaml
-    path: remove-ports.yaml
 namespace: repo-mirror
 
 
