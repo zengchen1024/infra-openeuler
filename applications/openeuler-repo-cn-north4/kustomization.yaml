@@ -1,0 +1,9 @@
+resources:
+  - pvc.yaml
+  - namespace.yaml
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+commonLabels:
+  app: openeuler-repo
+namespace: repo2
