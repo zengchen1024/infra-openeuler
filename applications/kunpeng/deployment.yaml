@@ -10,6 +10,7 @@ spec:
         openeuler.ci/task: common
       containers:
         - name: jenkins
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/jenkins:lts
           env:
             - name: TZ
               value: Asia/Shanghai
@@ -32,6 +33,7 @@ spec:
               memory: 16000Mi
       initContainers:
         - name: copy-default-config
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/jenkins:lts
           env:
             - name: JENKINS_UC_DOWNLOAD
               value: "https://mirrors.tuna.tsinghua.edu.cn/jenkins"

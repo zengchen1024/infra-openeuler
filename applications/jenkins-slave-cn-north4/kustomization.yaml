@@ -3,10 +3,9 @@ resources:
 - secrets.yaml
 commonLabels:
   app: openeuler-jenkins
+  owner: caozhi
+commonAnnotations:
+  email: "caozhi1214@gmail.com"
 namespace: jenkins
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/content_moderation
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/content_moderation
-  newTag: 8c65b3e8619a1fb5d513d898c1d653fbea6c630d

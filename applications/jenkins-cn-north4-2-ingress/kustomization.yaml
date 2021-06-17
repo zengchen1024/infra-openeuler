@@ -2,4 +2,7 @@ resources:
   - ingress.yaml
 commonLabels:
   app: openeuler-cn-north4-2-jenkins
+  owner: caozhi
+commonAnnotations:
+  email: "caozhi1214@gmail.com"
 namespace: ssh-tunnel
