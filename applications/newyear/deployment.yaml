@@ -20,7 +20,7 @@ spec:
         - env:
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bless-server:fe91df84b68e1ddae12d842be88671c16cf60b07
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/bless-server:54fcb24ff0c9854ac62f6e9d3d74cc95782fff19
           imagePullPolicy: IfNotPresent
           name: bless-server
           ports:
@@ -49,7 +49,7 @@ spec:
         - env:
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-newyear:6c26aa3b075c30775bcfcf1640cae94b12eb55d3
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-newyear:25d45d59daae782a110f68ced75ca790c71729c4
           imagePullPolicy: IfNotPresent
           name: openeuler-frontend
           ports:
@@ -78,7 +78,7 @@ spec:
         - env:
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/opengauss-newyear:0a6b36cce70c16eb5cf3760aff1377e79e5f22cc
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/opengauss-newyear:09ecb3f8d097e840ec628217ccda2d6ff1912e26
           imagePullPolicy: IfNotPresent
           name: opengauss-frontend
           ports:
@@ -107,7 +107,7 @@ spec:
         - env:
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng-newyear:b889a076099b26e4594bb25c0fe2c8f47a06faff
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openlookeng-newyear:0092a953279fa34f9eb23a1a420ea248b433357b
           imagePullPolicy: IfNotPresent
           name: openlookeng-frontend
           ports:

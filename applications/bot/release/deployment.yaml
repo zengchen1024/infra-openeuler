@@ -8,6 +8,7 @@ spec:
     spec:
       containers:
         - name: botinfod
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ci-bot:7ba4d9c46c7540e74d38842437e3e5f00e3df02a.1621407241
           env:
             - name: CLA_REDIRECT_URL
               value: /zh/other/cla
