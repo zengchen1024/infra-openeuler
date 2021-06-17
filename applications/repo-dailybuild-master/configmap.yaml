@@ -33,7 +33,6 @@ data:
                set $month $2;
                set $day $3;
         }
-        access_log /var/log/nginx/access.log.$year$month$day main;
 
         server_name dailybuild.openeuler.org;
         location / {

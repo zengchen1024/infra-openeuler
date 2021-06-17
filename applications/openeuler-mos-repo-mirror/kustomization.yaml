@@ -6,6 +6,9 @@ resources:
   - ingress.yaml
 commonLabels:
   app: openeuler-repo-mirror-mos
+  owner: caozhi
+commonAnnotations:
+  email: "caozhi1214@gmail.com"
 patchesStrategicMerge:
   - configmap.yaml
   - deployment.yaml
