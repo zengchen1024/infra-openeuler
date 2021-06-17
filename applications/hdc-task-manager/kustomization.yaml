@@ -14,3 +14,5 @@ kind: Kustomization
 images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/hdc-task-manager
   newTag: bd09e746caadc838208011520a9505088abeb9b7
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/hdc-task-manager
+  newTag: bd09e746caadc838208011520a9505088abeb9b7
