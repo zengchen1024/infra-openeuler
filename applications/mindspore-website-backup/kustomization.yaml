@@ -7,6 +7,7 @@ commonLabels:
   label: mindspore-website
   owner: tommylikehu
 commonAnnotations:
+  owner: tommylikehu
   email: "tommylikehu@gmail.com"
 namespace: website
 apiVersion: kustomize.config.k8s.io/v1beta1

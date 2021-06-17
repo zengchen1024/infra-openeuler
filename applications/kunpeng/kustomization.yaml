@@ -7,6 +7,7 @@ commonLabels:
   app: kunpeng-jenkins
   owner: tommylikehu
 commonAnnotations:
+  owner: tommylikehu
   email: "tommylikehu@gmail.com"
 patchesStrategicMerge:
   - pvc.yaml

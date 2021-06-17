@@ -5,8 +5,8 @@ resources:
   - es-secrets.yaml
 commonLabels:
   app: openeuler-jenkins
-  owner: caozhi
 commonAnnotations:
+  owner: caozhi
   email: "caozhi1214@gmail.com"
 patchesStrategicMerge:
   - pvc.yaml

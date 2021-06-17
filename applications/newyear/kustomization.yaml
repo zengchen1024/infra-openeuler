@@ -5,6 +5,7 @@ resources:
 commonLabels:
   owner: zhangxiaopan
 commonAnnotations:
+  owner: zhangxiaopan
   email: "273478353@qq.com"
 namespace: summary
 apiVersion: kustomize.config.k8s.io/v1beta1

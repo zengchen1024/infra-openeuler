@@ -16,7 +16,7 @@ resources:
   - repo-mirrorbits-service.yaml
 commonLabels:
   app: openeuler-api
-  owner: tommylikehu
 commonAnnotations:
+  owner: tommylikehu
   email: "tommylikehu@gmail.com"
 namespace: openeuler-api

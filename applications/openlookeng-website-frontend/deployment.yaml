@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: websitepod
-        image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website:316d472106cb1d806350d86ad587d6944627e22f
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openlookeng_website:9621f3d66a68d6243720b00790dbdd79e775aec0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80

@@ -4,8 +4,8 @@ resources:
   - service.yaml
 commonLabels:
   app: openeuler-etherpad
-  owner: caozhi
 commonAnnotations:
+  owner: caozhi
   email: "caozhi1214@gmail.com"
 patchesJson6902:
   - target:

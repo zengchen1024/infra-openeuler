@@ -9,8 +9,7 @@ resources:
 - configmap.yaml
 commonLabels:
   label: mirrorbits
+commonAnnotations:
+  owner: tommylikehu
+  email: "tommylikehu@gmail.com"
 namespace: repo-mirrorbits
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-mirrorbits
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-mirrorbits
-  newTag: 25434bcc58bff7a3f712226c4923f2daa616dd96
