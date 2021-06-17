@@ -64,7 +64,7 @@ spec:
                   key: gitee-gauss-token
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/hdc-task-manager:v0.0.1
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/hdc-task-manager:646c2e09c750f233e0ba9a6c6b32566669d8e130
           imagePullPolicy: IfNotPresent
           name: hdc-task-manager
           ports:
