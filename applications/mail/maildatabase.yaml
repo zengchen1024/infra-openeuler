@@ -34,7 +34,7 @@ spec:
               key: postgres_password
         - name: PGDATA
           value: /var/lib/postgresql/data/postgres
-        image: postgres:9.6-alpine
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/postgres:9.6-alpine
         imagePullPolicy: IfNotPresent
         name: mailman-database
         resources: {}

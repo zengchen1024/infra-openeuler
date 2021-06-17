@@ -32,7 +32,7 @@ spec:
           mkdir -p /var/log/exim4
           chown Debian-exim:Debian-exim -R /opt/mailman/exim_log;
           exec tini -- exim -bd -v;
-        image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/mailman-exim4:45a83427f0bbe7ac4d2bcc0e1e4d8c1b097fbf8d
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/mailman-exim4:45a83427f0bbe7ac4d2bcc0e1e4d8c1b097fbf8d
         imagePullPolicy: IfNotPresent
         name: mailman-exim4
         resources: {}

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: meeting-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
           volumeMounts:
             - mountPath: /work/app-meeting-server/meetings/migrations
               name: meeting-data-volume

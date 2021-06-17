@@ -13,7 +13,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
                 - name: ZOOM_TOKEN
                   valueFrom:
@@ -88,7 +88,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
                 - name: ZOOM_TOKEN
                   valueFrom:
@@ -154,7 +154,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
                 - name: ACCESS_KEY_ID
                   valueFrom:
@@ -224,7 +224,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
                 - name: ACCESS_KEY_ID
                   valueFrom:
@@ -289,7 +289,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
                 - name: SECRET_KEY
                   valueFrom:
