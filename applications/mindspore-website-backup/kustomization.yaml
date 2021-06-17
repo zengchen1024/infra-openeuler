@@ -5,6 +5,9 @@ replicas:
   count: 1
 commonLabels:
   label: mindspore-website
+  owner: tommylikehu
+commonAnnotations:
+  email: "tommylikehu@gmail.com"
 namespace: website
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization

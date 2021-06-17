@@ -64,7 +64,7 @@ spec:
               name: mailman-secrets
         - name: SERVE_FROM_DOMAIN
           value: mailweb.openeuler.org
-        image: swr.cn-north-1.myhuaweicloud.com/openeuler/mail-web:v1.0.3
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/mail-web:v1.0.3
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3

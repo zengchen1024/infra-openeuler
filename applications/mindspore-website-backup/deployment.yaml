@@ -19,6 +19,5 @@ spec:
     spec:
       containers:
       - name: website
-        image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/mindspore-website:16583c712a53b54d30f4d7a60f7d98fe52fb6f41
         resources:
           $patch: delete

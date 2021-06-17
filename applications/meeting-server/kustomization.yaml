@@ -7,9 +7,9 @@ resources:
 - pvc.yaml
 commonLabels:
   app: openeuler-meetingserver
+  owner: liuqi
+commonAnnotations:
+  email: "469227928@qq.com"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: meetingserver
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server
-  newTag: f5af300fc61e33f1a3228a5981674622b0ca4285
