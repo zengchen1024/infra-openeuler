@@ -6,4 +6,7 @@ resources:
   - service.yaml
 commonLabels:
   app: openeuler-repo
+  owner: caozhi
+commonAnnotations:
+  email: "caozhi1214@gmail.com"
 namespace: repo2

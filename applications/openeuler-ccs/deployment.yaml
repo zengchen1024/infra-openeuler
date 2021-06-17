@@ -59,7 +59,7 @@ spec:
                      "
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-eureka:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka:1614656468
           imagePullPolicy: IfNotPresent
           name: ccs-eureka
           ports:
@@ -153,7 +153,7 @@ spec:
                      "
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-gateway:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway:1614935228
           imagePullPolicy: IfNotPresent
           name: ccs-gateway
           ports:
@@ -250,7 +250,7 @@ spec:
                      "
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-config:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-config:1614656132
           imagePullPolicy: IfNotPresent
           name: ccs-config
           ports:
@@ -474,7 +474,7 @@ spec:
                      "
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ccs-server:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-server:1617183506
           imagePullPolicy: IfNotPresent
           name: ccs-server
           ports:
