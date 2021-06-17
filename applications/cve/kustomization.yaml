@@ -5,13 +5,9 @@ resources:
 - secrets.yaml
 commonLabels:
   suit: openeuler-cve
+  owner: zhangxiaopan
+commonAnnotations:
+  email: "273478353@qq.com"
 namespace: cve
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/cve-backend
-  newTag: 1af0e89aa0c00772d1f74db0bf0620e94c4f3ae6
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/cve-manager
-  newTag: 49e3f6a8852cc8132ec535acfcc28f359ce5ccf5
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/cve-manager-py
-  newTag: 31dd2e1651a031c0cf5bb29869b2f1b721648bb6

@@ -44,7 +44,7 @@ spec:
                   key: upload-password
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/cve-backend:127b0e4b9943351a7ffb19d753856e6c735d92ac
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/cve-backend:1af0e89aa0c00772d1f74db0bf0620e94c4f3ae6
           imagePullPolicy: IfNotPresent
           name: cve-backend-infod
           ports:

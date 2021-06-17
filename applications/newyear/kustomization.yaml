@@ -2,22 +2,10 @@ resources:
 - deployment.yaml
 - namespace.yaml
 - service.yaml
+commonLabels:
+  owner: zhangxiaopan
+commonAnnotations:
+  email: "273478353@qq.com"
 namespace: summary
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bless-server
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bless-server
-  newTag: 54fcb24ff0c9854ac62f6e9d3d74cc95782fff19
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/mindspore-newyear
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/mindspore-newyear
-  newTag: 48634bac1db03eec3895ec20462d5e4a6c24544c
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-newyear
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-newyear
-  newTag: 25d45d59daae782a110f68ced75ca790c71729c4
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/opengauss-newyear
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/opengauss-newyear
-  newTag: 09ecb3f8d097e840ec628217ccda2d6ff1912e26
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng-newyear
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng-newyear
-  newTag: 0092a953279fa34f9eb23a1a420ea248b433357b

@@ -49,7 +49,7 @@ spec:
                   name: bot-secret
             - name: WEBSITE_URL
               value: https://openeuler.org/
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ci-bot:28f73fec65ff36e59588374e71d030c40ca7e806
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ci-bot:01a4d08480fca787186b71fcc7e4f0324a54a721.1621594500
           imagePullPolicy: IfNotPresent
           name: botinfod
           volumeMounts:

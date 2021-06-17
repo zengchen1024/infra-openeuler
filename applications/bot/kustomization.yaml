@@ -1,6 +1,10 @@
 resources:
 - ./debug
 - ./release
+commonLabels:
+  owner: caozhi
+commonAnnotations:
+  email: "caozhi1214@gmail.com"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
