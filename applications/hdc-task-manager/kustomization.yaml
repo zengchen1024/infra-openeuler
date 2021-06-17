@@ -5,6 +5,12 @@ resources:
 - secrets.yaml
 commonLabels:
   app: hdc-task-manager
+  owner: zhangjianjun
+commonAnnotations:
+  email: "841670711@qq.com"
 namespace: hdc-task-manager
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/hdc-task-manager
+  newTag: 6e4d96c3b6e2efc1ab611ad557d183272a979cd9
