@@ -5,6 +5,9 @@ resources:
   - ingress.yaml
 commonLabels:
   app: kunpeng-jenkins
+  owner: tommylikehu
+commonAnnotations:
+  email: "tommylikehu@gmail.com"
 patchesStrategicMerge:
   - pvc.yaml
   - deployment.yaml

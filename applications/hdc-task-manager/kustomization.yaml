@@ -5,6 +5,9 @@ resources:
 - secrets.yaml
 commonLabels:
   app: hdc-task-manager
+  owner: zhangjianjun
+commonAnnotations:
+  email: "841670711@qq.com"
 namespace: hdc-task-manager
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization

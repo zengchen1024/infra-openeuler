@@ -5,6 +5,9 @@ resources:
   - secrets.yaml
 commonLabels:
   app: openeuler-dailybuild
+  owner: caozhi
+commonAnnotations:
+  email: "caozhi1214@gmail.com"
 patchesJson6902:
   - target:
       group: ""
