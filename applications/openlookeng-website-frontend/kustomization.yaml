@@ -6,10 +6,9 @@ resources:
 - purge-secrets.yaml
 commonLabels:
   app: openlookeng-website-frontend
+commonAnnotations:
+  owner: zhengyuhang
+  email: "245462755@qq.com"
 namespace: openlookeng-website-frontend
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
-  newTag: 9621f3d66a68d6243720b00790dbdd79e775aec0

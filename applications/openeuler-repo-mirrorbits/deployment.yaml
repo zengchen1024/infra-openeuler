@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: repo-mirrorbits
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-mirrorbits:64c3e71fc9dbd1cafe3935026078083d8aa69e78
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/repo-mirrorbits:25434bcc58bff7a3f712226c4923f2daa616dd96
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
@@ -42,7 +42,7 @@ spec:
               path: /healthz
               port: 8080
         - name: mirror-sync
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-mirrorbits:64c3e71fc9dbd1cafe3935026078083d8aa69e78
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/repo-mirrorbits:25434bcc58bff7a3f712226c4923f2daa616dd96
           command:
             - /bin/sh
             - -c
@@ -53,7 +53,7 @@ spec:
             - name: TZ
               value: Asia/Shanghai
         - name: rsync-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:474bf9a0c93f0ba0be97b593f5e2e79bbad63509
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:474bf9a0c93f0ba0be97b593f5e2e79bbad63509
           volumeMounts:
             - mountPath: /etc/rsyncd.secrets.ro
               name: mirrorbits-secrets-volume

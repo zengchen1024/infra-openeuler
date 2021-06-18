@@ -12,5 +12,6 @@ resources:
 commonLabels:
   owner: tommylikehu
 commonAnnotations:
+  owner: tommylikehu
   email: "tommylikehu@gmail.com"
 namespace: mail

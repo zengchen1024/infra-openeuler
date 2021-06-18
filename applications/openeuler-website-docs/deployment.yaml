@@ -19,7 +19,7 @@ spec:
         - env:
             - name: TZ
               value: Asia/Shanghai
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-docs:a42a9db15add435db51b3f4291fea8c3a4ffb557
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-docs:db18eb44e297d257d3b35c70223b7a9f4248ce4c1620721921
           imagePullPolicy: IfNotPresent
           name: website-docs
           ports:

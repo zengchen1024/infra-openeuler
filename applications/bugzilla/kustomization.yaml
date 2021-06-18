@@ -5,6 +5,7 @@ commonLabels:
   app: bugzilla
   owner: caozhi
 commonAnnotations:
+  owner: caozhi
   email: "caozhi1214@gmail.com"
 namespace: bugzilla
 apiVersion: kustomize.config.k8s.io/v1beta1

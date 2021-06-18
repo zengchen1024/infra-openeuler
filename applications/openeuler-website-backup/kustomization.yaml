@@ -3,6 +3,9 @@ resources:
 - secrets.yaml
 commonLabels:
   app: openeuler-website-v2
+commonAnnotations:
+  owner: tommylikehu
+  email: "tommylikehu@gmail.com"
 namespace: website-v2
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -10,10 +13,3 @@ patchesStrategicMerge:
 - ingress-backend.yaml
 - ingress-main.yaml
 - remove-wwwingress.yaml
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-backend
-  newTag: 924e91183ea85f1aa0f1cfbea30444ca9a9162a2
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-frontend
-  newTag: 924e91183ea85f1aa0f1cfbea30444ca9a9162a2

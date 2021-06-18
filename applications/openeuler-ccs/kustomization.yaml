@@ -8,6 +8,7 @@ commonLabels:
   app: openeuler-ccs
   owner: zhangjunqing
 commonAnnotations:
+  owner: zhangjunqing
   email: "chnzjq@163.com"
 namespace: openeuler-ccs
 apiVersion: kustomize.config.k8s.io/v1beta1

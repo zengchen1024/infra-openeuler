@@ -5,10 +5,9 @@ resources:
 - ingress.yaml
 commonLabels:
   name: website-docs
+commonAnnotations:
+  owner: zhengyuhang
+  email: "245462755@qq.com"
 namespace: website-docs
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-images:
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-docs
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openeuler-website-docs
-  newTag: db18eb44e297d257d3b35c70223b7a9f4248ce4c1620721921
