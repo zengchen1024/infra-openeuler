@@ -7,6 +7,9 @@ resources:
   - openlookeng-website-frontend-service.yaml
 commonLabels:
   app: openlookeng-website
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 patchesJson6902:
   - target:
       group: ""

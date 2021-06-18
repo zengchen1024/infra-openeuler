@@ -9,8 +9,6 @@ resources:
   - storage.yaml
   - suiteservice.yaml
   - webservice.yaml
-commonLabels:
-  owner: tommylikehu
 commonAnnotations:
   owner: tommylikehu
   email: "tommylikehu@gmail.com"

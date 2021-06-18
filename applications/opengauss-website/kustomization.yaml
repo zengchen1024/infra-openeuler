@@ -6,6 +6,9 @@ resources:
 - ingress.yaml
 commonLabels:
   app: opengauss-website
+commonAnnotations:
+  owner: tommylikehu
+  email: "tommylikehu@gmail.com"
 patchesJson6902:
   - target:
       group: ""

@@ -7,7 +7,10 @@ spec:
   template:
     spec:
       containers:
+        - name: sshd-server
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openssh-server:latest
         - name: sshd-tunnel
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ssh-tunnel:0.0.1
           env:
             - name: TUNNEL_HOST
               value: 114.116.245.239

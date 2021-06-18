@@ -4,6 +4,9 @@ resources:
   - mailman-api-service.yaml
 commonLabels:
   app: openlookeng-api
+commonAnnotations:
+  owner: tommylikehu
+  email: "tommylikehu@gmail.com"
 namespace: openlookeng-api
 
 

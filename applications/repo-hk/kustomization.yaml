@@ -7,6 +7,9 @@ resources:
   - rsync-service.yaml
 commonLabels:
   app: openeuler-repo-mirror-hk
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 patchesStrategicMerge:
   - configmap.yaml
   - deployment.yaml

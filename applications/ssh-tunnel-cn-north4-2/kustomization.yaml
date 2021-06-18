@@ -4,8 +4,12 @@ resources:
   - namespace.yaml
 commonLabels:
   app: openeuler-ssh-tunnel
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 patchesStrategicMerge:
   - service.yaml
+  - deployment.yaml
 patchesJson6902:
   - target:
       group: apps
