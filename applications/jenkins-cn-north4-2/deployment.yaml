@@ -6,11 +6,18 @@ metadata:
 spec:
   template:
     spec:
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
       nodeSelector:
         openeuler.ci/task: common
       containers:
         - name: jenkins
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/jenkins:lts
+          command:
+            - /bin/sh   
+            - '-c'      
+            - | 
+              sleep 1
           env:
             - name: TZ
               value: Asia/Shanghai
