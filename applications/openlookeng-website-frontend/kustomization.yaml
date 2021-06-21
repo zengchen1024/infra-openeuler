@@ -7,8 +7,12 @@ resources:
 commonLabels:
   app: openlookeng-website-frontend
 commonAnnotations:
+  email: 245462755@qq.com
   owner: zhengyuhang
-  email: "245462755@qq.com"
 namespace: openlookeng-website-frontend
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
+  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
+  newTag: d6b0e3bdb9fed4dd9c5d4bcf96551d45363704fb
