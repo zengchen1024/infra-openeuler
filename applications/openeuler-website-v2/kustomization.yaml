@@ -16,8 +16,8 @@ resources:
 commonLabels:
   app: openeuler-website-v2
 commonAnnotations:
+  email: 245462755@qq.com
   owner: zhengyuhang
-  email: "245462755@qq.com"
 namespace: website-v2
 #patchesJson6902:
 #- path: selector.yaml
@@ -32,3 +32,8 @@ namespace: website-v2
 #    version: v1
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-backend
+  newTag: bd1054b3f81046a82b3c1624333103
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-frontend
+  newTag: bd1054b3f81046a82b3c1624333103
