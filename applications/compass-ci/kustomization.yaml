@@ -5,8 +5,8 @@ commonLabels:
   app: compass-ci
   owner: dukaitian
 commonAnnotations:
+  email: huming15@163.com
   owner: dukaitian
-  email: "huming15@163.com"
 namespace: compass-ci
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -17,3 +17,5 @@ images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/compassciweb
   newTag: a1cd623b18ba642f0b7ccd8f561975a8ffc72c02.1620722472
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/compassciweb
+  newTag: 4a4d76e0d9879d82e9659ef06f00e1161f24df7d.1624696761
