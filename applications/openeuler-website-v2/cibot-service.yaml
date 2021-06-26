@@ -1,8 +1,0 @@
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: openeuler-bot-internal
-spec:
-  type: ExternalName
-  externalName: botservice-release.bot-release.svc.cluster.local
