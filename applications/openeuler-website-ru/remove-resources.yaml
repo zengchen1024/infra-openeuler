@@ -1,0 +1,54 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: openeuler-v2-www-website-ingress
+$patch: delete
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name:  website-v2-ingress-backend
+$patch: delete
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: website-v2-ingress-main
+$patch: delete
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: isula-ingress
+$patch: delete
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: a-tune-ingress
+$patch: delete
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: stratovirt-ingress
+$patch: delete
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: website-v2
+$patch: delete
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cve-srv-service
+$patch: delete
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openeuler-meetingserver-internal
+$patch: delete

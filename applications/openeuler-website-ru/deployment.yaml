@@ -1,0 +1,97 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeuler-website-v2-frontend
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: website-frontend
+  template:
+    metadata:
+      labels:
+        component: website-frontend
+    spec:
+      containers:
+      - name: vuepress
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-frontend:7c257239f962b123991b1623330401
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeuler-website-v2-backend
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: website-backend
+  template:
+    metadata:
+      labels:
+        component: website-backend
+    spec:
+      containers:
+        - name: nodejs
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-backend:7c257239f962b123991b1623330401
+          imagePullPolicy: Always
+          env:
+           - name: STATISTICS_URL
+             value: https://omapi.osinfra.cn/
+           - name: API_USER_PASS
+             valueFrom:
+               secretKeyRef:
+                 key: api-user-pass
+                 name: openeuler-website
+           - name: MAIL_USER_PASS
+             valueFrom:
+               secretKeyRef:
+                 key: mail-user-pass
+                 name: openeuler-website
+           - name: SIG_API
+             valueFrom:
+               secretKeyRef:
+                 key: sig-api
+                 name: openeuler-website
+           - name: ES_URL
+             valueFrom:
+               secretKeyRef:
+                 key: es-url
+                 name: openeuler-website
+           - name: ES_USER_PASS
+             valueFrom:
+               secretKeyRef:
+                 key: es-user-pass
+                 name: openeuler-website
+           - name: MYSQL_DATABASE
+             valueFrom:
+               secretKeyRef:
+                 key: mysql-database
+                 name: openeuler-website
+           - name: MYSQL_PWD
+             valueFrom:
+               secretKeyRef:
+                 key: mysql-pwd
+                 name: openeuler-website
+           - name: MYSQL_URL
+             valueFrom:
+               secretKeyRef:
+                 key: mysql-url
+                 name: openeuler-website
+          ports:
+            - containerPort: 8090
+              name: http
+              protocol: TCP
