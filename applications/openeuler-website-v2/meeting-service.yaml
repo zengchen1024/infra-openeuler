@@ -1,8 +1,0 @@
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: openeuler-meetingserver-internal
-spec:
-  type: ExternalName
-  externalName: meeting-service.meetingserver.svc.cluster.local
