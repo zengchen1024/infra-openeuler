@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: vuepress
-        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-frontend:7c257239f962b123991b1623330401
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-frontend-ru:f59058792ffd0deea3081624878675
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -46,7 +46,7 @@ spec:
     spec:
       containers:
         - name: nodejs
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-backend:7c257239f962b123991b1623330401
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-backend-ru:f59058792ffd0deea3081624878675
           imagePullPolicy: Always
           env:
            - name: STATISTICS_URL
