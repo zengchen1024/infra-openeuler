@@ -115,7 +115,23 @@ spec:
           securityContext:
             privileged: true
         - name: rsync-server
-          $patch: delete
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:0.0.5
+          volumeMounts:
+            - mountPath: /etc/rsyncd.conf
+              name: repo-nginx-configmap-volume
+              subPath: rsyncd.conf
+            - mountPath: /etc/rsyncd.secrets.ro
+              name: rsync-secrets-volume
+              subPath: rsyncd_secrets
+            - mountPath: /repo/openeuler
+              name: data-volume
+            - mountPath: /root/.ssh/authorized_keys.ro
+              name: repo-nginx-configmap-volume
+              subPath: ssh.pub
+          resources:
+            requests:
+              cpu: 300m
+              memory: 2000Mi
       volumes:
         - name: rsync-secrets-volume
           secret:
