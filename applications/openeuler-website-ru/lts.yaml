@@ -7,11 +7,11 @@ spec:
   name: website-ru-tls-main-secret
   keysMap:
     ca.crt:
-      path: secrets/data/openeuler/hk-dailybuild
+      path: secrets/data/openeuler/website-ru
       key: tls.cert
     tls.crt:
-      path: secrets/data/openeuler/hk-dailybuild
+      path: secrets/data/openeuler/website-ru
       key: tls.cert
     tls.key:
-      path: secrets/data/openeuler/hk-dailybuild
+      path: secrets/data/openeuler/website-ru
       key: tls.key

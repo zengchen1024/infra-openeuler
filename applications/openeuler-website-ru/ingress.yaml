@@ -4,9 +4,8 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/custom-http-errors: "400,500"
+    nginx.ingress.kubernetes.io/custom-http-errors: "400,500,404"
   name: website-ru-ingress-backend
 spec:
   tls:
@@ -27,9 +26,9 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/limit-connections: "2000"
     nginx.ingress.kubernetes.io/limit-rps: "2000"
+    nginx.ingress.kubernetes.io/custom-http-errors: 400,500,404
     nginx.ingress.kubernetes.io/configuration-snippet: |
       add_header X-XSS-Protection "1; mode=block";
       add_header Strict-Transport-Security "max-age=31536000";

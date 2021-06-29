@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: vuepress
-        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-frontend-ru:f59058792ffd0deea3081624878675
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-frontend-ru:1a4a94d9b2fd01950c6f1624966438
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
