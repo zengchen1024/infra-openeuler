@@ -1,0 +1,13 @@
+resources:
+- ../openeuler-website-docs/
+- secrets.yaml
+commonLabels:
+  name: website-docs
+commonAnnotations:
+  owner: zhengyuhang
+  email: "245462755@qq.com"
+patchesStrategicMerge:
+- ingress.yaml
+namespace: website-docs
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
