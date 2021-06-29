@@ -36,12 +36,6 @@ metadata:
 $patch: delete
 ---
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: website-v2
-$patch: delete
----
-apiVersion: v1
 kind: Service
 metadata:
   name: cve-srv-service
