@@ -38,7 +38,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffering: "on"
     nginx.ingress.kubernetes.io/server-snippet: |
       rewrite ^/ru/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
-      rewrite ^/ru/docs(/|$)(.*) https://docs-ru.openeuler.org/ru/docs/$2 redirect;
+      rewrite ^/ru/docs(/|$)(.*) https://docs.ru.openeuler.org/ru/docs/$2 redirect;
       rewrite ^/zh(/|$)(.*) https://openeuler.org/zh/$2 redirect;
       rewrite ^/en(/|$)(.*) https://openeuler.org/en/$2 redirect;
       proxy_cache statics_cache;
