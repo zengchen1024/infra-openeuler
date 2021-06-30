@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: website-docs
+  name: website-docs
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: website-docs
+  template:
+    metadata:
+      labels:
+        app: website-docs
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-docs-ru:fea9aaabc0feb6ea77835605a8a92dcce061fc151625053587
+          imagePullPolicy: IfNotPresent
+          name: website-docs
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP

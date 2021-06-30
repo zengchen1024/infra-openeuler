@@ -8,6 +8,7 @@ commonAnnotations:
   email: "245462755@qq.com"
 patchesStrategicMerge:
 - ingress.yaml
+- deployment.yaml
 namespace: website-docs
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
