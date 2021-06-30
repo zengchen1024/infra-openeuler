@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: website-nginx-purge
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    spec:
+      containers:
+        - name: purge-trigger
+          command:
+            - curl
+            - -u
+            - $(USERNAME):$(PASSWORD)
+            - --fail
+            - https://api.openeuler.org/nginx-purger/purge?hostname=ru.openeuler.org

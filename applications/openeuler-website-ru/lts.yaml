@@ -1,0 +1,17 @@
+---
+apiVersion: secrets-manager.tuenti.io/v1alpha1
+kind: SecretDefinition
+metadata:
+  name: website-ru-tls-main-secret
+spec:
+  name: website-ru-tls-main-secret
+  keysMap:
+    ca.crt:
+      path: secrets/data/openeuler/website-ru
+      key: tls.cert
+    tls.crt:
+      path: secrets/data/openeuler/website-ru
+      key: tls.cert
+    tls.key:
+      path: secrets/data/openeuler/website-ru
+      key: tls.key
