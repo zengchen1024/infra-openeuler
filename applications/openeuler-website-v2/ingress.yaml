@@ -106,7 +106,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/minisite/isula/
+    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/projects/isula/
   name: isula-ingress
 spec:
   tls:
@@ -122,7 +122,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/minisite/atune/
+    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/projects/atune/
   name: a-tune-ingress
 spec:
   tls:
@@ -138,7 +138,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/minisite/stratovirt/
+    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/projects/stratovirt/
   name: stratovirt-ingress
 spec:
   tls:
@@ -147,3 +147,19 @@ spec:
       secretName: stratovirt-tls
   rules:
     - host: stratovirt.openeuler.org
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/temporal-redirect: https://openeuler.org/zh/other/projects/bisheng/
+  name: bisheng-ingress
+spec:
+  tls:
+    - hosts:
+        - bisheng.openeuler.org
+      secretName: bisheng-tls
+  rules:
+    - host: bisheng.openeuler.org
