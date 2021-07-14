@@ -18,6 +18,9 @@ metadata:
       location ^~ /meetings/registrants/ {
         deny all;
       }
+      location ^~ /meetings/activities/ {
+        deny all;
+      }
   name: api-ingress
 spec:
   tls:
