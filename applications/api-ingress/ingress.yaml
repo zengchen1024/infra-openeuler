@@ -8,6 +8,16 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-origin: "https://openeuler.org"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ^~ /meetings/allmeetings/ {
+        deny all;
+      }
+      location ^~ /meetings/participants/ {
+        deny all;
+      }
+      location ^~ /meetings/registrants/ {
+        deny all;
+      }
   name: api-ingress
 spec:
   tls:
