@@ -117,6 +117,11 @@ spec:
                   name: meeting-server-secrets
             - name: SMTP_SERVER_HOST
               value: mailman-exim4-service.mail.svc.cluster.local
+            - name: QUERY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: query_token
+                  name: meeting-server-secrets
           command:
             - /bin/sh
             - -c
