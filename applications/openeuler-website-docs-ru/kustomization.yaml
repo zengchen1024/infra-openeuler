@@ -14,4 +14,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-docs-ru
-  newTag: 3fe30a4aba76a12019eae89a3c6a2362c15c53111626312995
+  newTag: d5dfb491ce193d3be09bc9cf05af3532a15097d21626331838
