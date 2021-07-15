@@ -31,8 +31,8 @@ spec:
               name: om-collect-secrets-volume
               subPath: config_ini
             - mountPath: /var/lib/om/email_userid.csv
-                name: om-collect-secrets-volume
-                subPath: email_userid
+              name: om-collect-secrets-volume
+              subPath: email_userid
       volumes:
         - name: om-collect-secrets-volume
           secret:
