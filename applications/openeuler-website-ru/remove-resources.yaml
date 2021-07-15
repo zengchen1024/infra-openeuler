@@ -35,6 +35,12 @@ metadata:
   name: stratovirt-ingress
 $patch: delete
 ---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: bisheng-ingress
+$patch: delete
+---
 apiVersion: v1
 kind: Service
 metadata:
