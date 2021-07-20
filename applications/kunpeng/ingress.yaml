@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - ci.kunpeng.huawei.com
-      secretName: jenkins-kunpeng-tls
+        - kunpengaccci.osinfra.cn
+      secretName: jenkins-kunpengaccci-tls
   rules:
-    - host: ci.kunpeng.huawei.com
+    - host: kunpengaccci.osinfra.cn
       http:
         paths:
           - backend:
