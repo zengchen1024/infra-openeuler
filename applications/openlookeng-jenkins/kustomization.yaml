@@ -3,6 +3,7 @@ resources:
   - namespace.yaml
   - service.yaml
   - oauth-proxy.yaml
+  - secrets.yaml
 commonLabels:
   app: openlookeng-jenkins
 commonAnnotations:
