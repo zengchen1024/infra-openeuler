@@ -15,6 +15,6 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: ssh-tunnel
-              servicePort: 1080
+              serviceName: oauth2-proxy
+              servicePort: 4180
             path: /
