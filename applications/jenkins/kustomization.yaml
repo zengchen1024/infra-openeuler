@@ -1,5 +1,7 @@
 resources:
   - ingress.yaml
+  - oauth-proxy.yaml
+  - secrets.yaml
 commonLabels:
   app: openeuler-jenkins
 commonAnnotations:
