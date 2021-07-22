@@ -3,6 +3,7 @@ resources:
   - secrets.yaml
   - namespace.yaml
   - ingress.yaml
+  - oauth-proxy.yaml
 commonLabels:
   app: kunpeng-jenkins
   owner: tommylikehu
