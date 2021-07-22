@@ -2,6 +2,7 @@ resources:
   - ingress.yaml
   - namespace.yaml
   - service.yaml
+  - oauth-proxy.yaml
 commonLabels:
   app: openlookeng-jenkins
 commonAnnotations:
