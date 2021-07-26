@@ -15,13 +15,6 @@ spec:
             - name: TUNNEL_HOST
               value: 114.116.245.239
           args:
-            # ssh option used for exit when connection failed and will be restarted by autossh
-            - -o
-            - ServerAliveInterval=20
-            - -o
-            - ServerAliveCountMax=4
-            - -o
-            - StrictHostKeyChecking=no
             # This is for jenkins master endpoint
             - -L
             - 0.0.0.0:1080:openeuler-jenkins.default.svc.cluster.local:80
