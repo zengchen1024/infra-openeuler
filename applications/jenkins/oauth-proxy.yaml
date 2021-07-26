@@ -24,6 +24,9 @@ spec:
             - --cookie-expire=6h0m0s
             - --set-xauthrequest=true
             - --reverse-proxy=true
+            - --skip-auth-regex=^/job/
+            - --skip-auth-regex=^/queue/
+            - --skip-auth-regex=^/crumbIssuer/
             # for webhook to be triggered
             - --skip-auth-regex=^/gitee-project/
             - --custom-sign-in-logo=https://openeulerinfrastructure.obs.cn-north-4.myhuaweicloud.com/img/gardener-large.png
