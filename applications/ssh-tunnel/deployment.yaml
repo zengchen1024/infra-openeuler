@@ -10,11 +10,18 @@ spec:
         - name: sshd-server
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openssh-server:latest
         - name: sshd-tunnel
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ssh-tunnel:0.0.1
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ssh-tunnel:aa2b9c851a6fc9b0a8008aee809762cc928216e8
           env:
             - name: TUNNEL_HOST
               value: 114.116.245.239
           args:
+            # ssh option used for exit when connection failed and will be restarted by autossh
+            - -o
+            - ServerAliveInterval=20
+            - -o
+            - ServerAliveCountMax=4
+            - -o
+            - StrictHostKeyChecking=no
             # This is for jenkins master endpoint
             - -L
             - 0.0.0.0:1080:openeuler-jenkins.default.svc.cluster.local:80
