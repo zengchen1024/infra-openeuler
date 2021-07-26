@@ -34,6 +34,8 @@ spec:
             - --skip-auth-regex=^/blue/
             # for webhook to be triggered
             - --skip-auth-regex=^/gitee-project/
+            # for openeuler generic webhook
+            - --skip-auth-regex=^/generic-webhook-trigger/
             - --custom-sign-in-logo=https://openeulerinfrastructure.obs.cn-north-4.myhuaweicloud.com/img/gardener-large.png
           env:
             - name: OAUTH2_PROXY_CLIENT_ID
