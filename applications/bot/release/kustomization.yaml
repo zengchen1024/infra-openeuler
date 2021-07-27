@@ -11,4 +11,4 @@ kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ci-bot
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ci-bot
-  newTag: 3e7503e21c5d5f1f5a3769414879932fdcc5bc29.1627288707
+  newTag: f113d72889d367ddf78cc3285329e1a6828782ca.1627352192
