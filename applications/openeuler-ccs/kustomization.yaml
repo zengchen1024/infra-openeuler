@@ -19,7 +19,7 @@ images:
   newTag: "1626945205"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka
-  newTag: "1626944299"
+  newTag: "1627375350"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway
   newTag: "1626944566"
