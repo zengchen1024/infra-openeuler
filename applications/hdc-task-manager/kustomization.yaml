@@ -16,4 +16,4 @@ images:
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/hdc-task-manager
   newTag: bd09e746caadc838208011520a9505088abeb9b7
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/hdc-task-manager
-  newTag: d8e29af2ce954d4527964872734d525e4583e196
+  newTag: 16f6f03634e867e076e4486bacd3c84637905673
