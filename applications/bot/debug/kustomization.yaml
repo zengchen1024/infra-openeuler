@@ -12,6 +12,6 @@ patchesStrategicMerge:
 - secrets.yaml
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ci-bot
-  newTag: 4c716eeefc6e4e0cd9ce6e19043b07b0cccebf61.1627970573
+  newTag: 7a2d330b3a62ce270358f1763d1a325db48c1228.1627975008
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ci-bot
   newTag: 31057dc04323ea13c020720549054cb25f3c6702.1626928502
