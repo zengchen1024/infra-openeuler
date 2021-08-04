@@ -3,6 +3,8 @@ resources:
   - secrets.yaml
   - namespace.yaml
   - es-secrets.yaml
+  - ingress.yaml
+  - oauth-proxy.yaml
 commonLabels:
   app: openeuler-jenkins
 commonAnnotations:
