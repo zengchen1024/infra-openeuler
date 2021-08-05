@@ -1,0 +1,10 @@
+resources:
+  - secrets.yaml
+  - ingress.yaml
+  - oauth-proxy.yaml
+commonLabels:
+  app: openeuler-jenkins-ci
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
+namespace: default
