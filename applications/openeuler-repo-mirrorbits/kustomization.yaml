@@ -10,6 +10,9 @@ resources:
 commonLabels:
   label: mirrorbits
 commonAnnotations:
+  email: tommylikehu@gmail.com
   owner: tommylikehu
-  email: "tommylikehu@gmail.com"
 namespace: repo-mirrorbits
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/repo-mirrorbits
+  newTag: 1253dbadd80cd0a225003a0ed8ba3769eedac613
