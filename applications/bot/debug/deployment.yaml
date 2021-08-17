@@ -67,7 +67,7 @@ spec:
               apk add htop
               cp /bot/config.yaml.ro /bot/config.yaml
               chmod 0666 /bot/config.yaml
-              echo "$(sed 's/10.247.3.10/8.8.8.8/g' /etc/resolv.conf)" > /etc/resolv.conf
+              echo "$(sed '1c nameserver 8.8.8.8' /etc/resolv.conf)" > /etc/resolv.conf
               sleep 3600000
       volumes:
         - configMap:
