@@ -1,0 +1,15 @@
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- secrets.yaml
+- ingress.yaml
+commonLabels:
+  app: opengauss-ccs
+  owner: zhangjunqing
+commonAnnotations:
+  email: chnzjq@163.com
+  owner: zhangjunqing
+namespace: opengauss-ccs
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
