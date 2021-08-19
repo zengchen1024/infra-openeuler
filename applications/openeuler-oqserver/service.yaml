@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oqserver-service
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: 4cad5d45-1abd-4863-9d43-0de9591916e1
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+  labels:
+    app: openeuler-oqserver
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: aqserver-ssh-server-port
+      port: 22
+      targetPort: 22
+      nodePort: 30322
+  selector:
+    app: openeuler-oqserver
+  type: LoadBalancer
+

@@ -1,0 +1,86 @@
+# Deployment for repo service
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: openeuler-oqserver
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: openeuler-oqserver
+  template:
+    metadata:
+      labels:
+        app: openeuler-oqserver
+    spec:
+      containers:
+        - env:
+          - name: TZ
+            value: Asia/Shanghai
+          - name: SUDO_ACCESS
+            value: "true"
+          - name: USER_NAME
+            value: root
+          - name: PUBLIC_KEY_FILE
+            value: /var/sshd/public_keys
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openssh-server:latest
+          imagePullPolicy: IfNotPresent
+          name: sshd-server
+          volumeMounts:
+            - mountPath: /var/sshd/public_keys
+              name: oqserver-configmap-volume
+              subPath: ssh.pub
+            - mountPath: /config/ssh_host_keys/sshd_config
+              name: oqserver-configmap-volume
+              subPath: sshd_config
+            - mountPath: /root/oqrootfs
+              name: oqserver-data-volume
+          resources:
+            requests:
+              cpu: 300m
+              memory: 2000Mi
+        - name: openeuler-oqserver
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-oqserver:v1.0.0
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+          volumeMounts:
+            - mountPath: /root/oqrootfs
+              name: oqserver-data-volume
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          ports:
+            - containerPort: 50051
+              name: http
+              protocol: TCP
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            tcpSocket:
+              port: 50051
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            tcpSocket:
+              port: 50051
+      volumes:
+        - configMap:
+            name: oqserver-configmap
+          name: oqserver-configmap-volume
+        - name: oqserver-data-volume
+          persistentVolumeClaim:
+            claimName: openeuler-oqserver-data-volume
