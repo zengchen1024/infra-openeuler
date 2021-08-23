@@ -32,10 +32,10 @@ spec:
               exec /usr/bin/mirrorbits daemon --config /etc/mirrorbits.conf -debug
           env:
             - name: REDIS_ADDRESS_PORT
-                valueFrom:
-                  secretKeyRef:
-                    name: mirrorbits-secrets
-                    key: redis-address-port
+              valueFrom:
+                secretKeyRef:
+                  name: mirrorbits-secrets
+                  key: redis-address-port
             - name: REDIS_PWD
               valueFrom:
                 secretKeyRef:
