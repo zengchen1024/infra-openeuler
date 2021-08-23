@@ -139,6 +139,12 @@ spec:
                 secretKeyRef:
                   name: ccs-secrets
                   key: redis_pass
+            - name: CCS_EUREKA_URI
+              value: http://eureka-service.opengauss-ccs.svc.cluster.local:9761
+            - name: CCS_CONFIG_URI
+              value: http://opengauss-ccs-config-service.opengauss-cce.svc.cluster.local:8087
+            - name: CCS_SERVICE_URI
+              value: http://opengauss-ccs-service.opengauss-ccs.svc.cluster.local:8086
             - name: HOSTNAME
               value: opengauss-ccs-gateway-service.opengauss-ccs.svc.cluster.local
             - name: JAVA_OPTS1
