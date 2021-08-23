@@ -1,0 +1,65 @@
+# customChecks defines custom checks.
+#customChecks:
+#  - name: "required-annotation-team"
+#    template: "required-annotation"
+#    params:
+#      key: "team"
+#    remediation: " Please add a team annotation to your object"
+checks:
+  # if doNotAutoAddDefaults is true, default checks are not automatically added.
+  doNotAutoAddDefaults: true
+  ignore-check.kube-linter.io/env-var-secret: "This"
+  # include explicitly adds checks, by name. You can reference any of the built-in checks.
+  #   # Note that customChecks defined above are included automatically.
+  include:
+  # Indicates when deployments use the deprecated serviceAccount field.
+  - "deprecated-service-account-field"
+  # Alert on deployments with docker.sock mounted in containers.
+  - "docker-sock"
+  # Indicates when containers do not drop NET_RAW capability
+  - "drop-net-raw-capability"
+  # Alert on pods/deployment-likes with sharing host's IPC namespace
+  - "host-ipc"
+  # Alert on pods/deployment-likes with sharing host's network namespace
+  - "host-network"
+  # Alert on pods/deployment-likes with sharing host's process namespace
+  - "host-pid"
+  # Indicates when a deployment-like object is running a container with a floating image tag, "latest"
+  - "latest-tag"
+  # Indicates when deployment selectors fail to match the pod template labels.
+  - "mismatching-selector"
+  # Indicates when objects use deprecated API versions under extensions/v1beta.
+#   - "no-extensions-v1beta"
+  # Indicates when containers fail to specify a liveness probe.
+  - "no-liveness-probe"
+  # Indicates when containers fail to specify a readiness probe.
+  - "no-readiness-probe"
+  # Indicates when a deployment doesn't use a rolling update strategy
+  - "no-rolling-update-strategy"
+  # Alert on containers of allowing privilege escalation that could gain more privileges than its parent process.
+  - "privilege-escalation-container"
+  # Indicates when deployments have containers running in privileged mode.
+  - "privileged-container"
+  # Indicates when objects do not have an email annotation with a valid email address.
+  - "required-annotation-email"
+  # Indicates when objects do not have an email annotation with an owner label.
+  - "required-label-owner"
+  # Alert on deployments with sensitive host system directories mounted in containers
+  - "sensitive-host-mounts"
+  # Indicates when deployments expose port 22, which is commonly reserved for SSH access.
+  - "ssh-port"
+  # Alert on deployments with unsafe /proc mount (procMount=Unmasked) that will bypass the default masking behavior of the container runtime
+  - "unsafe-proc-mount"
+  # Alert on deployments specifying unsafe sysctls that may lead to severe problems like wrong behavior of containers
+  - "unsafe-sysctls"
+  # Indicates when containers do not have CPU requests and limits set.
+  - "unset-cpu-requirements"
+  # Indicates when containers do not have memory requests and limits set.
+  - "unset-memory-requirements"
+  # Indicates when a resource is deployed to the default namespace. CIS Benchmark 5.7.1: Create administrative boundaries between resources using namespaces. CIS Benchmark 5.7.4: The default namespace should not be used.
+  - "use-namespace"
+  # Indicates when containers mount a host path as writable.
+  - "writable-host-mount"
+  # exclude explicitly excludes checks, by name. exclude has the highest priority: if a check is
+  # in exclude, then it is not considered, even if it is in include as well.
+  exclude: [ ]

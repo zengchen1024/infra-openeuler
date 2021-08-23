@@ -1,0 +1,28 @@
+name: Check Kubernetes YAMLs
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Scan valid yaml with kube-linter
+        uses: stackrox/kube-linter-action@v1.0.2
+        with:
+          #directory: application
+          #config: .github/workflows/kubelinter-config.yaml
+          # https://github.com/fluxcd/flux/blob/master/docker/kustomize.version
+          kustomize: 3.2.3
+          kube-linter: 1.0.2
+          command: |
+            #!/bin/bash
+            for file in `ls ./applications`
+            do
+                if [ -d "./applications/"$file ]; then
+                    echo "Validating applications of $file"
+                    kustomize build  "./applications/$file" | kube-linter lint - --config .github/workflows/kubelinter-config.yaml
+                fi
+            done
