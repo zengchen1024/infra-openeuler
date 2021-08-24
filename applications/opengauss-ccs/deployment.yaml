@@ -254,7 +254,7 @@ spec:
             - name: JAVA_OPTS1
               value: "
                      -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
-                     -Dspring.profiles.active=prod
+                     -Dspring.profiles.active=gauss
                      -Deureka.instance.hostname=${HOSTNAME}
                      -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
                      -Deureka.client.fetch-registry=true
