@@ -16,10 +16,26 @@ jobs:
           # helm: 2.14.3
           command: |
             #!/bin/bash
+            if [ -e "go1.16.6.linux-amd64.tar.gz" ]; then
+                rm -rf "go1.16.6.linux-amd64.tar.gz"
+            fi
+            wget https://dl.google.com/go/go1.16.6.linux-amd64.tar.gz
+            rm -rf /usr/local/go && tar -C /usr/local -xzf go1.16.6.linux-amd64.tar.gz
+            export PATH=$PATH:/usr/local/go/bin
+            GO111MODULE=on go get golang.stackrox.io/kube-linter/cmd/kube-linter
+            mv /go/bin/kube-linter /usr/sbin/kube-linter
+            pwd
             for file in `ls ./applications`
             do
                 if [ -d "./applications/"$file ]; then
                     echo "Validating applications of $file"
                     kustomize build  "./applications/$file" | kubeval --strict --ignore-missing-schemas
+                fi
+            done
+            for file in `ls ./applications`
+            do
+                if [ -d "./applications/"$file ]; then
+                    echo "Validating applications of $file"
+                    kustomize build  "./applications/$file" | kube-linter lint - --config .github/workflows/kubelinter-config.yaml || true
                 fi
             done
