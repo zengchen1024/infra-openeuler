@@ -23,7 +23,9 @@ jobs:
             rm -rf /usr/local/go && tar -C /usr/local -xzf go1.16.6.linux-amd64.tar.gz
             export PATH=$PATH:/usr/local/go/bin
             GO111MODULE=on go get golang.stackrox.io/kube-linter/cmd/kube-linter
-            mv /root/go/bin/kube-linter /usr/sbin/kube-linter
+            KUBELINTER_PWD=`find / -name kube-linter`
+            echo "${KUBELINTER_PWD}"
+            mv ${KUBELINTER_PWD} /usr/sbin/kube-linter
             for file in `ls ./applications`
             do
                 if [ -d "./applications/"$file ]; then
