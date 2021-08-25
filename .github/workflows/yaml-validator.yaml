@@ -24,6 +24,7 @@ jobs:
             export PATH=$PATH:/usr/local/go/bin
             GO111MODULE=on go get golang.stackrox.io/kube-linter/cmd/kube-linter
             mv /go/bin/kube-linter /usr/sbin/kube-linter
+            pwd
             for file in `ls ./applications`
             do
                 if [ -d "./applications/"$file ]; then
