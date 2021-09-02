@@ -16,7 +16,7 @@ metadata:
     nginx.ingress.kubernetes.io/server-snippet: |
       rewrite ^/zh/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
       rewrite ^/en/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
-  name: website-v2-ingress-main
+  name: openeuler-v2-www-website-ingress
 
 spec:
   tls:
