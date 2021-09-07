@@ -57,7 +57,7 @@ checks:
   # Indicates when containers do not have memory requests and limits set.
   - "unset-memory-requirements"
   # Indicates when a resource is deployed to the default namespace. CIS Benchmark 5.7.1: Create administrative boundaries between resources using namespaces. CIS Benchmark 5.7.4: The default namespace should not be used.
-  - "use-namespace"
+  #  - "use-namespace"
   # Indicates when containers mount a host path as writable.
   - "writable-host-mount"
   # exclude explicitly excludes checks, by name. exclude has the highest priority: if a check is
