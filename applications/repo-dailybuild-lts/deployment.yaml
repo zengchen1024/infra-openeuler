@@ -149,7 +149,9 @@ spec:
             - mountPath: /dev/loop63
               name: loopdevice63
             - mountPath: /dev/loop64
-              name: loopdevice64              
+              name: loopdevice64
+            - mountPath: /dev/loop65
+              name: loopdevice65              
             - mountPath: /dev/loop-control
               name: loopdevice25
             - mountPath: /root/.ssh/authorized_keys.ro
@@ -451,7 +453,11 @@ spec:
         - hostPath:
             path: /dev/loop64
             type: ''
-          name: loopdevice64           
+          name: loopdevice64
+        - hostPath:
+            path: /dev/loop65
+            type: ''
+          name: loopdevice65          
         - hostPath:
             path: /dev/loop-control
             type: ''
