@@ -415,10 +415,6 @@ spec:
             type: ''
           name: loopdevice55
         - hostPath:
-            path: /dev/loop55
-            type: ''
-          name: loopdevice55
-        - hostPath:
             path: /dev/loop56
             type: ''
           name: loopdevice56
