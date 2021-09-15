@@ -1,0 +1,91 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: osi-task-manager
+  name: osi-task-manager
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: osi-task-manager
+  template:
+    metadata:
+      labels:
+        app: osi-task-manager
+    spec:
+      containers:
+        - env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: db-username
+            - name: DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: db-passwd
+            - name: DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: db-uri
+            - name: AES_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: aes-key
+            - name: OSI_HOOK_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: osi-hook-pwd
+            - name: GITEE_SRC_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: gitee-token
+            - name: EMAIL_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: cve-email-sendaddr
+            - name: EMAIL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: cve-email-password
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/osi-task-manager:6e4d96c3b6e2efc1ab611ad557d183272a979cd9
+          imagePullPolicy: IfNotPresent
+          name: osi-task-manager
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /healthz/readiness
+              port: 8080
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /healthz/liveness
+              port: 8080
+        resources:
+          limits:
+            cpu: 12000m
+            memory: 32000Mi
+          requests:
+            cpu: 6000m
+            memory: 16000Mi
