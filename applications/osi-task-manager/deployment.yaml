@@ -59,7 +59,7 @@ spec:
                   key: cve-email-password
             - name: TZ
               value: Asia/Shanghai
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/osi-task-manager:6e4d96c3b6e2efc1ab611ad557d183272a979cd9
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/osi-task-manager:5e4d96b3b6e2efc1a4d1cad557d1932c2a974bd9
           imagePullPolicy: IfNotPresent
           name: osi-task-manager
           ports:
