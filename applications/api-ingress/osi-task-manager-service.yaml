@@ -1,0 +1,7 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: osi-task-manager-service
+spec:
+  type: ExternalName
+  externalName: osi-task-manager-service.osi-task-manager.svc.cluster.local
