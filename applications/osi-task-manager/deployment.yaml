@@ -82,10 +82,10 @@ spec:
             httpGet:
               path: /healthz/liveness
               port: 8080
-        resources:
-          limits:
-            cpu: 12000m
-            memory: 32000Mi
-          requests:
-            cpu: 6000m
-            memory: 16000Mi
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 3000Mi
+            requests:
+              cpu: 1000m
+              memory: 2000Mi
