@@ -12,3 +12,6 @@ commonAnnotations:
 namespace: osi-task-manager
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/osi-task-manager
+  newTag: 92591ff1f793da290751961cec165391903a3adb
