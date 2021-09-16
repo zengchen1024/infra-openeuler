@@ -21,6 +21,8 @@ spec:
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
+            - mountPath: /repo/openenlerBak
+              name: data-volume-02            
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
@@ -187,6 +189,8 @@ spec:
               subPath: rsyncd_secrets
             - mountPath: /repo/openeuler
               name: data-volume
+            - mountPath: /repo/openeulerBak
+              name: data-volume-02            
             - mountPath: /root/.ssh/authorized_keys.ro
               name: repo-nginx-configmap-volume
               subPath: ssh.pub
@@ -461,3 +465,6 @@ spec:
         - name: data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
+        - name: data-volume-02
+          persistentVolumeClaim:
+            claimName: openeuler-data-volume-02
