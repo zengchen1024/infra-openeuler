@@ -28,6 +28,6 @@ spec:
             - -u
             - $(USERNAME):$(PASSWORD)
             - --fail
-            - https://api.openeuler.org/nginx-purger/purge?hostname=openeuler.org
+            - https://api.openeuler.org/nginx-purger/purge?hostname=www.openeuler.org
       restartPolicy: Never
   backoffLimit: 2
