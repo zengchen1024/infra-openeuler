@@ -11,7 +11,7 @@ spec:
   tls:
     - hosts:
         - clasign.openlookeng.io
-      secretName: openlookeng-website-tls-main
+      secretName: openlookeng-website-tls-cla
   rules:
     - host: clasign.openlookeng.io
       http:
