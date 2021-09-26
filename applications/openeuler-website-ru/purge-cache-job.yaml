@@ -13,4 +13,4 @@ spec:
             - -u
             - $(USERNAME):$(PASSWORD)
             - --fail
-            - https://api.openeuler.org/nginx-purger/purge?hostname=ru.openeuler.org
+            - https://api.ru.openeuler.org/nginx-purger/purge?hostname=ru.openeuler.org
