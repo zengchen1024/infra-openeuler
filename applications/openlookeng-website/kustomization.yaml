@@ -5,6 +5,7 @@ resources:
   - cibot-service.yaml
   - cache-ingress.yaml
   - openlookeng-website-frontend-service.yaml
+  - clasign-ingress.yaml
 commonLabels:
   app: openlookeng-website
 commonAnnotations:
