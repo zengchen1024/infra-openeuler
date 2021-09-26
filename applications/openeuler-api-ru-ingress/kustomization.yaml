@@ -1,0 +1,10 @@
+resources:
+  - ingress.yaml
+  - namespace.yaml
+  - nginx-purger.yaml
+commonLabels:
+  app: openeuler-api-ru
+commonAnnotations:
+  owner: tommylikehu
+  email: "tommylikehu@gmail.com"
+namespace: openeuler-api-ru
