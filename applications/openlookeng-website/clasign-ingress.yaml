@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^(.*) https://clasign.osinfra.cn/sign/gitee_openlookeng-1614322910578209320 redirect;
+  name: clasign-ingress
+spec:
+  tls:
+    - hosts:
+        - clasign.openlookeng.io
+      secretName: openlookeng-website-tls-cla
+  rules:
+    - host: clasign.openlookeng.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: openlookeng-website-frontend-service
+              servicePort: 80
+            
