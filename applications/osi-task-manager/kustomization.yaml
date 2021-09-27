@@ -14,4 +14,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/osi-task-manager
-  newTag: 1a403da75cacbb3f02764a38a287f2f704211ce9
+  newTag: 128324620dba2fa565d4d152fd7930407138abb7
