@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: repo-nginx
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:186413b0d349fdf84a1772934748132b26060f59
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
