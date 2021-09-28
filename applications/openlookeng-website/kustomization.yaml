@@ -6,6 +6,7 @@ resources:
   - cache-ingress.yaml
   - openlookeng-website-frontend-service.yaml
   - clasign-ingress.yaml
+  - clasign-secrets.yaml
 commonLabels:
   app: openlookeng-website
 commonAnnotations:
