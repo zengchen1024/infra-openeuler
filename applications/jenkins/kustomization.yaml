@@ -1,5 +1,10 @@
 resources:
   - ingress.yaml
+  - oauth-proxy.yaml
+  - secrets.yaml
 commonLabels:
   app: openeuler-jenkins
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 namespace: ssh-tunnel

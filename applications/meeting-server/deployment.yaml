@@ -9,14 +9,16 @@ spec:
   selector:
     matchLabels:
       app: meeting-server
+      component: web-server
   template:
     metadata:
       labels:
         app: meeting-server
+        component: web-server
     spec:
       containers:
         - name: meeting-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
           volumeMounts:
             - mountPath: /work/app-meeting-server/meetings/migrations
               name: meeting-data-volume
@@ -25,6 +27,26 @@ spec:
               cpu: 2000m
               memory: 2000Mi
           env:
+            - name: ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: access_key_id
+                  name: meeting-server-secrets
+            - name: SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secret_access_key
+                  name: meeting-server-secrets
+            - name: OBS_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  key: obs_endpoint
+                  name: meeting-server-secrets
+            - name: OBS_BUCKETNAME_SECOND
+              valueFrom:
+                secretKeyRef:
+                  key: obs_bucketname_second
+                  name: meeting-server-secrets
             - name: ZOOM_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -53,6 +75,16 @@ spec:
                 secretKeyRef:
                   key: host_tommylike
                   name: meeting-server-secrets
+            - name: HOST_GEORGE
+              valueFrom:
+                secretKeyRef:
+                  key: host_george
+                  name: meeting-server-secrets
+            - name: HOST_NIC
+              valueFrom:
+                secretKeyRef:
+                  key: host_nic
+                  name: meeting-server-secrets
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
@@ -78,16 +110,31 @@ spec:
                 secretKeyRef:
                   key: gmail_password
                   name: meeting-server-secrets
+            - name: GENEGROUP_AUTH
+              valueFrom:
+                secretKeyRef:
+                  key: genegroup_auth
+                  name: meeting-server-secrets
+            - name: SMTP_SERVER_HOST
+              value: mailman-exim4-service.mail.svc.cluster.local
+            - name: QUERY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: query_token
+                  name: meeting-server-secrets
           command:
             - /bin/sh
             - -c
             - |
+              # Fix wkhtmltopdf shared library issue when running on kernel which < 3.17
+              # Read detail at https://stackoverflow.com/questions/54582864/missing-qt-libs-with-wkhtmltopdf-in-docker-on-debian-buster
+              strip -R .note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.11.3
               # incase the __init__.py does not exist in the mounted volume
               touch /work/app-meeting-server/meetings/migrations/__init__.py
               python manage.py collectstatic
               # python manage.py makemigrations
               # python manage.py migrate
-              uwsgi --ini /work/app-meeting-server/deploy/production/uwsgi.ini
+              exec uwsgi --ini /work/app-meeting-server/deploy/production/uwsgi.ini
       volumes:
         - name: meeting-data-volume
           persistentVolumeClaim:
@@ -109,7 +156,7 @@ spec:
     spec:
       containers:
         - name: schedule-task
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:fef669c8b570c34b58792eb571038155f7e1c763
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
           env:
             - name: ZOOM_TOKEN
               valueFrom:

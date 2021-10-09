@@ -3,8 +3,13 @@ resources:
   - secrets.yaml
   - namespace.yaml
   - es-secrets.yaml
+  - ingress.yaml
+  - oauth-proxy.yaml
 commonLabels:
   app: openeuler-jenkins
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 patchesStrategicMerge:
   - pvc.yaml
   - deployment.yaml

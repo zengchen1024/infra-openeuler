@@ -10,3 +10,15 @@ spec:
     requests:
       storage: 10000Gi
   storageClassName: ssd
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openeuler-data-volume-02
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20000Gi
+  storageClassName: sas

@@ -7,7 +7,10 @@ spec:
   template:
     spec:
       containers:
+        - name: sshd-server
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openssh-server:latest
         - name: sshd-tunnel
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ssh-tunnel:aa2b9c851a6fc9b0a8008aee809762cc928216e8
           env:
             - name: TUNNEL_HOST
               value: 114.116.245.239
@@ -21,3 +24,19 @@ spec:
             # This is for jenkins master endpoint (new jenkins in cn north4)
             - -L
             - 0.0.0.0:1084:jenkins.jenkins.svc.cluster.local:80
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: 1080
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: 1080
+            timeoutSeconds: 1

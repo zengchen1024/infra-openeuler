@@ -1,0 +1,28 @@
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- secrets.yaml
+- ingress.yaml
+commonLabels:
+  app: openeuler-ccs
+  owner: zhangjunqing
+commonAnnotations:
+  email: chnzjq@163.com
+  owner: zhangjunqing
+namespace: openeuler-ccs
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-config
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-config
+  newTag: "1627375464"
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka
+  newTag: "1627375350"
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway
+  newTag: "1627464322"
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-server
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-server
+  newTag: "1628242919"

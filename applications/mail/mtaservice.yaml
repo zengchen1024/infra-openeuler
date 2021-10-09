@@ -1,0 +1,109 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mail-suit-service
+    component: mail-exim4-service
+  name: mailman-exim4
+  namespace: mail
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: mail-suit-service
+      component: mail-exim4-service
+  serviceName: mail-suit-service
+  template:
+    metadata:
+      labels:
+        app: mail-suit-service
+        component: mail-exim4-service
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          echo "log_file_path = /var/log/exim4/%s.%M" >> /etc/exim4/conf.d/main/01_exim4-config_listmacrosdefs;
+          update-exim4.conf;
+          mkdir -p /var/log/exim4
+          chown Debian-exim:Debian-exim -R /opt/mailman/exim_log;
+          exec tini -- exim -bd -v;
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/mailman-exim4:45a83427f0bbe7ac4d2bcc0e1e4d8c1b097fbf8d
+        imagePullPolicy: IfNotPresent
+        name: mailman-exim4
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/exim4/conf.d/main/25_mm3_macros
+          name: mailman-exim4-configmap-volume
+          subPath: 25_mm3_macros
+        - mountPath: /etc/exim4/conf.d/main/00_local_macros
+          name: mailman-exim4-configmap-volume
+          subPath: 00_local_macros
+        - mountPath: /etc/exim4/conf.d/transport/55_mm3_transport
+          name: mailman-exim4-configmap-volume
+          subPath: 55_mm3_transport
+        - mountPath: /etc/exim4/conf.d/router/455_mm3_router
+          name: mailman-exim4-configmap-volume
+          subPath: 455_mm3_router
+        - mountPath: /etc/exim4/update-exim4.conf.conf
+          name: mailman-exim4-configmap-volume
+          subPath: update-exim4-conf.conf
+        - mountPath: /opt/mailman/
+          name: mailman-core-data
+        - mountPath: /etc/exim4/dkim
+          name: mta-dkim-secret
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: mailman-exim4-configmap
+        name: mailman-exim4-configmap-volume
+      - name: mailman-core-data
+        persistentVolumeClaim:
+          claimName: config-vol
+      - name: mta-dkim-secret
+        secret:
+          defaultMode: 420
+          secretName: dkimsecret
+  updateStrategy:
+    type: OnDelete
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: f4efa65e-8e29-492b-8408-92b8ad20d6aa
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+    kubernetes.io/elb.mark: "3"
+  name: mailman-exim4-service
+  namespace: mail
+spec:
+  clusterIP: 10.247.210.113
+  externalTrafficPolicy: Local
+  healthCheckNodePort: 32462
+  loadBalancerIP: 159.138.46.20
+  ports:
+  - name: exim4-port
+    nodePort: 30063
+    port: 25
+    protocol: TCP
+    targetPort: 25
+  selector:
+    component: mail-exim4-service
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 159.138.46.20

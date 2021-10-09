@@ -5,6 +5,9 @@ resources:
   - secrets.yaml
 commonLabels:
   app: openeuler-cn-north4-dailybuild-repo
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 patchesStrategicMerge:
   - configmap.yaml
   - deployment.yaml

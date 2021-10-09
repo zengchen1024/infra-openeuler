@@ -1,15 +1,16 @@
 resources:
-- https://github.com/opensourceways/app-bugzilla/deploy?ref=master
+- https://github.com/opensourceways/app-bugzilla/deploy?ref=main
 - ingress.yaml
 commonLabels:
   app: bugzilla
+  owner: caozhi
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 namespace: bugzilla
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
-- name: opensourceway/patchtracking
-  newName: opensourceway/bugzilla
-  newTag: b09210fdee6c748ebd2bff319a4fe71356da7031.1611886346
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bugzilla
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/bugzilla
-  newTag: 6e7b5388d9f325c59643955874779d14f2a047e4.1610004189
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/bugzilla
+  newTag: bf490dc98cd7f40ca24473bc6e90274c6b9a386e.1612088275

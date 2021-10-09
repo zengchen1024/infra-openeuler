@@ -2,8 +2,13 @@ resources:
   - ingress.yaml
   - namespace.yaml
   - service.yaml
+  - oauth-proxy.yaml
+  - secrets.yaml
 commonLabels:
   app: openlookeng-jenkins
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 patchesJson6902:
   - target:
       group: ""

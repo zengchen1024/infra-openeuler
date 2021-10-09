@@ -1,0 +1,48 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://ru.openeuler.org"
+    nginx.ingress.kubernetes.io/proxy-body-size: 5m
+  name: api-ru-ingress
+spec:
+  tls:
+    - hosts:
+        - api.ru.openeuler.org
+      secretName: api-tls
+  rules:
+    - host: api.ru.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: nginx-purger-service
+              servicePort: 80
+            path: /nginx-purger(/|$)(.*)
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  name: https-backend-ingress
+spec:
+  tls:
+    - hosts:
+        - api.ru.openeuler.org
+      secretName: api-tls
+  rules:
+    - host: api.ru.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: nginx-purger-service
+              servicePort: 80
+            path: /

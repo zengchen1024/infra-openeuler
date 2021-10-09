@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindspore-website
+spec:
+  replicas: 4
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: mindsporewebsite
+  template:
+    metadata:
+      labels:
+        app: mindsporewebsite
+    spec:
+      containers:
+      - name: website
+        resources:
+          $patch: delete

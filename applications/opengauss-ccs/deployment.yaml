@@ -1,0 +1,535 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    server: ccs-eureka
+  name: ccs-eureka
+spec:
+  serviceName: "eureka-service"
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  replicas: 1
+  revisionHistoryLimit: 4
+  selector:
+    matchLabels:
+      server: ccs-eureka
+  template:
+    metadata:
+      labels:
+        server: ccs-eureka
+    spec:
+      containers:
+        - env:
+            - name: APP_NAME
+              value: "ccs-eureka"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JASYPT_ENCRYPTOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_pass
+            - name: EUREKA_CLIENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_password
+            - name: HOSTNAME
+              value: eureka-service.opengauss-ccs.svc.cluster.local
+            - name: JAVA_OPTS1
+              value: "
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.instance.hostname=${HOSTNAME}
+                     -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
+                     -DregisterWithEureka=true
+                     -DfetchRegistry=true
+                     -Deureka.instance.preferIpAddress=false
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@ccs-eureka-0.eureka-service:9761/eureka/
+                     "
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-eureka:1629256782
+          imagePullPolicy: IfNotPresent
+          name: ccs-eureka
+          ports:
+            - containerPort: 9761
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 4096Mi
+            requests:
+              cpu: 1000m
+              memory: 1024Mi
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9761
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9761
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    server: ccs-gateway
+  name: ccs-gateway
+spec:
+  replicas: 1
+  revisionHistoryLimit: 4
+  selector:
+    matchLabels:
+      server: ccs-gateway
+  template:
+    metadata:
+      labels:
+        server: ccs-gateway
+    spec:
+      containers:
+        - env:
+            - name: JASYPT_ENCRYPTOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_pass
+            - name: EUREKA_CLIENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:                  
+                  name: ccs-secrets
+                  key: eureka_client_password
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_port
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_pass
+            - name: CCS_EUREKA_URI
+              value: http://eureka-service.opengauss-ccs.svc.cluster.local:9761
+            - name: CCS_CONFIG_URI
+              value: http://opengauss-ccs-config-service.opengauss-cce.svc.cluster.local:8087
+            - name: CCS_SERVICE_URI
+              value: http://opengauss-ccs-service.opengauss-ccs.svc.cluster.local:8086
+            - name: HOSTNAME
+              value: opengauss-ccs-gateway-service.opengauss-ccs.svc.cluster.local
+            - name: JAVA_OPTS1
+              value: "
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=gauss
+                     -Deureka.instance.hostname=${HOSTNAME}
+                     -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
+                     -Deureka.client.fetch-registry=true 
+                     -Deureka.client.register-with-eureka=true
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.opengauss-ccs.svc.cluster.local:9761/eureka/
+                     "
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-gateway:1629256928
+          imagePullPolicy: IfNotPresent
+          name: ccs-gateway
+          ports:
+            - containerPort: 8088
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 4096Mi
+            requests:
+              cpu: 1000m
+              memory: 1024Mi
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8088
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8088
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    server: ccs-config
+  name: ccs-config
+spec:
+  replicas: 1
+  revisionHistoryLimit: 4
+  selector:
+    matchLabels:
+      server: ccs-config
+  template:
+    metadata:
+      labels:
+        server: ccs-config
+    spec:
+      containers:
+        - env:
+            - name: JASYPT_ENCRYPTOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_pass
+            - name: EUREKA_CLIENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_password
+            - name: CONFIG_GIT_URI
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_uri
+            - name: CONFIG_GIT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_username
+            - name: CONFIG_GIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_password
+            - name: CONFIG_GIT_DEFAULT_LABEL
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_default_label
+            - name: CONFIG_GIT_SEARCH_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: config_git_search_path
+            - name: HOSTNAME
+              value: opengauss-ccs-config-service.opengauss-ccs.svc.cluster.local
+            - name: JAVA_OPTS1
+              value: "
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=prod
+                     -Deureka.instance.hostname=${HOSTNAME}
+                     -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
+                     -Deureka.client.fetch-registry=true
+                     -Deureka.client.register-with-eureka=true
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.opengauss-ccs.svc.cluster.local:9761/eureka/
+                     "
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-config:1629256642
+          imagePullPolicy: IfNotPresent
+          name: ccs-config
+          ports:
+            - containerPort: 8087
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 2048Mi
+            requests:
+              cpu: 300m
+              memory: 500Mi
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8087
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8087
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    server: ccs-server
+  name: ccs-server
+spec:
+  replicas: 2
+  revisionHistoryLimit: 4
+  selector:
+    matchLabels:
+      server: ccs-server
+  template:
+    metadata:
+      labels:
+        server: ccs-server
+    spec:
+      containers:
+        - env:
+            - name: MAIL_STARTTLS_ENABLE
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_starttls_enable
+            - name: MAIL_SOCKET_FACTORY_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_socket_factory_port
+            - name: MAIL_SSL_ENABLE
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_ssl_enable
+            - name: TALENT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: talent_key
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: db_port
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: db_username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: db_password
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_port 
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_pass
+            - name: REDIS_SINGLE
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: redis_single
+            - name: OBS_END_POINT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: obs_end_point
+            - name: OBS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: obs_access_key
+            - name: OBS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: obs_secret_key
+            - name: OBS_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: obs_bucket_name
+            - name: MAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_host
+            - name: MAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_port
+            - name: MAIL_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_auth
+            - name: MAIL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_user
+            - name: MAIL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_pass
+            - name: MAIL_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mail_from
+            - name: JASYPT_ENCRYPTOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: encryptor_pass
+            - name: URL_VERIFY_ADDRESS_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: url_verify_address_domain
+            - name: URL_VERIFY_DOWNLOADPATH_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: url_verify_downloadpath_domain
+            - name: SECURITY_ENCRYPTKEY
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: security_encryptkey
+            - name: MAINTAINER_MAILS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: maintainer_mails
+            - name: MQS_APPID
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mqs_appid
+            - name: MQS_APPSECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mqs_appsecret
+            - name: MQS_ENCRYPTTRANSPORT
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mqs_encrypttransport
+            - name: MQS_UMPNAMESRVURLS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: mqs_umpnamesrvurls
+            - name: EUREKA_CLIENT_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_name
+            - name: EUREKA_CLIENT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: eureka_client_password
+            - name: RECERTIFICATION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ccs-secrets
+                  key: recertification_url
+            - name: CCS_GATEWAY_DOMAIN
+              value: http://opengauss-ccs-gateway-service.opengauss-ccs.svc.cluster.local:8088
+            - name: MQS_PULLBATCHSIZE
+              value: "30"
+            - name: HOSTNAME
+              value: opengauss-ccs-service.opengauss-ccs.svc.cluster.local
+            - name: JAVA_OPTS1
+              value: "
+                     -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}
+                     -Dspring.profiles.active=gauss
+                     -Deureka.instance.hostname=${HOSTNAME}
+                     -Deureka.instance.instance-id=${spring.cloud.client.ip-address}:${server.port}
+                     -Deureka.client.fetch-registry=true 
+                     -Deureka.client.register-with-eureka=true
+                     -Deureka.client.serviceUrl.defaultZone=http://${EUREKA_CLIENT_NAME}:${EUREKA_CLIENT_PASS}@eureka-service.opengauss-ccs.svc.cluster.local:9761/eureka/
+                     "
+            - name: JAVA_OPTS2
+              value: "--debug"
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-server:1629363343
+          imagePullPolicy: IfNotPresent
+          name: ccs-server
+          ports:
+            - containerPort: 8086
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 4096Mi
+            requests:
+              cpu: 1000m
+              memory: 1024Mi
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8086
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8086

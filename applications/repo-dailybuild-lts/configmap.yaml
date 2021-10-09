@@ -17,8 +17,6 @@ data:
             path = /repo/openeuler
             comment = openeuler repo folder
             read only = true
-            auth users = root
-            secrets file = /etc/rsyncd.secrets
             ignore nonreadable = yes
             refuse options = checksum
             dont compress = *
@@ -33,7 +31,6 @@ data:
                set $month $2;
                set $day $3;
         }
-        access_log /var/log/nginx/access.log.$year$month$day main;
 
         server_name dailybuild.openeuler.org;
         location / {
@@ -41,7 +38,12 @@ data:
             fancyindex on;
             fancyindex_exact_size off;
             fancyindex_localtime on;
+            fancyindex_header /fancySource/header.html;
+            fancyindex_footer /fancySource/footer.html;
             autoindex   on;
+        }
+        location /fancySource {
+            root /etc/nginx/conf/static;
         }
         location = /favicon.ico {
           log_not_found off;
@@ -64,35 +66,11 @@ data:
     http {
         include       /etc/nginx/conf/mime.types;
         default_type  application/octet-stream;
-
-        # used for geoip2
-        geoip2 /etc/nginx/geoip/country/GeoLite2-Country.mmdb {
-            $geoip2_metadata_country_build metadata build_epoch;
-            $geoip2_data_country_code default=US source=$remote_addr country iso_code;
-            $geoip2_data_country_name country names en;
-        }
-
-        geoip2 /etc/nginx/geoip/city/GeoLite2-City.mmdb {
-            $geoip2_data_city_name default=ShenZhen city names en;
-            $geoip2_data_location_latitude location latitude;
-            $geoip2_data_location_longitude location longitude;
-        }
-
-        # the cidr used for elb cluster
-        set_real_ip_from 100.125.0.0/16;
-        real_ip_recursive on;
-        real_ip_header X-Forwarded-For;
-
-        log_format  main  '$remote_addr <$geoip2_data_country_code, $geoip2_data_country_name, $geoip2_data_city_name, $geoip2_data_location_latitude, $geoip2_data_location_longitude> '
-                          '[$time_local] "$request" $status $body_bytes_sent "$http_referer" '
-                          '"$http_user_agent" $request_filename';
-
         sendfile        on;
         tcp_nopush      on;
 
         keepalive_timeout  65;
 
-        #gzip  on;
-
+        server_tokens off;
         include /etc/nginx/conf/conf.d/*.conf;
     }

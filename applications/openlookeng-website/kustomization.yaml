@@ -2,19 +2,22 @@ resources:
   - ingress.yaml
   - www-ingress.yaml
   - namespace.yaml
-  - service.yaml
   - cibot-service.yaml
   - cache-ingress.yaml
-  - oauth-proxy.yaml
-  - secrets.yaml
+  - openlookeng-website-frontend-service.yaml
+  - clasign-ingress.yaml
+  - clasign-secrets.yaml
 commonLabels:
   app: openlookeng-website
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 patchesJson6902:
   - target:
       group: ""
       version: v1
       kind: Service
-      name: openlookeng-website-internal
+      name: openlookeng-website-frontend-service
     path: selector.yaml
   - target:
       group: ""
@@ -22,16 +25,3 @@ patchesJson6902:
       kind: Service
       name: openlookeng-bot-internal
     path: selector.yaml
-  - target:
-      group: ""
-      version: v1
-      kind: Service
-      name: newyear-backend
-    path: selector.yaml
-  - target:
-      group: ""
-      version: v1
-      kind: Service
-      name: newyear-frontend
-    path: selector.yaml
-namespace: openlookeng-website

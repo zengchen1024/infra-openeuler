@@ -1,0 +1,19 @@
+resources:
+- https://github.com/opensourceways/infra-mindspore/applications/website?ref=master
+replicas:
+- name: mindspore-website
+  count: 1
+commonLabels:
+  label: mindspore-website
+commonAnnotations:
+  owner: tommylikehu
+  email: "tommylikehu@gmail.com"
+namespace: website
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patchesStrategicMerge:
+- pvc.yaml
+- secrets.yaml
+- deployment.yaml
+- ingress.yaml
+- remove-wwwingress.yaml

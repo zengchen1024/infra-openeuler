@@ -3,6 +3,10 @@ resources:
 - ingress.yaml
 commonLabels:
   app: compass-ci
+  owner: dukaitian
+commonAnnotations:
+  email: huming15@163.com
+  owner: dukaitian
 namespace: compass-ci
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -11,5 +15,7 @@ images:
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
   newTag: 18741183383c9513e99df71d67bb5e998f449f08.1600853199
 - name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/compassciweb
-  newTag: 6e7b5388d9f325c59643955874779d14f2a047e4.1610004189
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/compassciweb
+  newTag: a1cd623b18ba642f0b7ccd8f561975a8ffc72c02.1620722472
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/compassciweb
+  newTag: e36bb1b8f37dc094fb8ed7e5ae756ad27a49690a.1630325703

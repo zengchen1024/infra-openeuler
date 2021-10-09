@@ -15,12 +15,16 @@ spec:
     spec:
       containers:
         - name: repo-nginx
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
+            - mountPath: /etc/nginx/conf/static/baidu.html
+              name: repo-nginx-configmap-volume
+              subPath: baidu.html
           resources:
             requests:
               cpu: 4000m
@@ -32,6 +36,7 @@ spec:
               mkdir -p /repo/openeuler
               exec nginx -g "daemon off;"
         - name: fscrawler-client
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/fscrawler:0.0.1
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
@@ -56,11 +61,8 @@ spec:
               sed -i "s/<password>/${PASSWORD}/g" ~/.fscrawler/openeuler/_settings.yaml
               exec fscrawler openeuler
         - name: rsync-server
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/repo-client:cf6df893333da15daf1b0ade7ef03db3a83e1b6e
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:d8e5d2d93ffbeae4ec0ea9372c47cd6d1853fb14
           volumeMounts:
-            - mountPath: /etc/rsyncd.secrets.ro
-              name: rsync-secrets-volume
-              subPath: rsyncd_secrets
             - mountPath: /repo/openeuler
               name: data-volume
             - mountPath: /root/.ssh/authorized_keys.ro
@@ -70,7 +72,7 @@ spec:
             - name: TARGET_DIR
               value: "/repo/openeuler"
             - name: RSYNC_INTERNAL
-              value: "21600"
+              value: "600"
             - name: SYNC_HOST
               value: "rsync://root@121.36.97.194/openeuler"
             - name: ADDITIONAL_PARAMETERS
@@ -80,8 +82,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              cp /etc/rsyncd.secrets.ro /etc/rsyncd.secrets
-              chmod 0400 /etc/rsyncd.secrets
+              /usr/bin/rsync --daemon --config /etc/rsyncd.conf
               exec tini -- entrypoint.sh
           resources:
             requests:

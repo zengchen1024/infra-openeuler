@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/limit-rate: "10240"
+  name: repo-ingress
+spec:
+  tls:
+    - hosts:
+        - ru-repo.openeuler.org
+      secretName: repo-tls
+  rules:
+    - host: ru-repo.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: repo-service
+              servicePort: 80
+            path: /

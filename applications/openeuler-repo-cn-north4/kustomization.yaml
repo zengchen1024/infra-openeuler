@@ -1,0 +1,12 @@
+resources:
+  - pvc.yaml
+  - namespace.yaml
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+commonLabels:
+  app: openeuler-repo
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
+namespace: repo2

@@ -1,0 +1,63 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: repo-server
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: repo-nginx-pod
+    spec:
+      containers:
+        - name: repo-nginx
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
+          volumeMounts:
+            - mountPath: /repo/openeuler
+              name: data-volume
+          resources:
+            requests:
+              cpu: 4000m
+              memory: 6000Mi
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /repo/openeuler
+              exec nginx -g "daemon off;"
+        - name: rsync-server
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:d8e5d2d93ffbeae4ec0ea9372c47cd6d1853fb14
+          volumeMounts:
+            - mountPath: /repo/openeuler
+              name: data-volume
+            - mountPath: /root/.ssh/authorized_keys.ro
+              name: repo-nginx-configmap-volume
+              subPath: ssh.pub
+          env:
+            - name: TARGET_DIR
+              value: "/repo/openeuler"
+            - name: RSYNC_INTERNAL
+              value: "600"
+            - name: SYNC_HOST
+              value: "rsync://root@121.36.97.194/openeuler"
+            - name: ADDITIONAL_PARAMETERS
+              value: "--delete"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              /usr/bin/rsync --daemon --config /etc/rsyncd.conf
+              exec tini -- entrypoint.sh
+          resources:
+            requests:
+              cpu: 4000m
+              memory: 8000Mi
+      volumes:
+        - name: rsync-secrets-volume
+          secret:
+            secretName: rsync-secrets
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: cce-evs-openeuler-data-volume

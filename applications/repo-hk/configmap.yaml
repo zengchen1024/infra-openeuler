@@ -58,13 +58,34 @@ data:
             root   /repo/openeuler;
             fancyindex on;
             fancyindex_exact_size off;
+            fancyindex_header /fancySource/header.html;
+            fancyindex_footer /fancySource/footer.html;
             autoindex   on;
+        }
+        location /fancySource {
+           root /etc/nginx/conf/static;
         }
         location = /favicon.ico {
           log_not_found off;
           access_log off;
         }
     }
+  rsyncd.conf: |-
+    ----
+    use chroot = yes
+    uid = root
+    gid = root
+    max connections = 10
+    timeout = 600
+    read only = yes
+
+    [openeuler]
+          path = /repo/openeuler
+          comment = openeuler repo folder
+          read only = true
+          ignore nonreadable = yes
+          refuse options = checksum
+          dont compress = *
   nginx.conf: |-
     user  root;
     worker_processes  auto;
@@ -111,5 +132,6 @@ data:
 
         #gzip  on;
 
+        server_tokens off;
         include /etc/nginx/conf/conf.d/*.conf;
     }

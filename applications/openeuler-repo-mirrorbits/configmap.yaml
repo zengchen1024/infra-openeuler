@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mirrorbits-configmap
+data:
+  mirrorbits.conf: |
+    # vim: set ft=yaml:
+    ###################
+    ##### GENERAL #####
+    ###################
+    # Path to the local repository
+    Repository: /repo/openeuler
+    # Path to the templates (default autodetect)
+    Templates: /usr/share/mirrorbits
+    # A local path or URL containing the JavaScript used by the templates.
+    # If this is not set (the default), the JavaScript will just be loaded
+    # from the usual CDNs. See also `contrib/localjs/fetchfiles.sh`.
+    # LocalJSPath:
+    # Path where to store logs (comment to disable)
+    # LogDir: /var/log/mirrorbits
+    # Path to the GeoIP2 mmdb databases
+    GeoipDatabasePath: /usr/local/share/GeoIP
+    # OutputMode can take on the three values:
+    # - redirect: HTTP redirect to the destination file on the selected mirror
+    # - json: return a json document for pre-treatment by an application
+    # - auto: based on the Accept HTTP header
+    OutputMode: json
+    # Enable Gzip compression
+    # Gzip: false
+    # Host an port to listen on
+    ListenAddress: :8080
+    # Host and port to listen for the CLI RPC
+    RPCListenAddress: 0.0.0.0:3390
+    # Password for restricting access to the CLI (optional)
+    # RPCPassword:
+    ###### DATABASE ######
+    # Redis host and port
+    RedisAddress: redis.repo-mirrorbits.svc.cluster.local:6379
+    # Redis password (if any)
+    # RedisPassword: openeuler@2021
+    # Redis database ID (if any)
+    # RedisDB: 5
+    # Redis sentinel name (only if using sentinel)
+    # RedisSentinelMasterName: mirrorbits
+    # List of Redis sentinel hosts (only if using sentinel)
+    # RedisSentinels:
+    # - Host: 10.0.0.1:26379
+    # - Host: 10.0.0.2:26379
+    # - Host: 10.0.0.3:26379
+
+    ##### MIRRORS #####
+    # Maximum number of concurrent mirror synchronization to do (rsync/ftp)
+    ConcurrentSync: 5
+    # Interval in minutes between mirror scan
+    ScanInterval: 30
+    # Interval in minutes between mirrors HTTP health checks
+    CheckInterval: 1
+    # Whether strict match http schema when select mirrors
+    SchemaStrictMatch: false
+    Fallbacks:
+        - URL: http://121.36.97.194/
+          CountryCode: CN
+          ContinentCode: AS
+  redis.conf: |
+    dir /data/redis/data
+    bind 0.0.0.0
+    appendonly yes
+    daemonize no
+  ssh.pub: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQChSk+/FF79F8ut0hpNuYQ4uhAgUSY4hzRIPvQ2uVTukP0B0A99NYPfDNICp7gLa6e7yzaj+bvCpgWZoZCNAWTBWkq+zHTgDDHrLtUE4zPC1guzuR+Gz3yeIzSt0iAzi9uG2p+qh7jUfl8QAwNOs3wosNenoZj7NmgsCF9M1o85msimRc8Roxnn5caao1RtdNkDHDqhw5QiS9doSUjoxT+esD0CI7RHAyMgMCfSlXXl/phpdSU2hVJSFXsHVBTiymkuMQe8Ylmls+OEmCe8Cy7lIqE/Q+56l62Pxv4UJpOWs9T/SrOEr5vtEPGghZzgo5ViewzAs3dGMaODSO25XhrIiRZ7hjBK9tjLOX7ZXfAsb4DpJljq2aPCrlEaGJsHc2laixKIOKogDbqFffM3eXwgEAxPUevX/mYnuyhAVrsRUl8HXIQnTuVIEeYVdmn2MA8I/y6MPWdN5VbLR5gOiNLOuSVhCq3sQLpTZ9CONF+zq+1layCoaGMIZw5JwYgWCQgCGNclbx8eMVY3+J3slH6VjzE/05Eys18HtpuAMCivBLGgpBGeCVdpQqkHodTn5ZjNZEBAgzHypiOgR/txMHhkTi4+1ZvTmSRWs9hggv4/IcDQFaj1f2JVds6lxGvJyOnoy9k1VUC0q4N6sptpJ/n+ElCJ4UaHE48La3Mu79R6+Q== openeuler_hosts

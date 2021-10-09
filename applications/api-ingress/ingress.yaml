@@ -6,6 +6,19 @@ metadata:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://www.openeuler.org"
+    nginx.ingress.kubernetes.io/proxy-body-size: 5m
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ^~ /meetings/allmeetings/ {
+        deny all;
+      }
+      location ^~ /meetings/participants/ {
+        deny all;
+      }
+      location ^~ /meetings/registrants/ {
+        deny all;
+      }
   name: api-ingress
 spec:
   tls:
@@ -45,6 +58,14 @@ spec:
               servicePort: 80
             path: /cve-manager(/|$)(.*)
           - backend:
+              serviceName: hdc-task-manager-service
+              servicePort: 80
+            path: /hdc-task-manager(/|$)(.*)
+          - backend:
+              serviceName: osi-task-manager-service
+              servicePort: 80
+            path: /osi-task-manager(/|$)(.*)            
+          - backend:
               serviceName: nginx-purger-service
               servicePort: 80
             path: /nginx-purger(/|$)(.*)
@@ -52,24 +73,7 @@ spec:
               serviceName: sync-bot-service
               servicePort: 80
             path: /sync-bot(/|$)(.*)
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
-  name: euler-icon-service
-spec:
-  tls:
-    - hosts:
-        - eulericon.openeuler.org
-      secretName: euler-icon-tls
-  rules:
-    - host: eulericon.openeuler.org
-      http:
-        paths:
           - backend:
-              serviceName: euler-icon-service
+              serviceName: repo-mirrorbits-service
               servicePort: 80
-            path: /
+            path: /mirrors(/|$)(.*)

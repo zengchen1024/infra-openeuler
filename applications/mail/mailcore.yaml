@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mail-suit-service
+  name: mailman-core
+  namespace: mail
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: mail-suit-service
+  serviceName: mail-suit-service
+  template:
+    metadata:
+      labels:
+        app: mail-suit-service
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          sed -i "s/charset: us-ascii/charset: utf-8/g" /usr/lib/python3.6/site-packages/mailman/config/schema.cfg;
+          exec docker-entrypoint.sh master --force
+        env:
+        - name: DATABASE_URL
+          value: postgres://mailman:mailmanpass@mailman-database-0.mail-suit-service.mail.svc.cluster.local/mailmandb
+        - name: DATABASE_TYPE
+          value: postgres
+        - name: DATABASE_CLASS
+          value: mailman.database.postgresql.PostgreSQLDatabase
+        - name: HYPERKITTY_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: hyperkitty_api_key
+              name: mailman-secrets
+        - name: HYPERKITTY_URL
+          value: http://mailman-web-service.mail.svc.cluster.local:8000/hyperkitty
+        - name: SMTP_HOST
+          value: mailman-exim4-service.mail.svc.cluster.local
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/mail-core:v0.1.0
+        imagePullPolicy: IfNotPresent
+        name: mailman-core
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/mailman/
+          name: mailman-core-volume
+        - mountPath: /usr/lib/python3.6/site-packages/mailman/runners/command.py
+          name: mailman-core-config-volume
+          subPath: command.py
+        - mountPath: /usr/lib/python3.6/email/base64mime.py
+          subPath: base64mime.py
+          name: mailman-core-config-volume
+        - mountPath: /usr/lib/python3.6/email/quoprimime.py
+          subPath: quoprimime.py
+          name: mailman-core-config-volume
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: mailman-core-volume
+        persistentVolumeClaim:
+          claimName: config-vol
+      - configMap:
+          defaultMode: 420
+          name: mailman-core-configmap
+        name: mailman-core-config-volume
+  updateStrategy:
+    type: OnDelete

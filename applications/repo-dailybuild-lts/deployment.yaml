@@ -17,10 +17,12 @@ spec:
         openeuler.ci/task: common
       containers:
         - name: repo-nginx
-          image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/nginx-extras:1.10.3-with-sshd-repo
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.20.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
-              name: data-volume
+              name: data-volume-02
+            - mountPath: /repo/openenlerBak
+              name: data-volume            
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
@@ -90,6 +92,68 @@ spec:
               name: loopdevice33
             - mountPath: /dev/loop34
               name: loopdevice34
+            - mountPath: /dev/loop35
+              name: loopdevice35
+            - mountPath: /dev/loop36
+              name: loopdevice36
+            - mountPath: /dev/loop37
+              name: loopdevice37
+            - mountPath: /dev/loop38
+              name: loopdevice38
+            - mountPath: /dev/loop39
+              name: loopdevice39
+            - mountPath: /dev/loop40
+              name: loopdevice40
+            - mountPath: /dev/loop41
+              name: loopdevice41
+            - mountPath: /dev/loop42
+              name: loopdevice42
+            - mountPath: /dev/loop43
+              name: loopdevice44
+            - mountPath: /dev/loop44
+              name: loopdevice44
+            - mountPath: /dev/loop45
+              name: loopdevice45
+            - mountPath: /dev/loop46
+              name: loopdevice46
+            - mountPath: /dev/loop47
+              name: loopdevice47
+            - mountPath: /dev/loop48
+              name: loopdevice48
+            - mountPath: /dev/loop49
+              name: loopdevice49
+            - mountPath: /dev/loop50
+              name: loopdevice50
+            - mountPath: /dev/loop51
+              name: loopdevice51
+            - mountPath: /dev/loop52
+              name: loopdevice52
+            - mountPath: /dev/loop53
+              name: loopdevice53
+            - mountPath: /dev/loop54
+              name: loopdevice54
+            - mountPath: /dev/loop55
+              name: loopdevice55
+            - mountPath: /dev/loop56
+              name: loopdevice56
+            - mountPath: /dev/loop57
+              name: loopdevice57
+            - mountPath: /dev/loop58
+              name: loopdevice58
+            - mountPath: /dev/loop59
+              name: loopdevice59
+            - mountPath: /dev/loop60
+              name: loopdevice60
+            - mountPath: /dev/loop61
+              name: loopdevice61
+            - mountPath: /dev/loop62
+              name: loopdevice62
+            - mountPath: /dev/loop63
+              name: loopdevice63
+            - mountPath: /dev/loop64
+              name: loopdevice64
+            - mountPath: /dev/loop65
+              name: loopdevice65              
             - mountPath: /dev/loop-control
               name: loopdevice25
             - mountPath: /root/.ssh/authorized_keys.ro
@@ -110,12 +174,30 @@ spec:
               cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
               chmod 0400 /root/.ssh/authorized_keys
               chown root:root /root/.ssh/authorized_keys
-              /usr/sbin/sshd &
+              /etc/init.d/ssh start &
               exec nginx -g "daemon off;"
           securityContext:
             privileged: true
         - name: rsync-server
-          $patch: delete
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:0.0.5
+          volumeMounts:
+            - mountPath: /etc/rsyncd.conf
+              name: repo-nginx-configmap-volume
+              subPath: rsyncd.conf
+            - mountPath: /etc/rsyncd.secrets.ro
+              name: rsync-secrets-volume
+              subPath: rsyncd_secrets
+            - mountPath: /repo/openeuler
+              name: data-volume-02
+            - mountPath: /repo/openeulerBak
+              name: data-volume            
+            - mountPath: /root/.ssh/authorized_keys.ro
+              name: repo-nginx-configmap-volume
+              subPath: ssh.pub
+          resources:
+            requests:
+              cpu: 300m
+              memory: 2000Mi
       volumes:
         - name: rsync-secrets-volume
           secret:
@@ -253,9 +335,136 @@ spec:
             type: ''
           name: loopdevice34
         - hostPath:
+            path: /dev/loop35
+            type: ''
+          name: loopdevice35
+        - hostPath:
+            path: /dev/loop36
+            type: ''
+          name: loopdevice36
+        - hostPath:
+            path: /dev/loop37
+            type: ''
+          name: loopdevice37
+        - hostPath:
+            path: /dev/loop38
+            type: ''
+          name: loopdevice38
+        - hostPath:
+            path: /dev/loop39
+            type: ''
+          name: loopdevice39
+        - hostPath:
+            path: /dev/loo40
+            type: ''
+          name: loopdevice40
+        - hostPath:
+            path: /dev/loop41
+            type: ''
+          name: loopdevice41
+        - hostPath:
+            path: /dev/loop42
+            type: ''
+          name: loopdevice42
+        - hostPath:
+            path: /dev/loop43
+            type: ''
+          name: loopdevice43
+        - hostPath:
+            path: /dev/loop44
+            type: ''
+          name: loopdevice44
+        - hostPath:
+            path: /dev/loop45
+            type: ''
+          name: loopdevice45
+        - hostPath:
+            path: /dev/loop46
+            type: ''
+          name: loopdevice46
+        - hostPath:
+            path: /dev/loop47
+            type: ''
+          name: loopdevice47
+        - hostPath:
+            path: /dev/loop48
+            type: ''
+          name: loopdevice48
+        - hostPath:
+            path: /dev/loop49
+            type: ''
+          name: loopdevice49
+        - hostPath:
+            path: /dev/loo50
+            type: ''
+          name: loopdevice50
+        - hostPath:
+            path: /dev/loop51
+            type: ''
+          name: loopdevice51
+        - hostPath:
+            path: /dev/loop52
+            type: ''
+          name: loopdevice52
+        - hostPath:
+            path: /dev/loop53
+            type: ''
+          name: loopdevice53
+        - hostPath:
+            path: /dev/loop54
+            type: ''
+          name: loopdevice54         
+        - hostPath:
+            path: /dev/loop55
+            type: ''
+          name: loopdevice55
+        - hostPath:
+            path: /dev/loop56
+            type: ''
+          name: loopdevice56
+        - hostPath:
+            path: /dev/loop57
+            type: ''
+          name: loopdevice57
+        - hostPath:
+            path: /dev/loop58
+            type: ''
+          name: loopdevice58
+        - hostPath:
+            path: /dev/loop59
+            type: ''
+          name: loopdevice59
+        - hostPath:
+            path: /dev/loo60
+            type: ''
+          name: loopdevice60
+        - hostPath:
+            path: /dev/loop61
+            type: ''
+          name: loopdevice61
+        - hostPath:
+            path: /dev/loop62
+            type: ''
+          name: loopdevice62
+        - hostPath:
+            path: /dev/loop63
+            type: ''
+          name: loopdevice63
+        - hostPath:
+            path: /dev/loop64
+            type: ''
+          name: loopdevice64
+        - hostPath:
+            path: /dev/loop65
+            type: ''
+          name: loopdevice65          
+        - hostPath:
             path: /dev/loop-control
             type: ''
           name: loopdevice25
         - name: data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
+        - name: data-volume-02
+          persistentVolumeClaim:
+            claimName: openeuler-data-volume-02

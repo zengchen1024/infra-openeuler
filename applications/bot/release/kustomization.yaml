@@ -9,7 +9,6 @@ patchesStrategicMerge:
 - deployment.yaml
 kind: Kustomization
 images:
-- name: opensourceway/openeulerbot:v1.0
-- name: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ci-bot
-  newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/ci-bot
-  newTag: 7e37b5d8e690eca725b6802094771f2a82dd2400.1610769705
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ci-bot
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ci-bot
+  newTag: 4a18b627fc7d0348aced23c5e57ae6fbec258101.1631688394

@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/custom-http-errors: "404"
+  name: jenkins-ingress
+spec:
+  tls:
+    - hosts:
+        - openeulerci.osinfra.cn
+      secretName: jenkins-tls
+  rules:
+    - host: openeulerci.osinfra.cn
+      http:
+        paths:
+          - backend:
+              serviceName: oauth2-proxy
+              servicePort: 4180
+            path: /

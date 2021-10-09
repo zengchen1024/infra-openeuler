@@ -4,6 +4,9 @@ resources:
   - service.yaml
 commonLabels:
   app: openlookeng-repo
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
 patchesJson6902:
   - target:
       group: ""

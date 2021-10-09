@@ -1,10 +1,14 @@
 resources:
-  - https://github.com/opensourceways/infra-openeuler/applications/openlookeng-website?ref=master
+  - https://github.com/opensourceways/infra-openeuler/applications/openlookeng-website-frontend?ref=master
+  - ingress.yaml
+replicas:
+- name: openlookeng-website-frontend
+  count: 1
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-patchesStrategicMerge:
-- ingress.yaml
-- remove-wwwingress.yaml
 commonLabels:
   app: openlookeng-website
-namespace: openlookeng-website
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
+namespace: openlookeng-website-frontend

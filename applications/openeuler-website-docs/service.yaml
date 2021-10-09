@@ -1,0 +1,23 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: website-backend-service
+spec:
+  type: ExternalName
+  externalName: website-backend-service.website-v2.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: website-docs-service
+  namespace: website-docs
+spec:
+  ports:
+    - name: website-docs
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: website-docs
+  type: ClusterIP

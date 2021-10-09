@@ -13,7 +13,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
                 - name: ZOOM_TOKEN
                   valueFrom:
@@ -61,6 +61,11 @@ spec:
                     secretKeyRef:
                       key: ci_bot_token
                       name: meeting-server-secrets
+                - name: GENEGROUP_AUTH
+                  valueFrom:
+                    secretKeyRef:
+                      key: genegroup_auth
+                      name: meeting-server-secrets
                 - name: TZ
                   value: Asia/Shanghai
               command:
@@ -83,8 +88,13 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
+                - name: ZOOM_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      key: zoom_token
+                      name: meeting-server-secrets
                 - name: ACCESS_KEY_ID
                   valueFrom:
                     secretKeyRef:
@@ -127,6 +137,7 @@ spec:
                 - /bin/sh
                 - -c
                 - |
+                  strip -R .note.ABI-tag /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.11.3
                   python manage.py handle_recordings
 ---
 apiVersion: batch/v1beta1
@@ -143,7 +154,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
                 - name: ACCESS_KEY_ID
                   valueFrom:
@@ -213,7 +224,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: meeting-server
-              image: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/app-meeting-server:a849c3532c9c172b1db128a7021a1d9c3c6df977
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
               env:
                 - name: ACCESS_KEY_ID
                   valueFrom:
@@ -263,3 +274,43 @@ spec:
                 - -c
                 - |
                   python manage.py check_examination
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: update-activity-status
+spec:
+  schedule: "0 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: meeting-server
+              image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/app-meeting-server:f5af300fc61e33f1a3228a5981674622b0ca4285
+              env:
+                - name: SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: secret_key
+                      name: meeting-server-secrets
+                - name: DB_USER
+                  value: root
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: db_password
+                      name: meeting-server-secrets
+                - name: DB_HOST
+                  value: 172.16.1.73
+                - name: DB_PORT
+                  value: "3306"
+                - name: TZ
+                  value: Asia/Shanghai
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  python manage.py update_activity_status
