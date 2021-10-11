@@ -17,7 +17,7 @@ spec:
         openeuler.ci/task: common
       containers:
         - name: repo-nginx
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.20.0-with-fancy-templates-repo
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume-02
@@ -179,7 +179,7 @@ spec:
           securityContext:
             privileged: true
         - name: rsync-server
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:0.0.5
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:1.0.1
           volumeMounts:
             - mountPath: /etc/rsyncd.conf
               name: repo-nginx-configmap-volume
