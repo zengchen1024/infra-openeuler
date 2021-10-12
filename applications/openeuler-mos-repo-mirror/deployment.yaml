@@ -28,7 +28,7 @@ spec:
               mkdir -p /repo/openeuler
               exec nginx -g "daemon off;"
         - name: rsync-server
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:d8e5d2d93ffbeae4ec0ea9372c47cd6d1853fb14
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:122abc521614802693d71f85303360a21972cefb
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
