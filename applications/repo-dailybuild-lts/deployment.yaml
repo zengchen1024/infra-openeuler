@@ -174,7 +174,10 @@ spec:
               cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
               chmod 0400 /root/.ssh/authorized_keys
               chown root:root /root/.ssh/authorized_keys
-              /etc/init.d/ssh start &
+              ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
+              ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+              ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+              /usr/sbin/sshd -D &
               exec nginx -g "daemon off;"
           securityContext:
             privileged: true
