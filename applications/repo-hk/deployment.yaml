@@ -61,7 +61,7 @@ spec:
               sed -i "s/<password>/${PASSWORD}/g" ~/.fscrawler/openeuler/_settings.yaml
               exec fscrawler openeuler
         - name: rsync-server
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:d8e5d2d93ffbeae4ec0ea9372c47cd6d1853fb14
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:f1fcc9b3cf776b78fb1b93ef566cb53d82e3fa2b
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
