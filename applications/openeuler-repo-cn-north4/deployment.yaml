@@ -53,7 +53,7 @@ items:
             chown root:root /root/.ssh/authorized_keys
             /etc/init.d/ssh start &
             exec /usr/bin/rsync --no-detach --daemon --config /etc/rsyncd.conf;
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:0.0.5
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:1.0.1
           imagePullPolicy: Always
           name: rsync-server
           resources:
