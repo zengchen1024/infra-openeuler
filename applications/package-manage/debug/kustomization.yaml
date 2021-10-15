@@ -14,5 +14,6 @@ images:
 - name: opensourceway/packagemanage
   newName: opensourceway/packagemanage
   newTag: 506db81ed9665418dc1bc1b5a5cfc67521872e5e.1616489354
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/pkgmanageweb
+- name: opensourceway/pkgmanageweb:v1.0
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/pkgmanageweb
   newTag: d9a802ad74da54f6614691718512fa3a7e24b505.1634258631
