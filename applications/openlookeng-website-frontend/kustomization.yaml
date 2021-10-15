@@ -17,4 +17,4 @@ images:
   newName: swr.ap-southeast-1.myhuaweicloud.com/opensourceway/openlookeng_website
   newTag: d6b0e3bdb9fed4dd9c5d4bcf96551d45363704fb
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openlookeng_website
-  newTag: 4874475ee9dd0dc669200c85c083eef6c6a53bb4
+  newTag: 68dff8d3313679ebe7c9ff2265fa3e9105eb75f4
