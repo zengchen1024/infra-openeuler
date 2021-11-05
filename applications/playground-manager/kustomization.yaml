@@ -3,6 +3,7 @@ resources:
 - deployment.yaml
 - service.yaml
 - secrets.yaml
+- ingress.yaml
 commonLabels:
   app: playground-manager
   owner: zhangjianjun

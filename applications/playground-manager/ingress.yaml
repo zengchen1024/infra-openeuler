@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    #cert-manager.io/cluster-issuer: letsencrypt-issuer
+  name: playground-manager-ingress
+  namespace: playground-manager
+spec:
+  tls:
+    - hosts:
+        - playground.osinfra.cn
+      secretName: playground-tls-secret
+  rules:
+    - host: playground.osinfra.cn
+      http:
+        paths:
+          - backend:
+              serviceName: playground-manager-service
+              servicePort: 80
+          #- path: /
