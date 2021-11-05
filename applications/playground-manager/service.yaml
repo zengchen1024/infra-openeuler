@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: playground-manager-service
+  namespace: playground-manager
+spec:
+  ports:
+    - name: playground-manager
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: playground-manager
+  type: ClusterIP

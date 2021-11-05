@@ -1,0 +1,86 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: playground-manager
+  name: playground-manager
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: playground-manager
+  template:
+    metadata:
+      labels:
+        app: playground-manager
+    spec:
+      containers:
+        - env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: playground-secrets
+                  key: db-username
+            - name: DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: playground-secrets
+                  key: db-passwd
+            - name: DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: playground-secrets
+                  key: db-uri
+            - name: AES_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: playground-secrets
+                  key: aes-key
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: playground-secrets
+                  key: gitee-client-secret
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: playground-secrets
+                  key: gitee-client-id
+            - name: OAUTH2_CALLBACK
+              valueFrom:
+                secretKeyRef:
+                  name: playground-secrets
+                  key: oauth2-callback
+            - name: TZ
+              value: Asia/Shanghai
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/playground-manager:5e4d96b3b6e2efc1a4d1cad557d1932c2a974bd9
+          imagePullPolicy: Always
+          name: playground-manager
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            httpGet:
+              path: /healthz/readiness
+              port: 8080
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            httpGet:
+              path: /healthz/liveness
+              port: 8080
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 3000Mi
+            requests:
+              cpu: 1000m
+              memory: 2000Mi
