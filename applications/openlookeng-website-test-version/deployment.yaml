@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openlookeng-website
+  namespace: openlookeng-website
+  labels: 
+    app: openlookeng-website
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: openlookeng-website 
+  template:
+    metadata:
+      labels:
+        app: openlookeng-website
+    spec:
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      containers:
+      - name: websitepod
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/test_openlookeng_website:e4ca0be60c49f3d405da67431a3091cd2624dd2d
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP

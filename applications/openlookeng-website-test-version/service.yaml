@@ -1,0 +1,18 @@
+# Config web service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openlookeng-website-frontend-service
+  namespace: openlookeng-website
+  labels:
+    app: openlookeng-website
+spec:
+  ports:
+    - name: httpport
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: openlookeng-website
+  type: ClusterIP
