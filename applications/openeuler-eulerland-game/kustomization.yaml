@@ -1,9 +1,9 @@
 resources:
-  - namespace.yaml
-  - ingress.yaml
-  - service.yaml
-  - deployment.yaml
-  - secrets.yaml
+- namespace.yaml
+- ingress.yaml
+- service.yaml
+- deployment.yaml
+- secrets.yaml
 commonLabels:
   app: openeuler-eulerland-game
 commonAnnotations:
@@ -13,4 +13,4 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/euler-land-game
-  newTag: v1.1
+  newTag: v1.2
