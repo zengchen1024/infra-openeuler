@@ -16,7 +16,7 @@ kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-gateway
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-gateway
-  newTag: "1629707957"
+  newTag: "1639725151"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-server
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-server
   newTag: "1639725036"
