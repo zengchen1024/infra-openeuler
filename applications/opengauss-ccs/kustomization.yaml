@@ -14,6 +14,9 @@ namespace: opengauss-ccs
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-config
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-config
+  newTag: "1639727245"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-gateway
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-gateway
   newTag: "1639725151"
