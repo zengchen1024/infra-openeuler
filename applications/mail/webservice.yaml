@@ -36,7 +36,9 @@ spec:
           exec docker-entrypoint.sh uwsgi --ini /opt/mailman-web/uwsgi.ini;
         env:
         - name: PRIVACY_LINK
-          value: https://openeuler.org/en/other/privacy/
+          value: https://www.openeuler.org/en/other/privacy/
+        - name: CONDUCT_LINK
+          value: https://www.openeuler.org/en/community/conduct/
         - name: DATABASE_TYPE
           value: postgres
         - name: DATABASE_URL
