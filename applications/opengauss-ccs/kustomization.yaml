@@ -16,7 +16,7 @@ kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-config
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-config
-  newTag: "1639727245"
+  newTag: "1640051863"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-eureka
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-eureka
   newTag: "1639727265"
