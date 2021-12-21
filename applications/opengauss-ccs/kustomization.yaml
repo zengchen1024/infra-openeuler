@@ -22,7 +22,7 @@ images:
   newTag: "1640051898"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-gateway
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-gateway
-  newTag: "1639725151"
+  newTag: "1640052262"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-server
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/opengauss-ccs-server
   newTag: "1640051946"
