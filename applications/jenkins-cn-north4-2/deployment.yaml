@@ -28,11 +28,11 @@ spec:
                   name: openeuler-jenkins
           resources:
             limits:
-              cpu: 12000m
-              memory: 32000Mi
+              cpu: 20000m
+              memory: 48000Mi
             requests:
-              cpu: 6000m
-              memory: 16000Mi
+              cpu: 10000m
+              memory: 20000Mi
       initContainers:
         - name: copy-default-config
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/jenkins:lts
