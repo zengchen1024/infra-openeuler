@@ -22,7 +22,7 @@ images:
   newTag: "1639725876"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway
-  newTag: "1639725063"
+  newTag: "1640050920"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-server
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-server
   newTag: "1639724673"
