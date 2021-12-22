@@ -28,8 +28,8 @@ spec:
                   name: openeuler-jenkins
           resources:
             limits:
-              cpu: 12000m
-              memory: 32000Mi
+              cpu: 64000m
+              memory: 100000Mi
             requests:
               cpu: 6000m
               memory: 16000Mi
