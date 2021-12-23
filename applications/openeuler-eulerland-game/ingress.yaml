@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/limit-connections: "200"
+    nginx.ingress.kubernetes.io/limit-rps: "200"
+  name: eulerland-game
+  namespace: eulerland-game
+  labels: 
+    app: eulerland-game
+spec:
+  tls:
+    - hosts:
+        - game.openeuler.org
+      secretName: eulerland-game-tls
+  rules:
+    - host: game.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: eulerland-game-service
+              servicePort: 80
+            path: /
+      
