@@ -5,7 +5,6 @@ metadata:
   labels:
     k8s-app: oauth2-proxy
   name: oauth2-proxy
-  namespace: website-summary
 spec:
   selector:
     k8s-app: oauth2-proxy

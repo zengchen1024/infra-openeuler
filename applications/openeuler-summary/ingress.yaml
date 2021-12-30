@@ -6,21 +6,16 @@ metadata:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-issuer
   name: website-summary-ingress
-  namespace: website-summary
 spec:
   tls:
     - hosts:
-        - summary.openeuler.org
+        - www.openeuler.org
       secretName: website-summary-tls-secret
   rules:
-    - host: summary.openeuler.org
+    - host: www.openeuler.org
       http:
         paths:
           - backend:
               serviceName: oauth2-proxy
               servicePort: 4180
-            path: /zh/2021summary/
-          - backend:
-              serviceName: oauth2-proxy
-              servicePort: 4180
-            path: /en/2021summary/
+            path: /2021summary
