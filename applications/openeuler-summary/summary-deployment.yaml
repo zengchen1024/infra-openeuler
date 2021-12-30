@@ -1,0 +1,24 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: openeuler-summary
+  namespace: website-summary
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: openeuler-summary
+  template:
+    metadata:
+      labels:
+        app: openeuler-summary
+    spec:
+      containers:
+        - name: openeuler-summary-pod
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx:1.20.0
+          imagePullPolicy: "Always"
+          ports:
+          - name: http 
+            containerPort: 80
+            protocol: TCP
