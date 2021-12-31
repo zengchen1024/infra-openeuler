@@ -3,20 +3,19 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: openeuler-summary
-  namespace: website-summary
 spec:
   replicas: 1
   selector: 
     matchLabels:
-      app: openeuler-summary
+      component: openeuler-frontend
   template:
     metadata:
       labels:
-        app: openeuler-summary
+        component: openeuler-frontend
     spec:
       containers:
         - name: openeuler-summary-pod
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx:1.20.0
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/summary/openeuler-summary:e80e6ac14463077d2187693ec0d3728496df9df7
           imagePullPolicy: "Always"
           ports:
           - name: http 

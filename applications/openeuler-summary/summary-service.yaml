@@ -3,10 +3,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: openeuler-summary
-  namespace: website-summary
 spec:
   selector:
-    app: openeuler-summary
+    component: openeuler-frontend
   ports:
     - name: http
       port: 80
