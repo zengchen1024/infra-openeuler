@@ -2,19 +2,19 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: openeuler-summary
+  name: opengauss-summary
 spec:
   replicas: 2
   selector: 
     matchLabels:
-      component: openeuler-frontend
+      component: opengauss-frontend
   template:
     metadata:
       labels:
-        component: openeuler-frontend
+        component: opengauss-frontend
     spec:
       containers:
-        - name: openeuler-summary-pod
+        - name: opengauss-summary-pod
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/summary/openeuler-summary:e80e6ac14463077d2187693ec0d3728496df9df7
           imagePullPolicy: "Always"
           resources:
