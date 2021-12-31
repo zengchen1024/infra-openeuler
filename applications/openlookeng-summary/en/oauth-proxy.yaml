@@ -45,7 +45,7 @@ spec:
                 secretKeyRef:
                   key: cookie_secret
                   name: oauth-secrets
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/oauth2-proxy:4e4ef0e34f0e58f5d0793db18c2d1ab1bf2b42b6
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/oauth2-proxy:662b2634654d5fb1aa65a59da62728c9184a4a9c
           imagePullPolicy: Always
           name: oauth2-proxy
           ports:
