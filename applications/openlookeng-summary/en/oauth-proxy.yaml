@@ -19,7 +19,6 @@ spec:
         - args:
             - --provider=gitee
             - --email-domain=*
-            - --gitee-org=opensourceway
             - --proxy-prefix=/en/2021summary/oauth2
             - --skip-auth-regex=^/en/2021summary/agreement_ch.html
             - --skip-auth-regex=^/en/2021summary/agreement_en.html
