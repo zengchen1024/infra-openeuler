@@ -1,41 +1,61 @@
 apiVersion: v1
-items:
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      kubernetes.io/elb.class: union
-      kubernetes.io/elb.id: 161185be-1794-452b-82ca-647db0e9c5b1
-      kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
-    name: openeuler-service
-    namespace: repo2
-  spec:
-    clusterIP: 10.247.75.17
-    externalTrafficPolicy: Cluster
-    loadBalancerIP: 121.36.97.194
-    ports:
-    - name: nginx-repo-https
-      nodePort: 31303
-      port: 443
-      protocol: TCP
-      targetPort: 443
-    - name: nginx-repo-http
-      nodePort: 30941
-      port: 80
-      protocol: TCP
-      targetPort: 80
+kind: Service
+metadata:
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: 161185be-1794-452b-82ca-647db0e9c5b1
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+  name: openeuler-service
+  namespace: repo2
+spec:
+  clusterIP: 10.247.75.17
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: 121.36.97.194
+  ports:
+  - name: nginx-repo-https
+    nodePort: 31303
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  - name: nginx-repo-http
+    nodePort: 30941
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: rsync-server-port
+    nodePort: 32063
+    port: 873
+    protocol: TCP
+    targetPort: 873
+  - name: rsync-ssh-server-port
+    nodePort: 31337
+    port: 22
+    protocol: TCP
+    targetPort: 22
+  selector:
+    app: repo-nginx-pod
+  sessionAffinity: None
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: fa59225b-7d41-4612-aad7-27e971995a88
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+  name: openeuler-service-for-hk-repo
+  namespace: repo2
+spec:
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: 121.36.1.92
+  ports:
     - name: rsync-server-port
-      nodePort: 32063
       port: 873
       protocol: TCP
       targetPort: 873
-    - name: rsync-ssh-server-port
-      nodePort: 31337
-      port: 22
-      protocol: TCP
-      targetPort: 22
-    selector:
-      app: repo-nginx-pod
-    sessionAffinity: None
-    type: LoadBalancer
-kind: List
+  selector:
+    app: repo-nginx-pod
+  sessionAffinity: None
+  type: LoadBalancer
+
