@@ -74,7 +74,7 @@ spec:
             - name: RSYNC_INTERNAL
               value: "600"
             - name: SYNC_HOST
-              value: "rsync://root@121.36.97.194/openeuler"
+              value: "rsync://root@121.36.1.92/openeuler"
             - name: ADDITIONAL_PARAMETERS
               value: "--delete"
           # Use the combination of sync & sleep to sync the repo from main repo periodically
