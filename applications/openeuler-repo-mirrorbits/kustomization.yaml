@@ -15,4 +15,4 @@ commonAnnotations:
 namespace: repo-mirrorbits
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/repo-mirrorbits
-  newTag: 075e9e68455ba6b292c88715c835797746a28734
+  newTag: 98e47ce5ab69fb0278375ac023c2b5c0f6998459
