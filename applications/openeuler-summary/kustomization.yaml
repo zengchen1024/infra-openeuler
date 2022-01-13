@@ -1,0 +1,19 @@
+resources:
+- ingress.yaml
+- namespace.yaml
+- service.yaml
+- secret.yaml
+- summary-deployment.yaml
+- summary-service.yaml
+- oauth-proxy.yaml
+commonLabels:
+  app: openeuler-summary
+commonAnnotations:
+  email: tommylikehu@gmail.com
+  owner: TommyLike
+namespace: openeuler-summary
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/summary/openeuler-summary
+  newTag: 0bd04d3883178bab2b0110d7b38b4116a9cc1510

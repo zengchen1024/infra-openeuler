@@ -153,7 +153,27 @@ spec:
             - mountPath: /dev/loop64
               name: loopdevice64
             - mountPath: /dev/loop65
-              name: loopdevice65              
+              name: loopdevice65
+            - mountPath: /dev/loop66
+              name: loopdevice66
+            - mountPath: /dev/loop67
+              name: loopdevice67
+            - mountPath: /dev/loop68
+              name: loopdevice68
+            - mountPath: /dev/loop69
+              name: loopdevice69
+            - mountPath: /dev/loop70
+              name: loopdevice70
+            - mountPath: /dev/loop71
+              name: loopdevice71
+            - mountPath: /dev/loop72
+              name: loopdevice72
+            - mountPath: /dev/loop73
+              name: loopdevice73
+            - mountPath: /dev/loop74
+              name: loopdevice74
+            - mountPath: /dev/loop75
+              name: loopdevice75
             - mountPath: /dev/loop-control
               name: loopdevice25
             - mountPath: /root/.ssh/authorized_keys.ro
@@ -460,7 +480,47 @@ spec:
         - hostPath:
             path: /dev/loop65
             type: ''
-          name: loopdevice65          
+          name: loopdevice65
+        - hostPath:
+            path: /dev/loop66
+            type: ''
+          name: loopdevice66
+        - hostPath:
+            path: /dev/loop67
+            type: ''
+          name: loopdevice67
+        - hostPath:
+            path: /dev/loop68
+            type: ''
+          name: loopdevice68
+        - hostPath:
+            path: /dev/loop69
+            type: ''
+          name: loopdevice69
+        - hostPath:
+            path: /dev/loop70
+            type: ''
+          name: loopdevice70
+        - hostPath:
+            path: /dev/loop71
+            type: ''
+          name: loopdevice71
+        - hostPath:
+            path: /dev/loop72
+            type: ''
+          name: loopdevice72
+        - hostPath:
+            path: /dev/loop73
+            type: ''
+          name: loopdevice73
+        - hostPath:
+            path: /dev/loop74
+            type: ''
+          name: loopdevice74
+        - hostPath:
+            path: /dev/loop75
+            type: ''
+          name: loopdevice75
         - hostPath:
             path: /dev/loop-control
             type: ''
