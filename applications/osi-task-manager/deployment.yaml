@@ -57,6 +57,11 @@ spec:
                 secretKeyRef:
                   name: osi-task-secrets
                   key: cve-email-password
+            - name: GITEE_LOOKENG_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: osi-task-secrets
+                  key: gitee-lookeng-token
             - name: TZ
               value: Asia/Shanghai
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/osi-task-manager:5e4d96b3b6e2efc1a4d1cad557d1932c2a974bd9
