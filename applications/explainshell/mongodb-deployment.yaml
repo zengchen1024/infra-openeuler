@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mongodb-service
+  name: mongo-database
+  namespace: explainshell
+spec:
+  selector:
+    matchLabels:
+      app: mongodb-service
+  serviceName: mongodb-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongodb-service
+    spec:
+      containers:
+      - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/explainshell_db:v1.0.0 
+        imagePullPolicy: IfNotPresent
+        name: mongo-database
