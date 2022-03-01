@@ -14,4 +14,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/cve-backend
-  newTag: 36f632ab0aa6a7c05c8ed761018135edf21b4832
+  newTag: 6be84e7b552e01b500fd8b1052248fbe6b8d0425
