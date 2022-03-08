@@ -12,3 +12,5 @@ kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/explainshell_web
   newTag: v1.0.1
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/explainshell
+  newTag: 243f222b671342f29d6a62e56cff179932b217ff
