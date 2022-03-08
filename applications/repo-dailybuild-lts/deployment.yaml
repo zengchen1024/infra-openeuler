@@ -20,9 +20,7 @@ spec:
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
-              name: data-volume-02
-            - mountPath: /repo/openenlerBak
-              name: data-volume            
+              name: data-volume-02       
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
@@ -211,9 +209,7 @@ spec:
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
             - mountPath: /repo/openeuler
-              name: data-volume-02
-            - mountPath: /repo/openeulerBak
-              name: data-volume            
+              name: data-volume-02          
             - mountPath: /root/.ssh/authorized_keys.ro
               name: repo-nginx-configmap-volume
               subPath: ssh.pub
@@ -525,9 +521,6 @@ spec:
             path: /dev/loop-control
             type: ''
           name: loopdevice25
-        - name: data-volume
-          persistentVolumeClaim:
-            claimName: openeuler-data-volume
         - name: data-volume-02
           persistentVolumeClaim:
             claimName: openeuler-data-volume-02
