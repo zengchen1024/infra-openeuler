@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: compass-ci-api-web
+  namespace: compass-ci
+spec:
+  selector:
+    app: compass-ci-api
+  ports:
+    - name: web
+      port: 80
+      targetPort: 9092
+  type: ClusterIP
