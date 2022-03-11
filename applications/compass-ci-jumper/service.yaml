@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: compass-ci-jumper-web
+  namespace: compass-ci
+spec:
+  selector:
+    app: compass-ci-jumper
+  ports:
+    - name: web
+      port: 80
+      targetPort: 8888
+  type: ClusterIP
