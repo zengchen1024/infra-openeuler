@@ -69,9 +69,12 @@ data:
           log_not_found off;
           access_log off;
         }
-        location ~ .iso$ {
-          rewrite ^/(.*)  http://121.36.97.194$request_uri;
-        }
+        location ~ \.iso$ {                                                                                                                                                                                │
+│         rewrite ^/(.*)  https://repo.huaweicloud.com/openeuler$request_uri;                                                                                                                              │
+│       }                                                                                                                                                                                                  │
+│       location ~ iso.sha256sum$ {                                                                                                                                                                        │
+│         rewrite ^/(.*)  https://repo.huaweicloud.com/openeuler$request_uri;                                                                                                                              │
+│       }
     }
   rsyncd.conf: |-
     ----
