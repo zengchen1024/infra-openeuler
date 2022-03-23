@@ -95,6 +95,36 @@ spec:
                 secretKeyRef:
                   key: host_nic
                   name: meeting-server-secrets
+            - name: HOST_CY
+              valueFrom:
+                secretKeyRef:
+                  key: host_cy
+                  name: meeting-server-secrets
+            - name: HOST_ZCJ
+              valueFrom:
+                secretKeyRef:
+                  key: host_zcj
+                  name: meeting-server-secrets
+            - name: HOST_ZJ
+              valueFrom:
+                secretKeyRef:
+                  key: host_zj
+                  name: meeting-server-secrets
+            - name: HOST_WH
+              valueFrom:
+                secretKeyRef:
+                  key: host_wh
+                  name: meeting-server-secrets
+            - name: HOST_LXL
+              valueFrom:
+                secretKeyRef:
+                  key: host_lxl
+                  name: meeting-server-secrets
+            - name: HOST_ZD
+              valueFrom:
+                secretKeyRef:
+                  key: host_zd
+                  name: meeting-server-secrets
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
