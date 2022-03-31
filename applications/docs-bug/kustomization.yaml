@@ -1,0 +1,12 @@
+resources:
+- ingress.yaml
+- namespace.yaml
+- secret.yaml
+- deployment.yaml
+- service.yaml
+namespace: docs-bug
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/docs-bug-web-ui
+  newTag: 5854ce41703dd00c299bbad07d29ffb62ff409041648627148
