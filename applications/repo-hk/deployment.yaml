@@ -18,7 +18,7 @@ spec:
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
-              name: data-volumes
+              name: data-volume
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
@@ -39,7 +39,7 @@ spec:
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/fscrawler:0.0.1
           volumeMounts:
             - mountPath: /repo/openeuler
-              name: data-volumes
+              name: data-volume
           env:
             - name: USERNAME
               valueFrom:
@@ -64,7 +64,7 @@ spec:
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:122abc521614802693d71f85303360a21972cefb
           volumeMounts:
             - mountPath: /repo/openeuler
-              name: data-volumes
+              name: data-volume
             - mountPath: /root/.ssh/authorized_keys.ro
               name: repo-nginx-configmap-volume
               subPath: ssh.pub
@@ -92,6 +92,6 @@ spec:
         - name: rsync-secrets-volume
           secret:
             secretName: rsync-secrets
-        - name: data-volumes
+        - name: data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
