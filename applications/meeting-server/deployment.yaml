@@ -125,6 +125,31 @@ spec:
                 secretKeyRef:
                   key: host_zd
                   name: meeting-server-secrets
+            - name: HOST_ZC
+              valueFrom:
+                secretKeyRef:
+                  key: host_zc
+                  name: meeting-server-secrets
+            - name: HOST_HJC
+              valueFrom:
+                secretKeyRef:
+                  key: host_hjc
+                  name: meeting-server-secrets
+            - name: HOST_WWL
+              valueFrom:
+                secretKeyRef:
+                  key: host_wwl
+                  name: meeting-server-secrets
+            - name: HOST_ZZY
+              valueFrom:
+                secretKeyRef:
+                  key: host_zzy
+                  name: meeting-server-secrets
+            - name: HOST_ZB
+              valueFrom:
+                secretKeyRef:
+                  key: host_zb
+                  name: meeting-server-secrets
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
