@@ -70,10 +70,10 @@ data:
           access_log off;
         }
         location ~ \.iso$ {                                                                                                                                                                                │
-          rewrite ^/(.*)  http://121.36.97.194$request_uri;                                                                                                                              │
+          rewrite ^/(.*)  https://mirrors.tuna.tsinghua.edu.cn/openeuler$request_uri;                                                                                                                              │
         }                                                                                                                                                                                                  │
         location ~ iso.sha256sum$ {                                                                                                                                                                        │
-          rewrite ^/(.*)  http://121.36.97.194$request_uri;                                                                                                                              │
+          rewrite ^/(.*)  https://mirrors.tuna.tsinghua.edu.cn/openeuler$request_uri;                                                                                                                              │
         }
     }
   rsyncd.conf: |-
