@@ -4,6 +4,7 @@ resources:
 - service.yaml
 - deployment.yaml
 - secrets.yaml
+- config.yaml
 commonLabels:
   app: openeuler-eulerland-game
 commonAnnotations:
