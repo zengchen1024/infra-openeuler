@@ -21,8 +21,6 @@ spec:
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume-02
-            - mountPath: /repo/openeuler_ex
-              name: data-volume-ex
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
@@ -527,6 +525,3 @@ spec:
         - name: data-volume-02
           persistentVolumeClaim:
             claimName: openeuler-data-volume-02
-        - name: data-volume-ex
-          persistentVolumeClaim:
-            claimName: cce-evs-daily-build-ex
