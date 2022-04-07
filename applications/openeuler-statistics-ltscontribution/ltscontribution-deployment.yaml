@@ -1,0 +1,27 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: openeuler-ltscontribution
+spec:
+  replicas: 2
+  selector: 
+    matchLabels:
+      component: openeuler-ltscontribution-website
+  template:
+    metadata:
+      labels:
+        component: openeuler-ltscontribution-website
+    spec:
+      containers:
+        - name: openeuler-ltscontribution-pod
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-ltscontribution:1c55bb4aee2fb0f4ffbf3a932da5058a7c9cb101
+          imagePullPolicy: "Always"
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 2000Mi
+          ports:
+          - name: http 
+            containerPort: 8080
+            protocol: TCP
