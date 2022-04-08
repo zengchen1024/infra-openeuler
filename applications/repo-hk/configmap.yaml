@@ -101,7 +101,7 @@ data:
 
 
     events {
-        worker_connections  4096;
+        worker_connections  10240;
     }
 
 

@@ -21,8 +21,8 @@ spec:
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume-02
-            - mountPath: /repo/openenlerBak
-              name: data-volume            
+            - mountPath: /repo/openeuler_ex
+              name: data-volume-ex
             - mountPath: /etc/rsyncd.secrets.ro
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
@@ -190,6 +190,7 @@ spec:
             - /bin/sh
             - -c
             - |
+              mkdir -p /repo/openeuler_ex
               mkdir -p /repo/openeuler
               cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
               chmod 0400 /root/.ssh/authorized_keys
@@ -211,9 +212,7 @@ spec:
               name: rsync-secrets-volume
               subPath: rsyncd_secrets
             - mountPath: /repo/openeuler
-              name: data-volume-02
-            - mountPath: /repo/openeulerBak
-              name: data-volume            
+              name: data-volume-02          
             - mountPath: /root/.ssh/authorized_keys.ro
               name: repo-nginx-configmap-volume
               subPath: ssh.pub
@@ -525,9 +524,9 @@ spec:
             path: /dev/loop-control
             type: ''
           name: loopdevice25
-        - name: data-volume
-          persistentVolumeClaim:
-            claimName: openeuler-data-volume
         - name: data-volume-02
           persistentVolumeClaim:
             claimName: openeuler-data-volume-02
+        - name: data-volume-ex
+          persistentVolumeClaim:
+            claimName: cce-evs-daily-build-ex
