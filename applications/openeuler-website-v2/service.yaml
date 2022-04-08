@@ -46,4 +46,13 @@ metadata:
 spec:
   type: ExternalName
   externalName: meeting-service.meetingserver.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openeuler-api-cve
+spec:
+  type: ExternalName
+  externalName: api-cve-service.api-cve.svc.cluster.local
+
 
