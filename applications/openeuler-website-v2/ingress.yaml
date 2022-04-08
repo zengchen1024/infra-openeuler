@@ -74,7 +74,7 @@ spec:
               servicePort: 80
             path: /api-sig(/|$)(.*)
           - backend:
-              serviceName: cve-srv-service
+              serviceName: openeuler-api-cve
               servicePort: 8080
             path: /api-cve(/|$)(.*)
 ---
