@@ -21,6 +21,8 @@ spec:
             - --email-domain=*
             - --proxy-prefix=/2203ltscontribution/oauth2
             - --skip-validate-email=true
+            - --skip-auth-regex=^/2203ltscontribution/agreement_ch.html
+            - --skip-auth-regex=^/2203ltscontribution/agreement_en.html
             - --upstream=http://openeuler-ltscontribution.openeuler-ltscontribution.svc.cluster.local
             - --http-address=0.0.0.0:4180
             - --cookie-expire=6h0m0s
