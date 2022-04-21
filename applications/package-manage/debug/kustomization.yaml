@@ -10,10 +10,10 @@ kind: Kustomization
 images:
 - name: opensourceway/dbgetinit
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/dbgetinit
-  newTag: 3196e557a56484a54ea41bc2366e70495f240279.1650507045
+  newTag: c83248fa730f04afc993ee0ae14abc706d632c5e.1650509568
 - name: opensourceway/packagemanage
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/packagemanage
-  newTag: 3196e557a56484a54ea41bc2366e70495f240279.1650507045
+  newTag: c83248fa730f04afc993ee0ae14abc706d632c5e.1650509568
 - name: opensourceway/pkgmanageweb
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/pkgmanageweb
   newTag: 981691d7f19b173623fe56879d9eacd1efc78b19.1650437266
