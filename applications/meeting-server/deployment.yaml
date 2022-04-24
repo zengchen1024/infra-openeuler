@@ -150,6 +150,21 @@ spec:
                 secretKeyRef:
                   key: host_zb
                   name: meeting-server-secrets
+            - name: WELINK_HOST_1
+              valueFrom:
+                secretKeyRef:
+                  key: welink_host_1
+                  name: meeting-server-secrets
+            - name: WELINK_HOST_1_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  key: welink_host_1_account
+                  name: meeting-server-secrets
+            - name: WELINK_HOST_1_PWD
+              valueFrom:
+                secretKeyRef:
+                  key: welink_host_1_pwd
+                  name: meeting-server-secrets
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
