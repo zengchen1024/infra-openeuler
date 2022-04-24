@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omni-manager-backend
+  namespace: omni-manager-backend
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: omni-manager-backend
+  template:
+    metadata:
+      labels:
+        app: omni-manager-backend
+    spec:
+      containers:
+      - name: omni-manager-backend
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/omni/omni-manager-backend:d2dbedb71800df5cb37008106038775d8acec081
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: mysql_user
+          - name: DB_PSWD
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: mysql_passwd
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: db_host
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: mysql_database_name
+          - name: REDIS_ADDR
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: redis_addr
+          - name: CUSTOM_RPM_API
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: custom_rpm_api
+          - name: JWT_KEY
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: jwt_key
+          - name: AUTHING_APP_ID
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: authing_app_id
+          - name: AUTHING_APP_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: authing_app_secret
+          - name: AUTHING_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: authing_secret
+          - name: AUTHING_USER_POOL_ID
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: authing_user_pool_id
+          - name: RUN_MODE
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: run_mode
+          - name: GIN_MODE
+            valueFrom:
+              secretKeyRef:
+                name: omni-manager-secrets
+                key: gin_mode
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 2000Mi
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
+        volumeMounts:
+          - mountPath: /var/logs/omni-manager
+            name: static-log-data
+      volumes:
+      - name: static-log-data
+        persistentVolumeClaim:
+          claimName: cce-obs-omni-manager-backend

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omni-insight
+  namespace: omni-insight
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: omni-insight
+  template:
+    metadata:
+      labels:
+        app: omni-insight
+    spec:
+      containers:
+      - name: omni-insight
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/omni/omni-insight:8a83ac5742a41c07c7ee3f442c2e104b026aa484
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /etc/omni-insight
+          name: omni-insight-config
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 2000Mi
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
+      volumes:
+        - name: omni-insight-config
+          configMap:
+            name: omni-insight-configmap
