@@ -1,0 +1,10 @@
+resources:
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+namespace: omni-insight
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/omni/omni-insight
+  newTag: 8a83ac5742a41c07c7ee3f442c2e104b026aa484

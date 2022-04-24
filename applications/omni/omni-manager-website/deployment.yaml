@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omni-manager-website
+  namespace: omni-manager-website
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: omni-manager-website
+  template:
+    metadata:
+      labels:
+        app: omni-manager-website
+    spec:
+      containers:
+      - name: omni-manager-website
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/omni/omni-manager-website:00a92af31bf70f50768e128d67a8084bb7d25dc1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /etc/nginx/conf.d
+            name: configmap-volume
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 2000Mi
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: omni-configmap
+        name: configmap-volume
+      

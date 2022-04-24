@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: redis-service
+  name: redis
+  namespace: omni-manager-backend
+spec:
+  selector:
+    matchLabels:
+      app: redis-service
+  serviceName: redis-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis-service
+    spec:
+      containers:
+      - image: redis:6.2.6
+        imagePullPolicy: IfNotPresent
+        name: redis
+        ports:
+        - name: redis
+          containerPort: 6379
+        volumeMounts:
+        - mountPath: /var/lib/redis
+          name: redis-data
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: cce-evs-redis-data
