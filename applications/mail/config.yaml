@@ -1285,7 +1285,6 @@ metadata:
   namespace: mail
 data:
   00_local_macros: |
-    CHECK_RCPT_SPF = true
     DKIM_CANON = relaxed
     DKIM_SELECTOR = 20190905
     DKIM_DOMAIN = openeuler.org
