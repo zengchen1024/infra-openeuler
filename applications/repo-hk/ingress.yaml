@@ -4,7 +4,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: repo-nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
   name: repo-ingress-repo
 spec:
   tls:
