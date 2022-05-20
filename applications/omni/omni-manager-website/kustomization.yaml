@@ -10,4 +10,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/omni/omni-manager-website
-  newTag: 8c96c9f12c20a791ee73adcc86161cb61c66e9fa
+  newTag: 3f29785c614d7576c5af8f779db2355079674fa4
