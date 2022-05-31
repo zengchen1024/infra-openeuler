@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - docs-bug.openlookeng.test.osinfra.cn
+        - docs-bug.openlookeng.io
       secretName: openlookeng-bugs-tls
   rules:
-    - host: docs-bug.openlookeng.test.osinfra.cn
+    - host: docs-bug.openlookeng.io
       http:
         paths:
           - backend:
