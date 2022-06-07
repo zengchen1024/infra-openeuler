@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openlookeng-bugs
+  namespace: openlookeng-bugs
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: openlookeng-bugs
+  template:
+    metadata:
+      labels:
+        app: openlookeng-bugs
+    spec:
+      imagePullSecrets:
+        - name: huawei-swr-image-pull-secret
+      containers:
+      - name: openlookeng-bugs
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openlookeng/openlookeng_website_bugs:5fb3e1d81ca63692b20ef9a6f2855c245b8e8d50
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi

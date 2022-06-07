@@ -1,0 +1,13 @@
+resources:
+- namespace.yaml
+- ingress.yaml
+- service.yaml
+- deployment.yaml
+- secret.yaml
+namespace: openlookeng-bugs
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openlookeng/openlookeng_website_bugs
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openlookeng/openlookeng_website_bugs
+  newTag: 5fb3e1d81ca63692b20ef9a6f2855c245b8e8d50
