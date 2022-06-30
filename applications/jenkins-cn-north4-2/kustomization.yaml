@@ -5,6 +5,7 @@ resources:
   - es-secrets.yaml
   - ingress.yaml
   - oauth-proxy.yaml
+  - cronjob.yaml
 commonLabels:
   app: openeuler-jenkins
 commonAnnotations:

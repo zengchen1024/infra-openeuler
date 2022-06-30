@@ -4,6 +4,7 @@ resources:
   - service.yaml
   - oauth-proxy.yaml
   - secrets.yaml
+  - cronjob.yaml
 commonLabels:
   app: openlookeng-jenkins
 commonAnnotations:
