@@ -16,3 +16,8 @@ patchesStrategicMerge:
   - deployment.yaml
   - service.yaml
 namespace: jenkins
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/openeuler/bak-jenkins
+  newTag: v1.8.0
+
+
