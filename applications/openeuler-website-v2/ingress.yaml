@@ -32,6 +32,16 @@ metadata:
       }
       proxy_cache_bypass $nocache;
       proxy_no_cache $nocache;
+      set $country_china false;
+      if ($geoip_country_code ~ "CN"){
+          set $country_china true;
+      }
+      if ($country_china ~ "true"){
+          rewrite ^/$ /zh redirect;
+      }
+      if ($country_china ~ "false"){
+          rewrite ^/$ /en redirect;
+      }
   name: openeuler-v2-www-website-ingress
 spec:
   tls:
