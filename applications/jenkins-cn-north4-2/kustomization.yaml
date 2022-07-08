@@ -1,23 +1,23 @@
 resources:
-  - https://github.com/opensourceways/app-jenkins/deploy-without-agent?ref=stable
-  - secrets.yaml
-  - namespace.yaml
-  - es-secrets.yaml
-  - ingress.yaml
-  - oauth-proxy.yaml
-  - cronjob.yaml
+- https://github.com/opensourceways/app-jenkins/deploy-without-agent?ref=stable
+- secrets.yaml
+- namespace.yaml
+- es-secrets.yaml
+- ingress.yaml
+- oauth-proxy.yaml
+- cronjob.yaml
 commonLabels:
   app: openeuler-jenkins
 commonAnnotations:
+  email: caozhi1214@gmail.com
   owner: caozhi
-  email: "caozhi1214@gmail.com"
 patchesStrategicMerge:
-  - pvc.yaml
-  - deployment.yaml
-  - service.yaml
+- pvc.yaml
+- deployment.yaml
+- service.yaml
 namespace: jenkins
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/openeuler/bak-jenkins
-  newTag: v1.8.0
-
-
+  newTag: c94969284e4ec1a2b9bdadd3abee8c3e9e369448
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
