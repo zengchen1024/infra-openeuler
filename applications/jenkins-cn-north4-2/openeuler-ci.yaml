@@ -120,7 +120,7 @@ spec:
     spec:
       containers:
       - name: openeuler-ci
-        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-ci:9439eb4ed38cbf2a1e12f08fabfbb2dcfd656191
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-ci:ed7c6d6838289387fa6d8ff18e435b3245e5046c
         imagePullPolicy: IfNotPresent
         env:
         - name: SECRET_KEY
