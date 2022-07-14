@@ -6,6 +6,7 @@ resources:
 - ingress.yaml
 - oauth-proxy.yaml
 - cronjob.yaml
+- openeuler-ci.yaml
 commonLabels:
   app: openeuler-jenkins
 commonAnnotations:
@@ -19,5 +20,7 @@ namespace: jenkins
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/openeuler/bak-jenkins
   newTag: c94969284e4ec1a2b9bdadd3abee8c3e9e369448
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-ci
+  newTag: ed7c6d6838289387fa6d8ff18e435b3245e5046c
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization

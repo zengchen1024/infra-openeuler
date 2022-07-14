@@ -1,0 +1,191 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: openeuler-ci-ingress
+  namespace: jenkins
+spec:
+  tls:
+    - hosts:
+        - openeuler-ci.osinfra.cn
+      secretName: openeuler-ci-tls
+  rules:
+    - host: openeuler-ci.osinfra.cn
+      http:
+        paths:
+          - backend:
+              serviceName: openeuler-ci-service
+              servicePort: 80
+            path: /
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openeuler-ci-service
+  namespace: jenkins
+spec:
+  ports:
+  - name: http-port
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: openeuler-ci
+  type: ClusterIP
+
+---
+apiVersion: secrets-manager.tuenti.io/v1alpha1
+kind: SecretDefinition
+metadata:
+  name: openeuler-ci-tls
+  namespace: jenkins
+spec:
+  name: openeuler-ci-tls
+  keysMap:
+    ca.crt:
+      path: secrets/data/openeuler/openeuler-ci
+      key: server.crt
+    tls.crt:
+      path: secrets/data/openeuler/openeuler-ci
+      key: server.crt
+    tls.key:
+      path: secrets/data/openeuler/openeuler-ci
+      key: server.key
+
+---
+apiVersion: secrets-manager.tuenti.io/v1alpha1
+kind: SecretDefinition
+metadata:
+  name: openeuler-ci-secrets
+  namespace: jenkins
+spec:
+  name: openeuler-ci-secrets
+  keysMap:
+    secret_key:
+      path: secrets/data/openeuler/openeuler-ci
+      key: secret_key
+    jenkins_url:
+      path: secrets/data/openeuler/openeuler-ci
+      key: jenkins_url
+    jenkins_username:
+      path: secrets/data/openeuler/openeuler-ci
+      key: jenkins_username
+    jenkins_password:
+      path: secrets/data/openeuler/openeuler-ci
+      key: jenkins_password
+    authing_userid:
+      path: secrets/data/openeuler/openeuler-ci
+      key: authing_userid
+    authing_secret:
+      path: secrets/data/openeuler/openeuler-ci
+      key: authing_secret
+    smtp_server_host:
+      path: secrets/data/openeuler/openeuler-ci
+      key: smtp_server_host
+    smtp_server_port:
+      path: secrets/data/openeuler/openeuler-ci
+      key: smtp_server_port
+    smtp_server_user:
+      path: secrets/data/openeuler/openeuler-ci
+      key: smtp_server_user
+    smtp_server_pass:
+      path: secrets/data/openeuler/openeuler-ci
+      key: smtp_server_pass
+    baseurl:
+      path: secrets/data/openeuler/openeuler-ci
+      key: baseurl
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeuler-ci
+  namespace: jenkins
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: openeuler-ci
+  template:
+    metadata:
+      labels:
+        app: openeuler-ci
+    spec:
+      containers:
+      - name: openeuler-ci
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-ci:ed7c6d6838289387fa6d8ff18e435b3245e5046c
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: secret_key
+        - name: JENKINS_URL
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: jenkins_url
+        - name: JENKINS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: jenkins_username
+        - name: JENKINS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: jenkins_password
+        - name: AUTHING_USERID
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: authing_userid
+        - name: AUTHING_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: authing_secret
+        - name: SMTP_SERVER_HOST
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: smtp_server_host
+        - name: SMTP_SERVER_PORT
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: smtp_server_port
+        - name: SMTP_SERVER_USER
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: smtp_server_user
+        - name: SMTP_SERVER_PASS
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: smtp_server_pass
+        - name: BASEURL
+          valueFrom:
+            secretKeyRef:
+              name: openeuler-ci-secrets
+              key: baseurl
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
