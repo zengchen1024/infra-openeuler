@@ -7,6 +7,6 @@ images:
 - name: swr.cn-north-4.myhuaweicloud.com/openeuler/bak-jenkins
   newTag: 0be18a22a74d58443833698a04a05e18a321f399
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-ci
-  newTag: bb4241e8f16fdd2dd0978c6bbc5fae5bafd36f06
+  newTag: 5d16b74d0fa24daab804f96a4559df8e0b81fd0d
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
