@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeuler-website
+  namespace: openeuler-website-new-portal
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: openeuler-website
+  template:
+    metadata:
+      labels:
+        app: openeuler-website
+    spec:
+      containers:
+      - name: websiteinfod
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-portal:d8cf4613917cafd3198756af51795d709885446d
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
