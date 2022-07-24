@@ -1,0 +1,12 @@
+resources:
+- namespace.yaml
+- ingress.yaml
+- service.yaml
+- deployment.yaml
+- secret.yaml
+namespace: openeuler-website-new-portal
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-portal
+  newTag: d8cf4613917cafd3198756af51795d709885446d
