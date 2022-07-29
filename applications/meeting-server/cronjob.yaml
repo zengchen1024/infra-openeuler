@@ -82,6 +82,7 @@ metadata:
 spec:
   schedule: "0 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:
@@ -163,6 +164,7 @@ metadata:
 spec:
   schedule: "10 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:
@@ -248,6 +250,7 @@ metadata:
 spec:
   schedule: "20 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:
@@ -328,6 +331,7 @@ metadata:
 spec:
   schedule: "0 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:
