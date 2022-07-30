@@ -33,7 +33,10 @@ metadata:
       proxy_cache_bypass $nocache;
       proxy_no_cache $nocache;
       set $country_china false;
-      if ($geoip_country_code ~ "CN"){
+      if ($geoip2_city_country_name ~ "Hong Kong"){
+          set $country_china true;
+      }
+      if ($geoip2_city_country_name ~ "China"){
           set $country_china true;
       }
       if ($country_china ~ "true"){
