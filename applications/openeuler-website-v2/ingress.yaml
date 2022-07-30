@@ -32,11 +32,6 @@ metadata:
       }
       proxy_cache_bypass $nocache;
       proxy_no_cache $nocache;
-      stream {
-        geoip2 /etc/maxmind-country.mmdb {
-        $geoip2_data_country_code default=US source=$remote_addr country iso_code;
-        }
-      }
       set $country_china false;
       if ($geoip2_city_country_name ~ "Hong Kong"){
           set $country_china true;
