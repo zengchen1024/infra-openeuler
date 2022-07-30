@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: post-verification-service
+  namespace: repo-post-verification
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: d83a62ab-3b30-45bb-bd0c-9109cdf5ff21
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+spec:
+  ports:
+  - name: http-port
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: post-verification
+  type: LoadBalancer
