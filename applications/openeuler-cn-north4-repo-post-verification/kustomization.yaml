@@ -3,6 +3,7 @@ resources:
 - namespace.yaml
 - deployment.yaml
 - service.yaml
+- secret.yaml
 commonAnnotations:
   email: xiongfengbo@huawei.com
   owner: xiongfengbo

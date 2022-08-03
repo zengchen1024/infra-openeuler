@@ -30,7 +30,12 @@ spec:
         volumeMounts:
         - mountPath: /var/log
           name: log-data-volume
+        - mountPath: /app-publish/privatekey
+          name: ssh-private-key
       volumes:
       - name: log-data-volume
         persistentVolumeClaim:
           claimName: openeuler-data-volume
+      - name: ssh-private-key
+        secret:
+          secretName: post-verification-secrets
