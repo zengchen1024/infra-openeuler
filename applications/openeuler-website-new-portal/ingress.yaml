@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ~ /zh/sig/sig-list(/.*) {
+          return 404;
+      }
   name: openeuler-website-ingress
   namespace: openeuler-website-new-portal
 spec:
@@ -24,6 +28,10 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ~ /zh/sig/sig-list(/.*) {
+          return 404;
+      }
   name: openeuler-website-sh-ingress
   namespace: openeuler-website-new-portal
 spec:
