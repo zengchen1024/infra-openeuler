@@ -30,9 +30,10 @@ spec:
           echo "log_file_path = /var/log/exim4/%s.%M" >> /etc/exim4/conf.d/main/01_exim4-config_listmacrosdefs;
           update-exim4.conf;
           mkdir -p /var/log/exim4
+          chown -R Debian-exim:Debian-exim /var/log/exim4
           chown Debian-exim:Debian-exim -R /opt/mailman/exim_log;
           exec tini -- exim -bd -v;
-        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/app-mailman/mailman-exim4-build:v4.92
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/app-mailman/mailman-exim4-build:b02f9e275d30797cbf061ddc0a42c867c89ce6fb1659169666
         imagePullPolicy: IfNotPresent
         name: mailman-exim4
         resources: {}
