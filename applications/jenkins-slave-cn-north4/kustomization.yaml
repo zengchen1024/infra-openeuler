@@ -13,4 +13,4 @@ kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openeuler_infra_check
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openeuler_infra_check_image
-  newTag: 3b202a40480e733fc3ac232b3382405262d909c2
+  newTag: aaf06ade103973c8088f81e4198b262cc867b479
