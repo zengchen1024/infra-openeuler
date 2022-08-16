@@ -32,14 +32,19 @@ metadata:
       }
       proxy_cache_bypass $nocache;
       proxy_no_cache $nocache;
-      set $Real $http_x_forwarded_for;
-      if ( $http_x_forwarded_for = "" ){
-        set $Real $proxy_add_x_forwarded_for;
+      set $country_china false;
+      if ($geoip2_city_country_name ~ "Hong Kong"){
+          set $country_china true;
       }
-      if ( $Real ~ (\d+)\.(\d+)\.(\d+)\.(\d+),(.*) ){
-          set $Real $1.$2.$3.$4;
+      if ($geoip2_city_country_name ~ "China"){
+          set $country_china true;
       }
-      proxy_set_header True-Client-IP $Real;
+      if ($country_china ~ "true"){
+          rewrite ^/$ /zh redirect;
+      }
+      if ($country_china ~ "false"){
+          rewrite ^/$ /en redirect;
+      }
   name: openeuler-v2-www-website-ingress
 spec:
   tls:
