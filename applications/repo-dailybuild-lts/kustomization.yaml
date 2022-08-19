@@ -3,6 +3,7 @@ resources:
   - pvc.yaml
   - namespace.yaml
   - secrets.yaml
+  - sbom-service.yaml
 commonLabels:
   app: openeuler-cn-north4-dailybuild-repo
 commonAnnotations:
