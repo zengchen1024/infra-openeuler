@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sbom-repo-service
+  namespace: dailybuild-lts
+spec:
+  ports:
+  - name: http-port
+    port: 8080
+    targetPort: 15551
+  selector:
+    app: openeuler-cn-north4-dailybuild-repo
+  type: ClusterIP
