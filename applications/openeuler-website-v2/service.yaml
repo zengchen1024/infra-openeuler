@@ -15,6 +15,21 @@ spec:
   type: ClusterIP
 
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: website-v1-service
+spec:
+  ports:
+    - name: httpport
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    component: website-v1
+  type: ClusterIP
+
+---
 # Config web backend service
 ---
 apiVersion: v1
