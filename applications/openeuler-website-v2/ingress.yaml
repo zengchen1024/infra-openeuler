@@ -25,6 +25,15 @@ metadata:
       rewrite ^/zh/docs(/|$)(.*) https://docs.openeuler.org/zh/docs/$2 redirect;
       rewrite ^/en/docs(/|$)(.*) https://docs.openeuler.org/en/docs/$2 redirect;
       rewrite ^/ru(/|$)(.*) https://ru.openeuler.org/ru/$2 redirect;
+      rewrite ^/zh/other/migration(/|$)(.*)                     /zh/migration/ redirect;
+      rewrite ^/zh/migration/$                                  /zh/migration/download/ redirect;
+      rewrite ^/zh/interaction/summit-list/devday2022/          https://v1.openeuler.org/zh/interaction/summit-list/devday2022/ redirect;
+      rewrite ^/zh/interaction/summit-list/summit2021/          https://v1.openeuler.org/zh/interaction/summit-list/summit2021/ redirect;
+      rewrite ^/zh/interaction/summit-list/devday2021/          https://v1.openeuler.org/zh/interaction/summit-list/devday2021/ redirect;
+      rewrite ^/zh/interaction/summit-list/$                    https://v1.openeuler.org/zh/interaction/summit-list/ redirect;
+      rewrite ^/zh/interaction/summit-list/list/                https://v1.openeuler.org/zh/interaction/summit-list/list/ redirect;
+      rewrite ^/zh/community/certification-services/$           https://v1.openeuler.org/zh/community/certification-services/ redirect;
+      rewrite /zh/community/certification-services/search.html  https://v1.openeuler.org/zh/community/certification-services/search.html redirect;
   name: openeuler-v2-www-website-ingress
 spec:
   tls:
