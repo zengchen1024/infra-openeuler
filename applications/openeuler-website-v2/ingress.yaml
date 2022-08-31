@@ -34,6 +34,8 @@ metadata:
       rewrite ^/zh/interaction/summit-list/list/                https://v1.openeuler.org/zh/interaction/summit-list/list/ redirect;
       rewrite ^/zh/community/certification-services/$           https://v1.openeuler.org/zh/community/certification-services/ redirect;
       rewrite /zh/community/certification-services/search.html  https://v1.openeuler.org/zh/community/certification-services/search.html redirect;
+      rewrite ^/api/meetings(/|$)(.*)                           https://www.openeuler.org/api-sig/$2 redirect;
+      rewrite ^/api/mirrors(/|$)(.*)                            https://api.openeuler.org/mirrors/$2 redirect;
   name: openeuler-v2-www-website-ingress
 spec:
   tls:
