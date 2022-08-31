@@ -13,7 +13,7 @@ metadata:
       add_header Strict-Transport-Security "max-age=31536000";
       add_header X-Frame-Options "ALLOW-FROM https://vhall.huawei.com";
       add_header X-Cache-Status $upstream_cache_status;
-      add_header Content-Security-Policy "script-src 'self' *.baidu.com ers.baidu.com www.google-analytics.com www.googletagmanager.com webapi.amap.com 'unsafe-eval' 'unsafe-inline';object-src 'none';frame-ancestors https://vhall.huawei.com";
+      add_header Content-Security-Policy "script-src 'self' *.baidu.com ers.baidu.com www.google-analytics.com www.googletagmanager.com restapi.amap.com 'unsafe-eval' 'unsafe-inline';object-src 'none';frame-ancestors https://vhall.huawei.com";
       set $Real $proxy_add_x_forwarded_for;
       if ( $Real ~ (\d+)\.(\d+)\.(\d+)\.(\d+),(.*) ){
           set $Real $1.$2.$3.$4;
