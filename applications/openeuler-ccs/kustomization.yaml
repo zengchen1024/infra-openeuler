@@ -16,7 +16,7 @@ kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-config
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-config
-  newTag: "1640050915"
+  newTag: "1662104526"
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka
   newTag: "1662104342"
