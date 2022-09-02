@@ -1,0 +1,31 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: website-deployment
+  namespace: openeuler-reproducible
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: website
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      containers:
+      - name: website
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-reproducible-website:6c132447dde58b20611d14c19b721dcf35171b88
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+

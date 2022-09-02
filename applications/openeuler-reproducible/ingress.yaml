@@ -1,0 +1,51 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: openeuler-reproducible-ingress
+  namespace: openeuler-reproducible
+spec:
+  tls:
+  - hosts:
+      - reproducible-builds.openeuler.org
+    secretName: openeuler-reproducible-tls
+  rules:
+  - host: reproducible-builds.openeuler.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: website-service
+            port:
+              number: 80
+  ingressClassName: nginx
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: openeuler-reproducible-server-ingress
+  namespace: openeuler-reproducible
+spec:
+  tls:
+  - hosts:
+      - reproducible-builds.openeuler.org
+    secretName: openeuler-reproducible-server-tls
+  rules:
+  - host: reproducible-builds.openeuler.org
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: backend-service
+            port:
+              number: 80
+  ingressClassName: nginx
