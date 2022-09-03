@@ -37,6 +37,7 @@ metadata:
       rewrite ^/api/meetings(/|$)(.*)                           https://www.openeuler.org/api-sig/$2 redirect;
       rewrite ^/api/mirrors(/|$)(.*)                            https://api.openeuler.org/mirrors/$2 redirect;
       rewrite ^/zh/security/approve/                            https://www.openeuler.org/zh/approve/ redirect;
+      rewrite ^/zh/security/compatibility/                      https://www.openeuler.org/zh/compatibility/ redirect;
   name: openeuler-v2-www-website-ingress
 spec:
   tls:
