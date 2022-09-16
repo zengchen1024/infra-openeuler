@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repo-server
+  namespace: repo-mirror
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: openeuler-repo-mirror-france
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: openeuler-repo-mirror-france
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          mkdir -p /repo/openeuler
+          exec nginx -g "daemon off;"
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
+        imagePullPolicy: Always
+        name: repo-nginx
+        resources:
+          requests:
+            cpu: "4"
+            memory: 6000Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /repo/openeuler
+          name: data-volume
+        - mountPath: /etc/nginx/conf/nginx.conf
+          name: repo-nginx-configmap-volume
+          subPath: nginx.conf
+        - mountPath: /etc/nginx/conf/conf.d/default.conf
+          name: repo-nginx-configmap-volume
+          subPath: default.conf
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          /usr/bin/rsync --daemon --config /etc/rsyncd.conf
+          exec tini -- entrypoint.sh
+        env:
+        - name: TARGET_DIR
+          value: /repo/openeuler
+        - name: RSYNC_INTERNAL
+          value: "600"
+        - name: SYNC_HOST
+          value: rsync://root@114.116.230.90/openeuler
+        - name: ADDITIONAL_PARAMETERS
+          value: --delete
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:122abc521614802693d71f85303360a21972cefb
+        imagePullPolicy: Always
+        name: rsync-server
+        resources:
+          requests:
+            cpu: "4"
+            memory: 8000Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /repo/openeuler
+          name: data-volume
+        - mountPath: /etc/rsyncd.conf
+          name: repo-nginx-configmap-volume
+          subPath: rsyncd.conf
+        - mountPath: /root/.ssh/authorized_keys.ro
+          name: repo-nginx-configmap-volume
+          subPath: ssh.pub
+      restartPolicy: Always
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: openeuler-data-volume
+      - configMap:
+          defaultMode: 420
+          name: repo-configmap
+        name: repo-nginx-configmap-volume
