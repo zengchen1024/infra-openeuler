@@ -1,0 +1,11 @@
+resources:
+- namespace.yaml
+- ingress.yaml
+- service.yaml
+- deployment.yaml
+namespace: qa-robot
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-qa-robot
+  newTag: 2a015a432bf31d8a289c7c3dbb87cb4108704f2c
