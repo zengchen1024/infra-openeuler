@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: repo-service
+  namespace: repo-mirror
+spec:
+  ports:
+  - name: rsync-server-port
+    port: 873
+    protocol: TCP
+    targetPort: 873
+  - name: nginx-repo-http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: rsync-ssh-server-port
+    port: 22
+    protocol: TCP
+    targetPort: 22
+  selector:
+    app: openeuler-repo-mirror-france
+  type: ClusterIP

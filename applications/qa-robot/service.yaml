@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qa-robot-service
+  namespace: qa-robot
+spec:
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: qa-robot
+  type: ClusterIP
