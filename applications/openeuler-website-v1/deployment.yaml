@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: openeuler-website-v1
-  namespace: website-v2
+  namespace: website-v1
 spec:
   replicas: 2
   strategy:
@@ -12,11 +12,11 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      component: website-v1
+      app: website-v1
   template:
     metadata:
       labels:
-        component: website-v1
+        app: website-v1
     spec:
       containers:
       - name: website-v1
@@ -26,4 +26,12 @@ spec:
         - containerPort: 8080
           name: http
           protocol: TCP
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+        
         
