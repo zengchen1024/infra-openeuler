@@ -33,6 +33,7 @@ metadata:
       rewrite ^/zh/interaction/summit-list/$                    https://v1.openeuler.org/zh/interaction/summit-list/ redirect;
       rewrite ^/zh/interaction/summit-list/list/                https://v1.openeuler.org/zh/interaction/summit-list/list/ redirect;
       rewrite ^/zh/community/certification-services(/|$)(.*)    https://v1.openeuler.org/zh/community/certification-services/$2 redirect;
+      rewrite ^/en/community/certification-services(/|$)(.*)    https://v1.openeuler.org/en/community/certification-services/$2 redirect;
       rewrite ^/api/meetings(/|$)(.*)                           https://www.openeuler.org/api-sig/$2 redirect;
       rewrite ^/api/mirrors(/|$)(.*)                            https://api.openeuler.org/mirrors/$2 redirect;
       rewrite ^/zh/security/approve/                            https://www.openeuler.org/zh/approve/ redirect;
