@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: website-v1-service
+  namespace: website-v1
+spec:
+  ports:
+    - name: httpport
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: website-v1
+  type: ClusterIP
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: website-backend-service
+  namespace: website-v1
+spec:
+  type: ExternalName
+  externalName: website-backend-service.website-v2.svc.cluster.local
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openeuler-meetingserver-internal
+  namespace: website-v1
+spec:
+  type: ExternalName
+  externalName: meeting-service.meetingserver.svc.cluster.local
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openeuler-api-cve
+  namespace: website-v1
+spec:
+  type: ExternalName
+  externalName: api-cve-service.api-cve.svc.cluster.local
+

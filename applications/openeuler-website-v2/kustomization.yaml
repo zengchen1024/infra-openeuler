@@ -6,7 +6,6 @@ resources:
 - secrets.yaml
 - purge-cache-job.yaml
 - configmap.yaml
-- v1-deployment.yaml
 commonLabels:
   app: openeuler-website-v2
 commonAnnotations:
@@ -20,5 +19,3 @@ images:
   newTag: 4e873d57d82ccce861cb1661310326
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-frontend
   newTag: 856ad7040eacd071fcd4ddbb2d8913c495268f36
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-v1
-  newTag: 8cb84cca1d300cc9c607562efff35c63f61c1324
