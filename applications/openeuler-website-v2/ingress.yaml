@@ -38,6 +38,8 @@ metadata:
       rewrite ^/api/mirrors(/|$)(.*)                            https://api.openeuler.org/mirrors/$2 redirect;
       rewrite ^/zh/security/approve/                            https://www.openeuler.org/zh/approve/ redirect;
       rewrite ^/zh/security/compatibility/                      https://www.openeuler.org/zh/compatibility/ redirect;
+      rewrite ^/zh/sig/sig-list/sig-detail.html?(.*)            https://www.openeuler.org/zh/sig/sig-detail/?$1 redirect;
+      rewrite ^/en/sig/sig-list/sig-detail.html?(.*)            https://www.openeuler.org/en/sig/sig-detail/?$1 redirect;
   name: openeuler-v2-www-website-ingress
 spec:
   tls:
