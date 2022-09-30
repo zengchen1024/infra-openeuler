@@ -1,0 +1,11 @@
+resources:
+- namespace.yaml
+- ingress.yaml
+- service.yaml
+- deployment.yaml
+namespace: nestos
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nestos-website
+  newTag: 830ce8052de6b0e9f972c292abfff2b69b5bc75a
