@@ -1,0 +1,15 @@
+resources:
+- namespace.yaml
+- secret.yaml
+- ingress.yaml
+- deployment.yaml
+- service.yaml
+- rbac.yaml
+- configmap.yaml
+namespace: jenkins-master
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/jenkins
+  newTag: lts20221012-2.361.2jdk11
+
