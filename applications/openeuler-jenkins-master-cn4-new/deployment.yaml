@@ -1,0 +1,101 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jenkins
+  name: jenkins
+  namespace: jenkins-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - args:
+        - --argumentsRealm.passwd.$(ADMIN_USER)=$(ADMIN_PASSWORD)
+        - --argumentsRealm.roles.$(ADMIN_USER)=admin
+        env:
+        - name: TZ
+          value: Asia/Shanghai
+        - name: JAVA_OPTS
+          value: "-Djava.awt.headless=true -Dblueocean.collectRuns.threads=90 -Xmx40g -Xms20g -server -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+UseStringDeduplication -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.LAUNCH_DIAGNOSTICS=true"
+        - name: JENKINS_OPTS
+          value: ""
+        - name: JENKINS_SLAVE_AGENT_PORT
+          value: "50000"
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: jenkins-admin-password
+              name: openeuler-jenkins
+        - name: ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              key: jenkins-admin-user
+              name: openeuler-jenkins
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/jenkins:lts20221012-2.361.2jdk11
+        imagePullPolicy: Always
+        name: jenkins
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 50000
+          name: slavelistener
+        resources:
+          limits:
+            cpu: 40000m
+            memory: 60000Mi
+          requests:
+            cpu: 20000m
+            memory: 40000Mi
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /var/jenkins_home_backup
+          name: jenkins-home
+          readOnly: false
+        - mountPath: /var/jenkins_home
+          name: jenkins-home-new
+          readOnly: false
+        - mountPath: /var/jenkins_config
+          name: jenkins-config
+          readOnly: true
+        - mountPath: /usr/share/jenkins/ref/secrets/
+          name: secrets-dir
+          readOnly: false
+        - mountPath: /usr/share/jenkins/ref/plugins/
+          name: plugin-dir
+          readOnly: false
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      nodeSelector:
+        jenkins.master.x86: "true"
+      securityContext:
+        runAsUser: 0
+      serviceAccountName: jenkins
+      volumes:
+      - emptyDir: {}
+        name: plugins
+      - emptyDir: {}
+        name: tmp
+      - emptyDir: {}
+        name: secrets-dir
+      - emptyDir: {}
+        name: plugin-dir
+      - configMap:
+          name: jenkins
+        name: jenkins-config
+      - name: jenkins-home
+        persistentVolumeClaim:
+          claimName: jenkins-data
+      - name: jenkins-home-new
+        persistentVolumeClaim:
+          claimName: jenkins-home-data
