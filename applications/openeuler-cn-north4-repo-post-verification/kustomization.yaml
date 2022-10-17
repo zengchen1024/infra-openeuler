@@ -1,0 +1,15 @@
+resources:
+- pvc.yaml
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- secret.yaml
+commonAnnotations:
+  email: xiongfengbo@huawei.com
+  owner: xiongfengbo
+namespace: repo-post-verification
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/repo-post-verification
+  newTag: 0b26848fc97ce0ce3e4c8c918d02ce03883e4ae6

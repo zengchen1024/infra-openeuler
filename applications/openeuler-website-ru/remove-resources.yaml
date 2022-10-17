@@ -8,7 +8,7 @@ $patch: delete
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name:  website-v2-ingress-backend
+  name:  website-v2-www-ingress-backend
 $patch: delete
 ---
 apiVersion: extensions/v1beta1

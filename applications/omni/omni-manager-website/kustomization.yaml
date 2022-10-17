@@ -1,0 +1,13 @@
+resources:
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+- ingress.yaml
+- configmap.yaml
+- secret.yaml
+namespace: omni-manager-website
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/omni/omni-manager-website
+  newTag: 3f29785c614d7576c5af8f779db2355079674fa4

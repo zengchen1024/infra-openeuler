@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/custom-http-errors: "404"
+  name: gitlab-ingress
+  namespace: source-gitlab
+spec:
+  tls:
+    - hosts:
+        - source.openeuler.sh
+      secretName: gitlab-cert-secrets
+  rules:
+    - host: source.openeuler.sh
+      http:
+        paths:
+          - backend:
+              serviceName: gitlab-service
+              servicePort: 80
+            path: /

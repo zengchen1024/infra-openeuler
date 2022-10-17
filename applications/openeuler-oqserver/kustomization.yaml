@@ -1,0 +1,12 @@
+resources:
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - pvc.yaml
+  - namespace.yaml
+commonLabels:
+  app: openeuler-oqserver
+commonAnnotations:
+  owner: caozhi
+  email: "caozhi1214@gmail.com"
+namespace: openeuler-oqserver

@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    email: tommylikehu@gmail.com
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.openeuler.org, https://openatom.cn, https://*.openatom.cn"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 2m
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ^~ /meetings/allmeetings/ {
+        deny all;
+      }
+      location ^~ /meetings/participants/ {
+        deny all;
+      }
+      location ^~ /meetings/registrants/ {
+        deny all;
+      }
+    owner: tommylikehu
+  labels:
+    app: openeuler-api
+    app.kubernetes.io/instance: openeuler-hk-api-ingress
+  name: openeuler-openatom-api
+  namespace: openeuler-api
+spec:
+  rules:
+  - host: openeuler.openatom.cn
+    http:
+      paths:
+      - backend:
+          serviceName: meeting-service
+          servicePort: 80
+        path: /meetings(/|$)(.*)
+  tls:
+  - hosts:
+    - openeuler.openatom.cn
+    secretName: openeuler-openatom-tls

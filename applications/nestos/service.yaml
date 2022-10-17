@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nestos-service
+  namespace: nestos
+spec:
+  ports:
+  - name: https-port
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: nestos
+  type: ClusterIP
+
+  

@@ -1,0 +1,19 @@
+resources:
+- ingress.yaml
+- namespace.yaml
+- service.yaml
+- secret.yaml
+- summary-deployment.yaml
+- summary-service.yaml
+- oauth-proxy.yaml
+commonLabels:
+  app: opengauss-summary
+commonAnnotations:
+  email: tommylikehu@gmail.com
+  owner: TommyLike
+namespace: opengauss-summary
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/summary/opengauss-summary
+  newTag: b65ca9834accc8ac2310e17daf1756cfea550cd5

@@ -11,9 +11,12 @@ resources:
   - bot-release-service.yaml
   - cve-manager-service.yaml
   - hdc-task-manager-service.yaml
+  - osi-task-manager-service.yaml
   - nginx-purger.yaml
   - sync-bot-service.yaml
   - repo-mirrorbits-service.yaml
+  - openatom-api-ingress.yaml
+  - openatom-tls.yaml
 commonLabels:
   app: openeuler-api
 commonAnnotations:

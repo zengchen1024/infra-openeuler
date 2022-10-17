@@ -9,11 +9,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: opensourceway/dbgetinit
-  newName: opensourceway/dbgetinit
-  newTag: 506db81ed9665418dc1bc1b5a5cfc67521872e5e.1616489354
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/dbgetinit
+  newTag: 491ee729af077d1c39d88faccaf65fb8e1e2c5b8.1665629757
 - name: opensourceway/packagemanage
-  newName: opensourceway/packagemanage
-  newTag: 506db81ed9665418dc1bc1b5a5cfc67521872e5e.1616489354
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/packagemanage
+  newTag: 491ee729af077d1c39d88faccaf65fb8e1e2c5b8.1665629757
 - name: opensourceway/pkgmanageweb
-  newName: opensourceway/pkgmanageweb
-  newTag: 906e40eb9008d8e1556762005b7670dec6369b51.1620718585
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/pkgmanageweb
+  newTag: 29f4ffa8b99366440d7031a4ea540e020889ada0.1665634070

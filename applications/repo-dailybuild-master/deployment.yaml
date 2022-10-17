@@ -14,7 +14,7 @@ spec:
         openeuler.ci/task: common
       containers:
         - name: repo-nginx
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.20.0-with-fancy-templates-repo
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
@@ -35,7 +35,21 @@ spec:
               mkdir -p /repo/openeuler
               exec nginx -g "daemon off;"
         - name: rsync-server
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:0.0.5
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:1.0.1
+          command:
+            - /bin/sh
+            - -c
+            - |
+              cp /etc/rsyncd.secrets.ro /etc/rsyncd.secrets
+              chmod 0400 /etc/rsyncd.secrets
+              cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
+              chmod 0400 /root/.ssh/authorized_keys
+              chown root:root /root/.ssh/authorized_keys
+              ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
+              ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+              ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
+              /usr/sbin/sshd -D &
+              exec /usr/bin/rsync --no-detach --daemon --config /etc/rsyncd.conf;
           volumeMounts:
             - mountPath: /etc/rsyncd.conf
               name: repo-nginx-configmap-volume

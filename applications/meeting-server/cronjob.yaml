@@ -6,6 +6,7 @@ metadata:
 spec:
   schedule: "0 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:
@@ -81,6 +82,7 @@ metadata:
 spec:
   schedule: "0 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:
@@ -120,6 +122,21 @@ spec:
                     secretKeyRef:
                       key: secret_key
                       name: meeting-server-secrets
+                - name: WELINK_HOST_1
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1
+                      name: meeting-server-secrets
+                - name: WELINK_HOST_1_ACCOUNT
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1_account
+                      name: meeting-server-secrets
+                - name: WELINK_HOST_1_PWD
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1_pwd
+                      name: meeting-server-secrets
                 - name: DB_USER
                   value: root
                 - name: DB_PASSWORD
@@ -147,6 +164,7 @@ metadata:
 spec:
   schedule: "10 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:
@@ -191,6 +209,21 @@ spec:
                     secretKeyRef:
                       key: bili_jct
                       name: meeting-server-secrets
+                - name: WELINK_HOST_1
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1
+                      name: meeting-server-secrets
+                - name: WELINK_HOST_1_ACCOUNT
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1_account
+                      name: meeting-server-secrets
+                - name: WELINK_HOST_1_PWD
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1_pwd
+                      name: meeting-server-secrets
                 - name: DB_USER
                   value: root
                 - name: DB_PASSWORD
@@ -217,6 +250,7 @@ metadata:
 spec:
   schedule: "20 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:
@@ -256,6 +290,21 @@ spec:
                     secretKeyRef:
                       key: bili_uid
                       name: meeting-server-secrets
+                - name: WELINK_HOST_1
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1
+                      name: meeting-server-secrets
+                - name: WELINK_HOST_1_ACCOUNT
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1_account
+                      name: meeting-server-secrets
+                - name: WELINK_HOST_1_PWD
+                  valueFrom:
+                    secretKeyRef:
+                      key: welink_host_1_pwd
+                      name: meeting-server-secrets
                 - name: DB_USER
                   value: root
                 - name: DB_PASSWORD
@@ -282,6 +331,7 @@ metadata:
 spec:
   schedule: "0 * * * *"
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 180
   jobTemplate:
     spec:
       template:

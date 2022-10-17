@@ -1,0 +1,19 @@
+resources:
+- ingress.yaml
+- namespace.yaml
+- service.yaml
+- secret.yaml
+- summary-deployment.yaml
+- summary-service.yaml
+- oauth-proxy.yaml
+commonLabels:
+  app: openlookeng-summary-zh
+commonAnnotations:
+  email: tommylikehu@gmail.com
+  owner: TommyLike
+namespace: openlookeng-summary-zh
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/summary/openlookeng-summary-zh
+  newTag: 86d842038359b6f74dffc18e1f086d16a7b90a6d

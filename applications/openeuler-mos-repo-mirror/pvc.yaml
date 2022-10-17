@@ -15,5 +15,5 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 1000Gi
+      storage: 2500Gi
   storageClassName: csi-disk

@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: openeuler-website-v2-frontend
 spec:
-  replicas: 4
+  replicas: 8
   strategy:
     rollingUpdate:
       maxUnavailable: 0
@@ -21,17 +21,25 @@ spec:
       - name: vuepress
         image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-frontend:7c257239f962b123991b1623330401
         imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /var/txt
+          name: mount-file
         ports:
         - containerPort: 8080
           name: http
           protocol: TCP
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: nginx-configmap
+        name: mount-file
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: openeuler-website-v2-backend
 spec:
-  replicas: 4
+  replicas: 8
   strategy:
     rollingUpdate:
       maxUnavailable: 0

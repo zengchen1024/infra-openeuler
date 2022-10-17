@@ -1,0 +1,28 @@
+# Deployment for packagemanage service
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: compass-ci-jumper
+  namespace: compass-ci
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: compass-ci-jumper
+  template:
+    metadata:
+      labels:
+        app: compass-ci-jumper
+    spec:
+      containers:
+        - name: compass-ci-jumper
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/compass_ci_jumper:969602e592c7745a8e8ce656f60a2dc58a6ed2e41646911380
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 2000Mi

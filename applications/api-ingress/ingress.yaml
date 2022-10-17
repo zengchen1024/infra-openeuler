@@ -7,7 +7,8 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "https://openeuler.org"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://www.openeuler.org"
+    nginx.ingress.kubernetes.io/proxy-body-size: 5m
     nginx.ingress.kubernetes.io/server-snippet: |
       location ^~ /meetings/allmeetings/ {
         deny all;
@@ -16,9 +17,6 @@ metadata:
         deny all;
       }
       location ^~ /meetings/registrants/ {
-        deny all;
-      }
-      location ^~ /meetings/activities/ {
         deny all;
       }
   name: api-ingress
@@ -63,6 +61,10 @@ spec:
               serviceName: hdc-task-manager-service
               servicePort: 80
             path: /hdc-task-manager(/|$)(.*)
+          - backend:
+              serviceName: osi-task-manager-service
+              servicePort: 80
+            path: /osi-task-manager(/|$)(.*)            
           - backend:
               serviceName: nginx-purger-service
               servicePort: 80

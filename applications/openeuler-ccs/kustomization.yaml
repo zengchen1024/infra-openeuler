@@ -8,8 +8,21 @@ commonLabels:
   app: openeuler-ccs
   owner: zhangjunqing
 commonAnnotations:
+  email: chnzjq@163.com
   owner: zhangjunqing
-  email: "chnzjq@163.com"
 namespace: openeuler-ccs
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-config
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-config
+  newTag: "1662104526"
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-eureka
+  newTag: "1662104342"
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-gateway
+  newTag: "1662104674"
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-server
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/ccs-server
+  newTag: "1665623334"

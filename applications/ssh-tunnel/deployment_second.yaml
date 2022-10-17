@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: sshd-tunnel
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ssh-tunnel:0.0.1
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/ssh-tunnel:aa2b9c851a6fc9b0a8008aee809762cc928216e8
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ

@@ -5,8 +5,12 @@ commonLabels:
   app: openeuler-jenkins
   owner: caozhi
 commonAnnotations:
+  email: caozhi1214@gmail.com
   owner: caozhi
-  email: "caozhi1214@gmail.com"
 namespace: jenkins
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openeuler_infra_check
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openeuler_infra_check_image
+  newTag: aaf06ade103973c8088f81e4198b262cc867b479

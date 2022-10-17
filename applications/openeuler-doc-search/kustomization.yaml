@@ -1,0 +1,15 @@
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- secrets.yaml
+- ingress.yaml
+commonAnnotations:
+  email: chenyang244@h-partners.com
+  owner: chenyang
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: openeuler-doc-search
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/doc-search
+  newTag: e4f2c574933b7ba17be960cdfc69df33675e6f6b

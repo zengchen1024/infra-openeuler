@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openlookeng-bugs-service
+  namespace: openlookeng-bugs
+spec:
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: openlookeng-bugs
+  type: ClusterIP

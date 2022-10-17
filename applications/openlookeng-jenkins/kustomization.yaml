@@ -1,17 +1,24 @@
 resources:
-  - ingress.yaml
-  - namespace.yaml
-  - service.yaml
+- ingress.yaml
+- namespace.yaml
+- service.yaml
+- oauth-proxy.yaml
+- secrets.yaml
+- cronjob.yaml
 commonLabels:
   app: openlookeng-jenkins
 commonAnnotations:
+  email: caozhi1214@gmail.com
   owner: caozhi
-  email: "caozhi1214@gmail.com"
 patchesJson6902:
-  - target:
-      group: ""
-      version: v1
-      kind: Service
-      name: openlookeng-jenkins-internal
-    path: selector.yaml
+- path: selector.yaml
+  target:
+    kind: Service
+    name: openlookeng-jenkins-internal
+    version: v1
 namespace: openlookeng-jenkins
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/openeuler/bak-jenkins
+  newTag: a8c9b6db0fa19f48699d5aca049dee3455062cf0
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization

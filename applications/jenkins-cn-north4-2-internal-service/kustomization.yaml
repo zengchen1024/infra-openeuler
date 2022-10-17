@@ -1,0 +1,12 @@
+resources:
+- cronjob.yaml
+- openeuler-ci.yaml
+- namespace.yaml
+namespace: jenkins-internal-service
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/openeuler/bak-jenkins
+  newTag: 0be18a22a74d58443833698a04a05e18a321f399
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-ci
+  newTag: ac8acfbc7a87468b02d71a45df08eaac1b9dd3ae
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization

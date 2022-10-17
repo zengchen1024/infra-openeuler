@@ -1,0 +1,17 @@
+resources:
+- namespace.yaml
+- ingress.yaml
+- service.yaml
+- deployment.yaml
+- secrets.yaml
+- config.yaml
+commonLabels:
+  app: openeuler-eulerland-game
+commonAnnotations:
+  owner: Wangyiting
+namespace: eulerland-game
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/euler-land-game
+  newTag: v1.2

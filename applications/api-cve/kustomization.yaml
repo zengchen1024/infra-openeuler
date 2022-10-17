@@ -1,0 +1,12 @@
+resources:
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+- secret.yaml
+namespace: api-cve
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/cve-sa-backend/api-cve
+  newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/cve-sa-backend/api-cve
+  newTag: f6a909481263e802d2863dde15bed852f2789ddf

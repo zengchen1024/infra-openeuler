@@ -1,32 +1,29 @@
-apiVersion: v1
-kind: List
-items:
-- apiVersion: extensions/v1beta1
-  kind: Deployment
-  metadata:
-    labels:
-      app: repo-nginx-server
-    name: openeuler
-    namespace: repo2
-  spec:
-    progressDeadlineSeconds: 600
-    replicas: 1
-    revisionHistoryLimit: 10
-    selector:
-      matchLabels:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: repo-nginx-server
+  name: openeuler
+  namespace: repo2
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: repo-nginx-pod
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
         app: repo-nginx-pod
-    strategy:
-      rollingUpdate:
-        maxSurge: 25%
-        maxUnavailable: 25%
-      type: RollingUpdate
-    template:
-      metadata:
-        labels:
-          app: repo-nginx-pod
-      spec:
-        containers:
-        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.20.0-with-fancy-templates-repo
+    spec:
+      containers:
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
           imagePullPolicy: IfNotPresent
           name: repo-nginx
           resources:
@@ -36,24 +33,35 @@ items:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
-          - mountPath: /etc/nginx/conf/nginx.conf
-            name: repo-nginx-configmap-volume
-            subPath: nginx.conf
-          - mountPath: /etc/nginx/conf/conf.d/default.conf
-            name: repo-nginx-configmap-volume
-            subPath: default.conf
-          - mountPath: /repo/openeuler
-            name: openeuler-data-volume
+            - mountPath: /etc/nginx/conf/ssl/fullchain.pem
+              name: website-secrets-volume
+              subPath: fullchain.pem
+            - mountPath: /etc/nginx/conf/ssl/privkey.pem
+              name: website-secrets-volume
+              subPath: privkey.pem
+            - mountPath: /etc/nginx/conf/nginx.conf
+              name: repo-nginx-configmap-volume
+              subPath: nginx.conf
+            - mountPath: /etc/nginx/conf/conf.d/default.conf
+              name: repo-nginx-configmap-volume
+              subPath: default.conf
+            - mountPath: /repo/openeuler
+              name: openeuler-data-volume
         - command:
-          - /bin/sh
-          - -c
-          - |
-            cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
-            chmod 0400 /root/.ssh/authorized_keys
-            chown root:root /root/.ssh/authorized_keys
-            /etc/init.d/ssh start &
-            exec /usr/bin/rsync --no-detach --daemon --config /etc/rsyncd.conf;
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:0.0.5
+            - /bin/sh
+            - -c
+            - |
+              cp /etc/rsyncd.secrets.ro /etc/rsyncd.secrets
+              chmod 0400 /etc/rsyncd.secrets
+              cp /root/.ssh/authorized_keys.ro /root/.ssh/authorized_keys
+              chmod 0400 /root/.ssh/authorized_keys
+              chown root:root /root/.ssh/authorized_keys
+              ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
+              ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+              ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+              /usr/sbin/sshd -D &
+              exec /usr/bin/rsync --no-detach --daemon --config /etc/rsyncd.conf;
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:1.0.1
           imagePullPolicy: Always
           name: rsync-server
           resources:
@@ -63,20 +71,23 @@ items:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
-          - mountPath: /etc/rsyncd.conf
-            name: repo-nginx-configmap-volume
-            subPath: rsyncd.conf
-          - mountPath: /repo/openeuler
-            name: openeuler-data-volume
-          - mountPath: /root/.ssh/authorized_keys.ro
-            name: repo-nginx-configmap-volume
-            subPath: ssh.pub
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-        volumes:
+            - mountPath: /etc/rsyncd.conf
+              name: repo-nginx-configmap-volume
+              subPath: rsyncd.conf
+            - mountPath: /etc/rsyncd.secrets.ro
+              name: repo-nginx-configmap-volume
+              subPath: rsyncd.secrets
+            - mountPath: /repo/openeuler
+              name: openeuler-data-volume
+            - mountPath: /root/.ssh/authorized_keys.ro
+              name: repo-nginx-configmap-volume
+              subPath: ssh.pub
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
         - configMap:
             defaultMode: 420
             name: openeuler-configmap
@@ -84,3 +95,7 @@ items:
         - name: openeuler-data-volume
           persistentVolumeClaim:
             claimName: openeuler-data-volume
+        - name: website-secrets-volume
+          secret:
+            defaultMode: 420
+            secretName: website-secrets

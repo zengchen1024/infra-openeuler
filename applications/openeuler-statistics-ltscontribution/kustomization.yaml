@@ -1,0 +1,19 @@
+resources:
+- ingress.yaml
+- namespace.yaml
+- service.yaml
+- secret.yaml
+- ltscontribution-deployment.yaml
+- ltscontribution-service.yaml
+- oauth-proxy.yaml
+commonLabels:
+  app: openeuler-ltscontribution
+commonAnnotations:
+  email: tommylikehu@gmail.com
+  owner: TommyLike
+namespace: openeuler-ltscontribution
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-ltscontribution
+  newTag: 09a6db1b5ee291876d1271d1ad8e20ae32cc70e5

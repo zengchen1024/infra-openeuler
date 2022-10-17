@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-cve
+  namespace: api-cve
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: api-cve
+  template:
+    metadata:
+      labels:
+        app: api-cve
+    spec:
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      containers:
+      - name: api-cve
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/cve-sa-backend/api-cve:7165e604ffc7f1ec0e1eec9915f36bbd9a25dd04
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DB_URL
+            value: 172.16.1.73
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                key: db_user
+                name: api-cve-secrets
+          - name: DB_PWD
+            valueFrom:
+              secretKeyRef:
+                key: db_password
+                name: api-cve-secrets
+          - name: AK
+            valueFrom:
+              secretKeyRef:
+                key: ak_value
+                name: api-cve-secrets
+          - name: SK
+            valueFrom:
+              secretKeyRef:
+                key: sk_value
+                name: api-cve-secrets
+          - name: UPLOAD_USERNAME
+            valueFrom:
+              secretKeyRef:
+                key: upload_username
+                name: api-cve-secrets
+          - name: UPLOAD_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: upload_password
+                name: api-cve-secrets
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 2000Mi
+          limits:
+            cpu: 2000m
+            memory: 2000Mi

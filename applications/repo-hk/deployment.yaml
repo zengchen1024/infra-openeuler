@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: repo-nginx
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.20.0-with-fancy-templates-repo
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
@@ -28,7 +28,7 @@ spec:
           resources:
             requests:
               cpu: 4000m
-              memory: 6000Mi
+              memory: 8000Mi
           command:
             - /bin/sh
             - -c
@@ -61,7 +61,7 @@ spec:
               sed -i "s/<password>/${PASSWORD}/g" ~/.fscrawler/openeuler/_settings.yaml
               exec fscrawler openeuler
         - name: rsync-server
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:d8e5d2d93ffbeae4ec0ea9372c47cd6d1853fb14
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:122abc521614802693d71f85303360a21972cefb
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
@@ -74,7 +74,7 @@ spec:
             - name: RSYNC_INTERNAL
               value: "600"
             - name: SYNC_HOST
-              value: "rsync://root@121.36.97.194/openeuler"
+              value: "rsync://root@121.36.1.92/openeuler"
             - name: ADDITIONAL_PARAMETERS
               value: "--delete"
           # Use the combination of sync & sleep to sync the repo from main repo periodically

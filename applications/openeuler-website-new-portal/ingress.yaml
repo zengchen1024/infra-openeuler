@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^/ https://www.openeuler.org redirect;
+  name: openeuler-website-ingress
+  namespace: openeuler-website-new-portal
+spec:
+  tls:
+    - hosts:
+      - new.openeuler.org
+      secretName: openeuler-website-tls
+  rules:
+    - host: new.openeuler.org
+      http:
+        paths:
+        - backend:
+            serviceName: openeuler-website-service
+            servicePort: 80
+          path: /
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^/ https://www.openeuler.org redirect;
+  name: openeuler-website-sh-ingress
+  namespace: openeuler-website-new-portal
+spec:
+  tls:
+    - hosts:
+      - new.openeuler.sh
+      secretName: openeuler-website-sh-tls
+  rules:
+    - host: new.openeuler.sh
+      http:
+        paths:
+        - backend:
+            serviceName: openeuler-website-service
+            servicePort: 80
+          path: /

@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeuler-website-v1
+  namespace: website-v1
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: website-v1
+  template:
+    metadata:
+      labels:
+        app: website-v1
+    spec:
+      containers:
+      - name: website-v1
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-v1:aac3100af63e8fab9c1e86a9e80f694e1c6d27f5
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+        
+        

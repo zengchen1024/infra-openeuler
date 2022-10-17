@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: doc-search-ingress
+  namespace: openeuler-doc-search
+spec:
+  tls:
+    - hosts:
+        - doc-search.openeuler.org
+      secretName: doc-search-tls
+  rules:
+    - host: doc-search.openeuler.org
+      http:
+        paths:
+        - backend:
+            serviceName: doc-search-service
+            servicePort: 80
+          path: /

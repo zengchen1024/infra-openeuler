@@ -33,10 +33,18 @@ spec:
           cp /opt/mailman-web-config/base.html /usr/lib/python3.6/site-packages/postorius/templates/postorius;
           #disable signup page for mailman web hyperkitty
           cp /opt/mailman-web-config/base2.html /usr/lib/python3.6/site-packages/hyperkitty/templates/hyperkitty/base.html
+          cp /opt/mailman-web-config/email.py /usr/lib/python3.6/site-packages/hyperkitty/models/email.py
+          # upgrade version of jquery to fix security vulnerability
+          rm -f /usr/lib/python3.6/site-packages/postorius/static/postorius/libs/jquery/jquery-1.11.3.min.js
+          wget https://code.jquery.com/jquery-3.6.0.js -O /usr/lib/python3.6/site-packages/postorius/static/postorius/libs/jquery/jquery-3.6.0.js
+          wget https://code.jquery.com/jquery-3.6.0.min.js -O /usr/lib/python3.6/site-packages/postorius/static/postorius/libs/jquery/jquery-3.6.0.min.js
+          wget https://code.jquery.com/jquery-3.6.0.min.map -O /usr/lib/python3.6/site-packages/postorius/static/postorius/libs/jquery/jquery-3.6.0.min.map
           exec docker-entrypoint.sh uwsgi --ini /opt/mailman-web/uwsgi.ini;
         env:
         - name: PRIVACY_LINK
-          value: https://openeuler.org/en/other/privacy/
+          value: https://www.openeuler.org/en/other/privacy/
+        - name: CONDUCT_LINK
+          value: https://www.openeuler.org/en/community/conduct/
         - name: DATABASE_TYPE
           value: postgres
         - name: DATABASE_URL

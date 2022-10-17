@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: osi-task-manager-service
+  namespace: osi-task-manager
+spec:
+  ports:
+    - name: osi-task-manager
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: osi-task-manager
+  type: ClusterIP
