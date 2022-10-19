@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+  name: sbom-service-ingress
+  namespace: openeuler-sbom-service
+spec:
+  tls:
+    - hosts:
+        - sbom-service.osinfra.cn
+      secretName: sbom-website-tls
+  rules:
+    - host: sbom-service.osinfra.cn
+      http:
+        paths:
+          - backend:
+              serviceName: sbom-website-service
+              servicePort: 80
+            path: /
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+  name: sbom-service-backend-ingress
+  namespace: openeuler-sbom-service
+spec:
+  tls:
+    - hosts:
+        - sbom-service.osinfra.cn
+      secretName: sbom-server-tls
+  rules:
+    - host: sbom-service.osinfra.cn
+      http:
+        paths:
+          - backend:
+              serviceName: sbom-server-service
+              servicePort: 80
+            path: /sbom-api
