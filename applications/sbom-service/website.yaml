@@ -1,0 +1,47 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: sbom-website
+  namespace: openeuler-sbom-service
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: sbom-website
+  template:
+    metadata:
+      labels:
+        app: sbom-website
+    spec:
+      containers:
+      - name: sbom-website
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-sbom-website:v1.0.20221018152228
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2000Mi
+          limits:
+            cpu: 2000m
+            memory: 4000Mi
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 10
+          failureThreshold: 3
+          successThreshold: 1
+          periodSeconds: 10
+          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 20
+          successThreshold: 1
+          failureThreshold: 3
+          timeoutSeconds: 5
