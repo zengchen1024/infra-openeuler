@@ -1,0 +1,11 @@
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+namespace: openeuler-certificate-center
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/certificate-center
+  newTag: 397b778d502659cbaadcb1d71794401ac0fcd94e
