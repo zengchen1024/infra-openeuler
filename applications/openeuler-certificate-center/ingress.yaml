@@ -11,7 +11,7 @@ spec:
   tls:
     - hosts:
         - ccs-console.openeuler.org
-      secretName: openeuler-certificate-center-lts
+      secretName: openeuler-certificate-center-tls
   rules:
     - host: ccs-console.openeuler.org
       http:
