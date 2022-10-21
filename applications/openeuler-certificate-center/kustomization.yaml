@@ -8,4 +8,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/certificate-center
-  newTag: 4a3471a4a2234581c3065f76fd3de2390df52702
+  newTag: d6edc03d41b1417935993bdd979e5798f0f86f42
