@@ -35,7 +35,7 @@ spec:
       volumes:
       - name: log-data-volume
         persistentVolumeClaim:
-          claimName: openeuler-data-volume
+          claimName: openeuler-log-data-volume
       - name: ssh-private-key
         secret:
           secretName: post-verification-secrets
