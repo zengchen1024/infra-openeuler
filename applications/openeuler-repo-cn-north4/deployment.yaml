@@ -82,6 +82,18 @@ spec:
             - mountPath: /root/.ssh/authorized_keys.ro
               name: repo-nginx-configmap-volume
               subPath: ssh.pub
+        - name: sbom-repo-service
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/sbom-repo-service:568471465707c5102c1e93c350cfd8fb359f2e4f
+          volumeMounts:
+          - mountPath: /repo/openeuler
+            name: openeuler-data-volume
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 1000Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

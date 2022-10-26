@@ -64,7 +64,7 @@ items:
       use chroot = yes
       uid = root
       gid = root
-      max connections = 10
+      max connections = 30
       timeout = 600
       read only = yes
 
