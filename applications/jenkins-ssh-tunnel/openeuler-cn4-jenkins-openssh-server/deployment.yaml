@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: openeuler-ssh-tunnel
+    component: ssh-tunnel
+  name: ssh-tunnel
+  namespace: ssh-tunnel
+spec:
+  selector:
+    matchLabels:
+      app: openeuler-ssh-tunnel
+      component: ssh-tunnel
+  template:
+    metadata:
+      labels:
+        app: openeuler-ssh-tunnel
+        component: ssh-tunnel
+    spec:
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      nodeSelector:
+        os.architecture: "amd64"
+      containers:
+      - env:
+        - name: TZ
+          value: Asia/Shanghai
+        - name: SUDO_ACCESS
+          value: "true"
+        - name: USER_NAME
+          value: root
+        - name: PUBLIC_KEY_FILE
+          value: /var/sshd/public_keys
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openssh-server:version-9.0_p1-r2
+        imagePullPolicy: IfNotPresent
+        name: sshd-server
+        volumeMounts:
+        - mountPath: /var/sshd/public_keys
+          name: ssh-secrets
+          subPath: public_keys
+        - mountPath: /config/ssh_host_keys/sshd_config
+          name: ssh-config
+          subPath: sshd_config
+      volumes:
+      - name: ssh-secrets
+        secret:
+          secretName: ssh-secrets
+      - configMap:
+          name: ssh-config
+        name: ssh-config

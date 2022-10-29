@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh-tunnel-jenkins-master
+  namespace: ssh-tunnel
+spec:
+  selector:
+    matchLabels:
+      component: ssh-tunnel
+      tunnel: jenkins
+  template:
+    metadata:
+      labels:
+        component: ssh-tunnel
+        tunnel: jenkins
+    spec:
+      containers:
+      - name: sshd-tunnel
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler-base/autossh:202210291547
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: TZ
+          value: Asia/Shanghai
+        - name: TUNNEL_HOST
+          value: 121.36.104.207
+        volumeMounts:
+        - mountPath: /root/ssh/id_rsa
+          name: ssh-secrets
+          subPath: private_keys
+        args:
+          - -L
+          - 0.0.0.0:1086:jenkins.jenkins-master.svc.cluster.local:80
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 1086
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 1086
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+      volumes:
+        - name: ssh-secrets
+          secret:
+            secretName: ssh-secrets
