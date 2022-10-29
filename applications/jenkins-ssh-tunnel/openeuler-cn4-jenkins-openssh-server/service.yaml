@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: 7813ec8d-5095-4427-8cc1-af805f698cde
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+  labels:
+    app: openeuler-ssh-tunnel
+  name: ssh-tunnel
+  namespace: ssh-tunnel
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: ssh-port
+    port: 22
+    protocol: TCP
+    targetPort: 2222
+  selector:
+    app: openeuler-ssh-tunnel
+    component: ssh-tunnel
+  type: LoadBalancer
