@@ -40,8 +40,8 @@ metadata:
       rewrite ^/zh/security/compatibility/                      https://www.openeuler.org/zh/compatibility/ redirect;
       rewrite ^/zh/sig/sig-list/sig-detail.html?(.*)            https://www.openeuler.org/zh/sig/sig-detail/?$1 redirect;
       rewrite ^/en/sig/sig-list/sig-detail.html?(.*)            https://www.openeuler.org/en/sig/sig-detail/?$1 redirect;
-      rewrite ^/zh/migration/guidance/(1-summary|2-attention|3-process|4-assessment|5-adaptive|6-stock-migration|7-increased-migration|8-updated|9-followup)  /zh/migration/guidance/ redirect;
-      rewrite ^/zh/migration/implement-guide/                   /zh/migration/contact/ redirect;
+      rewrite ^/zh/migration/guidance/(1-summary|2-attention|3-process|4-assessment|5-adaptive|6-stock-migration|7-increased-migration|8-updated|9-followup)  /zh/migration/guidance/ permanent;
+      rewrite ^/zh/migration/implement-guide/                   /zh/migration/contact/ permanent;
   name: openeuler-v2-www-website-ingress
 spec:
   tls:
