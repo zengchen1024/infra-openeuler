@@ -18,25 +18,6 @@ metadata:
           set $Real $1.$2.$3.$4;
       }
       proxy_set_header True-Client-IP $Real;
-      set $allow_uri false;
-      if ( $request_uri ~ ^/zh/interaction/summit-list/ ){
-          set $allow_uri true;
-      }
-      if ( $request_uri ~ ^/zh/community/certification-services/ ){
-          set $allow_uri true;
-      }
-      if ( $request_uri ~ ^/en/community/certification-services/ ){
-          set $allow_uri true;
-      }
-      if ( $request_uri ~ ^/(assets|img|api-certification)/ ){
-          set $allow_uri true;
-      }
-      if ( $request_uri ~ ^/favicon.ico$ ){
-          set $allow_uri true;
-      }
-      if ( $allow_uri = "false" ){
-          rewrite ^/(.*) https://www.openeuler.org permanent;
-      }
     nginx.ingress.kubernetes.io/server-snippet: |
       rewrite ^/zh/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
       rewrite ^/en/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
