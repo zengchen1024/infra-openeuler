@@ -1,0 +1,13 @@
+resources:
+- deployment.yaml
+- namespace.yaml
+- service.yaml
+- secret.yaml
+- pvc.yaml
+- ingress.yaml
+namespace: omni-repository
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/omni/omni-repository
+  newTag: 196318d44e3c78250e0b12f1118f19480b5b693f

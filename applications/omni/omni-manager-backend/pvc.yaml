@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cce-obs-omni-manager-backend
+  namespace: omni-manager-backend
+spec:
+  storageClassName: "csi-disk"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cce-evs-redis-data
+  namespace: omni-manager-backend
+spec:
+  storageClassName: "csi-disk"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

@@ -5,7 +5,7 @@ metadata:
   name: openeuler-website
   namespace: openeuler-website-new-portal
 spec:
-  replicas: 2
+  replicas: 0
   strategy:
     rollingUpdate:
       maxUnavailable: 1

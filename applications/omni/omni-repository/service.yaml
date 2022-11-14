@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: omni-repository
+  namespace: omni-repository
+spec:
+  ports:
+  - name: omni-repository
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: omni-repository-server
+    component: omni-repository-server
+  type: ClusterIP
