@@ -4,12 +4,13 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: website-summary-ingress
 spec:
   tls:
     - hosts:
         - events.opengauss.org
-      secretName: website-summary-tls-secret
+      secretName: website-tls
   rules:
     - host: events.opengauss.org
       http:
