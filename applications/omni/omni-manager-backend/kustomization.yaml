@@ -5,6 +5,7 @@ resources:
 - secret.yaml
 - redis-service.yaml
 - redis-statefulset.yaml
+- pvc.yaml
 namespace: omni-manager-backend
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization

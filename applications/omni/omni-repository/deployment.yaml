@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omni-repository
+  namespace: omni-repository
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      component: omni-repository-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        component: omni-repository-server
+    spec:
+      containers:
+      - env:
+        - name: APP_ENV
+          valueFrom:
+            secretKeyRef:
+              key: app_env
+              name: omni-repository-secret
+        - name: UPLOAD_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: upload_token
+              name: omni-repository-secret
+        - name: SERVER_NAME
+          valueFrom:
+            secretKeyRef:
+              key: server_name
+              name: omni-repository-secret
+        - name: CALLBACK_URL
+          valueFrom:
+            secretKeyRef:
+              key: callback_url
+              name: omni-repository-secret
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              key: db_host
+              name: omni-repository-secret
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              key: db_user
+              name: omni-repository-secret
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              key: db_port
+              name: omni-repository-secret
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              key: db_name
+              name: omni-repository-secret
+        - name: DB_PSWD
+          valueFrom:
+            secretKeyRef:
+              key: db_pswd
+              name: omni-repository-secret
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/omni/omni-repository:196318d44e3c78250e0b12f1118f19480b5b693f
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: omni-repository-server
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 1
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 10
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1000Mi
+          requests:
+            cpu: "1"
+            memory: 1000Mi
+        volumeMounts:
+        - mountPath: /app/data
+          name: data-volume
+        - mountPath: /app/config/app.toml
+          name: secret
+          subPath: app_toml
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      restartPolicy: Always
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: cce-evs-omni-repository-data
+      - name: secret
+        secret:
+          secretName: omni-repository-secret
