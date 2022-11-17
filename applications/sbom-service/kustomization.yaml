@@ -9,7 +9,7 @@ namespace: openeuler-sbom-service
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-sbom-website
-  newTag: v1.0.20221018152228
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-sbom-server
   newTag: 1e6de9df5d118d25ee4699d79dc5e693334b73f2
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-sbom-website
+  newTag: v1.0.20221117234026
