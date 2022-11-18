@@ -24,6 +24,8 @@ spec:
         - -c
         - |
           sed -i "s/charset: us-ascii/charset: utf-8/g" /usr/lib/python3.6/site-packages/mailman/config/schema.cfg;
+          cp /opt/core-debug/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+          chmod +x /usr/local/bin/docker-entrypoint.sh
           exec docker-entrypoint.sh master --force
         env:
         - name: DATABASE_URL
@@ -62,6 +64,9 @@ spec:
         - mountPath: /usr/lib/python3.6/email/quoprimime.py
           subPath: quoprimime.py
           name: mailman-core-config-volume
+        - mountPath: /opt/core-debug/docker-entrypoint.sh
+          subPath: docker-entrypoint.sh
+          name: entry-point-config
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -75,5 +80,9 @@ spec:
           defaultMode: 420
           name: mailman-core-configmap
         name: mailman-core-config-volume
+      - configMap:
+          defaultMode: 420
+          name: core-entrypoint-configmap
+        name: entry-point-config
   updateStrategy:
     type: OnDelete
