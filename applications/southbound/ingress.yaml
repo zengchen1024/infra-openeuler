@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    kubernetes.io/ingress.class: nginx
+  name: southbound-ingress
+  namespace: southbound
+spec:
+  rules:
+  - host: southbound.osinfra.cn
+    http:
+      paths:
+      - backend:
+          serviceName: southbound-website-service
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - southbound.osinfra.cn
+    secretName: southbound-tls
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    kubernetes.io/ingress.class: nginx
+  name: southbound-server-ingress
+  namespace: southbound
+spec:
+  rules:
+  - host: southbound.osinfra.cn
+    http:
+      paths:
+      - backend:
+          serviceName: southbound-server-service
+          servicePort: 80
+        path: /southbound
+  tls:
+  - hosts:
+    - southbound.osinfra.cn
+    secretName: southbound-tls
