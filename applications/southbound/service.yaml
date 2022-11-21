@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: southbound-website-service
+  namespace: southbound
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: website
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: southbound-server-service
+  namespace: southbound
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 8099
+  selector:
+    app: southbound-server
+  type: ClusterIP
