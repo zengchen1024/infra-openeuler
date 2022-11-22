@@ -3,7 +3,7 @@ images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/southbound-service
   newTag: a1bbc7a0b523a74cd7e75a2e9977f873c2786b5e
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/southbound-view
-  newTag: 0016f03fa8ec0fdc79cb353ee6f80599ddd23dca
+  newTag: baf3864576210e5edd735e28706118e4aca7fc1a
 kind: Kustomization
 namespace: southbound
 resources:
