@@ -23,6 +23,8 @@ metadata:
       rewrite ^/en/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
       rewrite ^/zh/docs(/|$)(.*) https://docs.openeuler.org/zh/docs/$2 redirect;
       rewrite ^/en/docs(/|$)(.*) https://docs.openeuler.org/en/docs/$2 redirect;
+      rewrite ^/zh/community/certification-services(/|$)(.*)    https://www.openeuler.org/zh/community/certification-services/$2 redirect;
+      rewrite ^/en/community/certification-services(/|$)(.*)    https://www.openeuler.org/en/community/certification-services/$2 redirect;
       rewrite ^/ru(/|$)(.*) https://ru.openeuler.org/ru/$2 redirect;
   name: website-v1-ingress
   namespace: website-v1
