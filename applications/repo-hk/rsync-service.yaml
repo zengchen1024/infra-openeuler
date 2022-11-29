@@ -4,7 +4,7 @@ kind: Service
 metadata:
   annotations:
     kubernetes.io/elb.class: union
-    kubernetes.io/elb.id: 2eb71e99-eb9e-40f1-a068-74cde8c7e7bb
+    kubernetes.io/elb.id: d07b16a6-0049-470c-923e-15585ae6586b
     kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
   labels:
     app: openeuler-repo-mirror-hk
