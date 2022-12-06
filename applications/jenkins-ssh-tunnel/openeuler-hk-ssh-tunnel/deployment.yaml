@@ -5,6 +5,7 @@ metadata:
   name: ssh-tunnel-jenkins-master
   namespace: ssh-tunnel
 spec:
+  replicas: 0
   selector:
     matchLabels:
       component: ssh-tunnel

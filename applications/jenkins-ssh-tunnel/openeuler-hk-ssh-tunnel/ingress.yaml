@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/permanent-redirect: https://build.openeuler.openatom.cn
+  name: build-redirect-ingress
+  namespace: ssh-tunnel
+spec:
+  tls:
+    - hosts:
+        - build.openeuler.org
+      secretName: build-tls
+  rules:
+    - host: build.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: ssh-tunnel
+              servicePort: 80
+            path: /
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/permanent-redirect: https://build.openeuler.openatom.cn
+  name: jenkins-redirect-ingress
+  namespace: ssh-tunnel
+spec:
+  tls:
+    - hosts:
+        - jenkins.openeuler.org
+      secretName: jenkins-tls
+  rules:
+    - host: jenkins.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: ssh-tunnel
+              servicePort: 80
+            path: /
