@@ -2,6 +2,8 @@ resources:
 - cronjob.yaml
 - openeuler-ci.yaml
 - namespace.yaml
+- ingress.yaml
+- oauth-proxy.yaml
 namespace: jenkins-internal-service
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/openeuler/bak-jenkins
