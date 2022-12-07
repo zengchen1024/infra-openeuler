@@ -63,6 +63,27 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: b5c299a6-1ae4-448d-8cd4-dd2ea67a6fac
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+  name: openeuler-service-for-paris-rsync
+  namespace: repo2
+spec:
+  loadBalancerIP: 114.116.230.90
+  ports:
+  - name: rsync-server-port
+    port: 873
+    protocol: TCP
+    targetPort: 873
+  selector:
+    app: repo-nginx-pod
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: sbom-repo-service
   namespace: repo2
 spec:

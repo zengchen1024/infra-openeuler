@@ -1,0 +1,83 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jumpserver-service
+  namespace: jumpserver-ingress
+  labels:
+    app: jumpserver-ingress
+spec:
+  ports:
+  - protocol: TCP
+    port: 443
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: jumpserver-service
+  namespace: jumpserver-ingress
+  labels:
+    app: jumpserver-ingress
+subsets:
+  - addresses:
+      # These machines below are Fortress machine
+      - ip: 172.16.1.24
+    ports:
+      - port: 443
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jumpserver-service-2222
+  namespace: jumpserver-ingress
+  labels:
+    app: jumpserver-ingress
+spec:
+  ports:
+  - protocol: TCP
+    port: 2222
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: jumpserver-service-2222
+  namespace: jumpserver-ingress
+  labels:
+    app: jumpserver-ingress
+subsets:
+  - addresses:
+      # These machines below are Fortress machine
+      - ip: 172.16.1.24
+    ports:
+      - port: 2222
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jumpserver-service-9443
+  namespace: jumpserver-ingress
+  labels:
+    app: jumpserver-ingress
+spec:
+  ports:
+  - protocol: TCP
+    port: 9443
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: jumpserver-service-9443
+  namespace: jumpserver-ingress
+  labels:
+    app: jumpserver-ingress
+subsets:
+  - addresses:
+      # These machines below are Fortress machine
+      - ip: 172.16.1.24
+    ports:
+      - port: 9443
