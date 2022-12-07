@@ -1,0 +1,23 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  name: jumpserver-ingress
+  namespace: jumpserver-ingress
+spec:
+  rules:
+  - host: jumpserver.osinfra.cn
+    http:
+      paths:
+      - backend:
+          serviceName: jumpserver-service
+          servicePort: 443
+        path: /
+  tls:
+  - hosts:
+    - jumpserver.osinfra.cn
+    secretName: jumpserver-tls
