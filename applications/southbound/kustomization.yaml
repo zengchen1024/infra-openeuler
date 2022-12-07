@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/southbound-service
-  newTag: baf3864576210e5edd735e28706118e4aca7fc1a
+  newTag: 03da4d51c30bcd5c0e2e692f4dbed1a223b791ee
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/southbound-view
   newTag: 03da4d51c30bcd5c0e2e692f4dbed1a223b791ee
 kind: Kustomization
