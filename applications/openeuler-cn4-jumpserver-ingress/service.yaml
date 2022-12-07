@@ -21,7 +21,7 @@ metadata:
     app: jumpserver-ingress
 subsets:
   - addresses:
-      # These machines below are obs ecs
+      # These machines below are Fortress machine
       - ip: 172.16.1.24
     ports:
       - port: 443
@@ -49,7 +49,7 @@ metadata:
     app: jumpserver-ingress
 subsets:
   - addresses:
-      # These machines below are obs ecs
+      # These machines below are Fortress machine
       - ip: 172.16.1.24
     ports:
       - port: 2222
@@ -77,7 +77,7 @@ metadata:
     app: jumpserver-ingress
 subsets:
   - addresses:
-      # These machines below are obs ecs
+      # These machines below are Fortress machine
       - ip: 172.16.1.24
     ports:
       - port: 9443
