@@ -90,7 +90,6 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/server-snippet: |
       rewrite ^/(.*)       https://www.openeuler.org/$1 redirect;
   name: website-v2-ingress-main
@@ -98,7 +97,7 @@ spec:
   tls:
     - hosts:
         - openeuler.org
-      secretName: website-v2-tls-main-secret
+      secretName: openeuler-org-tls
   rules:
     - host: openeuler.org
       http:
