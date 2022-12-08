@@ -31,8 +31,6 @@ metadata:
       rewrite ^/zh/interaction/summit-list/devday2021/          https://v1.openeuler.org/zh/interaction/summit-list/devday2021/ redirect;
       rewrite ^/zh/interaction/summit-list/$                    https://v1.openeuler.org/zh/interaction/summit-list/ redirect;
       rewrite ^/zh/interaction/summit-list/list/                https://v1.openeuler.org/zh/interaction/summit-list/list/ redirect;
-      rewrite ^/api/meetings(/|$)(.*)                           https://www.openeuler.org/api-sig/$2 redirect;
-      rewrite ^/api/mirrors(/|$)(.*)                            https://api.openeuler.org/mirrors/$2 redirect;
       rewrite ^/zh/security/approve/                            https://www.openeuler.org/zh/approve/ redirect;
       rewrite ^/zh/security/compatibility/                      https://www.openeuler.org/zh/compatibility/ redirect;
       rewrite ^/zh/sig/sig-list/sig-detail.html?(.*)            https://www.openeuler.org/zh/sig/sig-detail/?$1 redirect;
@@ -75,11 +73,7 @@ spec:
           - backend:
               serviceName: website-backend-service
               servicePort: 80
-            path: /api(/|$)(.*)
-          - backend:
-              serviceName: openeuler-meetingserver-internal
-              servicePort: 80
-            path: /api-sig(/|$)(.*)
+            path: /api-node(/|$)(.*)
           - backend:
               serviceName: openeuler-api-cve
               servicePort: 8080
