@@ -8,4 +8,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nestos-website
-  newTag: 4dc2df015d6bac747cd3eecec829d28673c17c1f
+  newTag: 204da26e333d2d8858c2aaa65fb9915006b443f1
