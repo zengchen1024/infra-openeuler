@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app: openeuler-hk-cronjob
+  name: openeuler-hk-cronjob
