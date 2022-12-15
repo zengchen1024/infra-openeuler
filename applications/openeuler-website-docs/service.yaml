@@ -1,12 +1,4 @@
 ---
-kind: Service
-apiVersion: v1
-metadata:
-  name: website-backend-service
-spec:
-  type: ExternalName
-  externalName: website-backend-service.website-v2.svc.cluster.local
----
 apiVersion: v1
 kind: Service
 metadata:
