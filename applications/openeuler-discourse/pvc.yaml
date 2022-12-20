@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: web-share-volume
+  labels:
+    app: web-server
+  namespace: discourse
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+        storage: 100Gi
+  storageClassName: csi-nas
