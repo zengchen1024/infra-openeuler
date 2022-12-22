@@ -19,13 +19,22 @@ metadata:
       }
       proxy_set_header True-Client-IP $Real;
     nginx.ingress.kubernetes.io/server-snippet: |
-      rewrite ^/zh/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
-      rewrite ^/en/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
-      rewrite ^/zh/docs(/|$)(.*) https://docs.openeuler.org/zh/docs/$2 redirect;
-      rewrite ^/en/docs(/|$)(.*) https://docs.openeuler.org/en/docs/$2 redirect;
-      rewrite ^/zh/community/certification-services(/|$)(.*)    https://www.openeuler.org/zh/community/certification-services/$2 redirect;
-      rewrite ^/en/community/certification-services(/|$)(.*)    https://www.openeuler.org/en/community/certification-services/$2 redirect;
-      rewrite ^/ru(/|$)(.*) https://ru.openeuler.org/ru/$2 redirect;
+      set $allow_request 0;
+      if ($uri ~* ^/zh/interaction/summit-list/ ){
+        set $allow_request 1;
+      }
+      if ($uri ~* ^/ip-api/ ){
+        set $allow_request 1;
+      }
+      if ($uri ~* \.(js|css|png|ts|svg|woff|ttf|ico)$ ){
+        set $allow_request 1;
+      }
+      if ($uri ~* icons ){
+        set $allow_request 1;
+      }
+      if ($allow_request = 0){
+        rewrite ^/.* https://www.openeuler.org;
+      }
   name: website-v1-ingress
   namespace: website-v1
 spec:
@@ -41,35 +50,4 @@ spec:
               serviceName: website-v1-service
               servicePort: 80
             path: /
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/custom-http-errors: "400,500"
-  name: website-v1-ingress-backend
-  namespace: website-v1
-spec:
-  tls:
-    - hosts:
-        - v1.openeuler.org
-      secretName: website-v1-backend-tls
-  rules:
-    - host: v1.openeuler.org
-      http:
-        paths:
-          - backend:
-              serviceName: website-backend-service
-              servicePort: 80
-            path: /api(/|$)(.*)
-          - backend:
-              serviceName: openeuler-meetingserver-internal
-              servicePort: 80
-            path: /api-sig(/|$)(.*)
-          - backend:
-              serviceName: openeuler-api-cve
-              servicePort: 8080
-            path: /api-cve(/|$)(.*)
+
