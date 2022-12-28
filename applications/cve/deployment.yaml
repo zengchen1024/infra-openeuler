@@ -5,7 +5,7 @@ metadata:
     app: cve-backend-info
   name: cve-backend-info
 spec:
-  replicas: 1
+  replicas: 0
   revisionHistoryLimit: 10
   selector:
     matchLabels:
