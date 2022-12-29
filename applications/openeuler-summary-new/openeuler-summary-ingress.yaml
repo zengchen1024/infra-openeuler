@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: openeuler-summary-ingress
+  namespace: openeuler-summary
+spec:
+  rules:
+  - host: summary.openeuler.org
+    http:
+      paths:
+      - backend:
+          serviceName: openeuler-oauth2-proxy
+          servicePort: 4180
+        path: /
+  tls:
+  - hosts:
+    - summary.openeuler.org
+    secretName: openeuler-summary-tls
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^/$  /en/2022/ redirect;
+  name: openeuler-summary-en-ingress
+  namespace: openeuler-summary
+spec:
+  rules:
+  - host: summary-en.openeuler.org
+    http:
+      paths:
+      - backend:
+          serviceName: openeuler-en-oauth2-proxy
+          servicePort: 4180
+        path: /
+  tls:
+  - hosts:
+    - summary-en.openeuler.org
+    secretName: openeuler-summary-en-tls
