@@ -9,4 +9,4 @@ resources:
 - namespace.yaml
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/summary
-  newTag: v1.0.20221230140407
+  newTag: v1.0.20221230151424
