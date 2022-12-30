@@ -18,6 +18,9 @@ metadata:
       rewrite ^/signcla.html https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVubG9va2VuZw== redirect;
       rewrite ^/zh-cn/(.*)$ /zh/$1 redirect;
       rewrite ^/en-us/(.*)$ /en/$1 redirect;
+      rewrite ^/zh/privacypolicy.html$  /zh/privacy/ redirect;
+      rewrite ^/en/privacypolicy.html$  /en/privacy/ redirect;
+      rewrite ^/privacypolicy.html$     /en/privacy/ redirect;
       proxy_cache statics_cache;
       proxy_cache_lock on;
       proxy_cache_key $server_name$uri$is_args$args;
