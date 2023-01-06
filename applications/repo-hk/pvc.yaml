@@ -5,8 +5,8 @@ metadata:
   name: openeuler-data-volume
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 4000Gi
-  storageClassName: ssd
+  storageClassName: csi-disk
