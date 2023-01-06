@@ -1,6 +1,7 @@
 resources:
 - https://github.com/opensourceways/compass-ci/deploy?ref=master
 - ingress.yaml
+- secret.yaml
 commonLabels:
   app: compass-ci
   owner: dukaitian
