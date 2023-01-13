@@ -3,9 +3,9 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
-  name: repo-openatom-ingress
+    kubernetes.io/ingress.class: repo-nginx
+    cert-manager.io/cluster-issuer: letsencrypt-repo
+  name: openeuler-cn4-repo-openatom-ingress
   namespace: repo2
 spec:
   rules:
@@ -19,4 +19,4 @@ spec:
   tls:
   - hosts:
     - repo.openeuler.openatom.cn
-    secretName: repo-openatom-tls
+    secretName: openeuler-repo-openatom-tls
