@@ -5,6 +5,7 @@ metadata:
   name: botinfo
   namespace: bot
 spec:
+  replicas: 0
   selector:
     matchLabels:
       app: botinfo
