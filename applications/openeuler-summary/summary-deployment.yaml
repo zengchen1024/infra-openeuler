@@ -4,7 +4,7 @@ apiVersion: apps/v1
 metadata:
   name: openeuler-summary
 spec:
-  replicas: 2
+  replicas: 0
   selector: 
     matchLabels:
       component: openeuler-frontend
