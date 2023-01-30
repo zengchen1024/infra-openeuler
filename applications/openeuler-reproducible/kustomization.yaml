@@ -13,6 +13,6 @@ kind: Kustomization
 namespace: openeuler-reproducible
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-reproducible-backend
-  newTag: 583d076787dc751c2e3f678dc510bd1732ef7644
+  newTag: 681a2a2b480d986001900704a07d4bb851fb0b0f
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-reproducible-website
   newTag: f146362dfdec5fbc96dc29843021f1113d2660f1
