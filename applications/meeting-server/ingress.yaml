@@ -1,0 +1,22 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: openeuler-meetingserver-ingress
+  namespace: meetingserver
+spec:
+  tls:
+    - hosts:
+        - meetings.openeuler.org
+      secretName: openeuler-meetingserver-tls
+  rules:
+    - host: meetings.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: meeting-service
+              servicePort: 80
+            path: /
