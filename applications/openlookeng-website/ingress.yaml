@@ -21,17 +21,6 @@ metadata:
       rewrite ^/zh/privacypolicy.html$  /zh/privacy/ redirect;
       rewrite ^/en/privacypolicy.html$  /en/privacy/ redirect;
       rewrite ^/privacypolicy.html$     /en/privacy/ redirect;
-      proxy_cache statics_cache;
-      proxy_cache_lock on;
-      proxy_cache_key $server_name$uri$is_args$args;
-      proxy_ignore_headers Cache-Control;
-      proxy_ignore_headers Set-Cookie;
-      proxy_cache_valid 60m;
-      location ~ /purge(/.*) {
-          proxy_cache_purge  statics_cache $server_name$1$is_args$args;
-      }
-      proxy_cache_bypass $nocache;
-      proxy_no_cache $nocache;
   name: openlookeng-website-ingress-main
 spec:
   tls:
