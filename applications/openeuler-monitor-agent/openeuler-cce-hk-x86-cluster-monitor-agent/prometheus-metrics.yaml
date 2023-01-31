@@ -56,7 +56,7 @@ spec:
             memory: 1000Mi
           limits:
             cpu: 200m
-            memory: 1000Mi
+            memory: 2000Mi
         volumeMounts:
         - mountPath: /prometheus
           name: static-data
