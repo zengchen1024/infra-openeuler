@@ -5,7 +5,7 @@ apiVersion: apps/v1
 metadata:
   name: openeuler-oqserver
 spec:
-  replicas: 1
+  replicas: 0
   revisionHistoryLimit: 3
   strategy:
     rollingUpdate:
