@@ -7,6 +7,6 @@ resources:
 commonLabels:
   app: openeuler-oqserver
 commonAnnotations:
-  owner: caozhi
-  email: "caozhi1214@gmail.com"
+  owner: wangshaobo
+  email: "bobo.shaobowang@huawei.com"
 namespace: openeuler-oqserver
