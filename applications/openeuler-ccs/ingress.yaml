@@ -3,9 +3,11 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 #    nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/custom-http-errors: "400,500"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^/api-certification/(.*) /ccs/base/$1 ;
   name: openeuler-ccs-ingress
 spec:
   tls:
