@@ -1,0 +1,21 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: openeuler-api-cve-ingress
+  namespace: api-cve
+spec:
+  tls:
+    - hosts:
+        - api-cve.openeuler.org
+      secretName: openeuler-api-cve-tls
+  rules:
+    - host: api-cve.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: api-cve-service
+              servicePort: 8080
+            path: /
