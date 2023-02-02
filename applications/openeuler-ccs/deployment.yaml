@@ -90,7 +90,7 @@ spec:
               path: /actuator/health/liveness
               port: 9761
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -177,7 +177,7 @@ spec:
               path: /actuator/health/liveness
               port: 8088
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -274,7 +274,7 @@ spec:
               path: /actuator/health/liveness
               port: 8087
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
