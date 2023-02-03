@@ -1,4 +1,30 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: 9d356ff2-070e-445a-bcc1-c468b51e0213
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+    kubernetes.io/elb.mark: "3"
+  name: mailman-exim4-service
+  namespace: mail
+spec:
+  ports:
+  - port: 25
+    name: exim4-port
+    targetPort: 25
+    protocol: TCP
+  - port: 465
+    name: exim4-port-2
+    targetPort: 465
+    protocol: TCP
+  selector:
+    component: mail-exim4-service
+  sessionAffinity: None
+  type: LoadBalancer
+
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -23,87 +49,56 @@ spec:
         component: mail-exim4-service
     spec:
       containers:
-      - command:
+      - name: mailman-exim4
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/app-mailman/mailman-exim-new-build:3d97dff8206e4262c0fa2e218cdacb40e168c56a1672141405
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /opt/mailman/
+          name: mailman-core-data
+        - mountPath: /var/log/exim/
+          name: mailman-exim4-log
+        - mountPath: /etc/exim/passwd.ro
+          name: mailman-secrets
+          subPath: exim4_credential
+        - mountPath: /etc/exim/dkim/openeuler.key.ro
+          name: mta-dkim-secret
+          subPath: dkim_key
+        - name: exim4-tls-secret
+          mountPath: /etc/exim/ssl_pool/openeuler.org.crt
+          subPath: openeuler_org_crt
+        - name: exim4-tls-secret
+          mountPath: /etc/exim/ssl_pool/openeuler.org.key
+          subPath: openeuler_org_key
+        - name: exim-config
+          mountPath: /etc/exim/exim.conf
+          subPath: exim_conf
+        command:
         - /bin/sh
         - -c
         - |
-          echo "log_file_path = /var/log/exim4/%s.%M" >> /etc/exim4/conf.d/main/01_exim4-config_listmacrosdefs;
-          update-exim4.conf;
+          cp /etc/exim/passwd.ro /etc/exim/passwd
+          cp /etc/exim/dkim/openeuler.key.ro /etc/exim/dkim/openeuler.key
+          chown root:exim /etc/exim/passwd /etc/exim/dkim/openeuler.key /etc/exim/ssl_pool/openeuler.org.crt /etc/exim/ssl_pool/openeuler.org.key
+          chmod 755 /etc/exim/passwd /etc/exim/dkim/openeuler.key /etc/exim/ssl_pool/openeuler.org.crt /etc/exim/ssl_pool/openeuler.org.key
           mkdir -p /var/log/exim4
-          chown Debian-exim:Debian-exim -R /opt/mailman/exim_log;
           exec tini -- exim -bd -v;
-        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/app-mailman/mailman-exim4-build:v4.92
-        imagePullPolicy: IfNotPresent
-        name: mailman-exim4
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        volumeMounts:
-        - mountPath: /etc/exim4/conf.d/main/25_mm3_macros
-          name: mailman-exim4-configmap-volume
-          subPath: 25_mm3_macros
-        - mountPath: /etc/exim4/conf.d/main/00_local_macros
-          name: mailman-exim4-configmap-volume
-          subPath: 00_local_macros
-        - mountPath: /etc/exim4/conf.d/transport/55_mm3_transport
-          name: mailman-exim4-configmap-volume
-          subPath: 55_mm3_transport
-        - mountPath: /etc/exim4/conf.d/router/455_mm3_router
-          name: mailman-exim4-configmap-volume
-          subPath: 455_mm3_router
-        - mountPath: /etc/exim4/update-exim4.conf.conf
-          name: mailman-exim4-configmap-volume
-          subPath: update-exim4-conf.conf
-        - mountPath: /opt/mailman/
-          name: mailman-core-data
-        - mountPath: /etc/exim4/dkim
-          name: mta-dkim-secret
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
       volumes:
-      - configMap:
-          defaultMode: 420
-          name: mailman-exim4-configmap
-        name: mailman-exim4-configmap-volume
       - name: mailman-core-data
         persistentVolumeClaim:
           claimName: config-vol
+      - name: mailman-exim4-log
+        persistentVolumeClaim:
+          claimName: exim-log-data
       - name: mta-dkim-secret
         secret:
-          defaultMode: 420
-          secretName: dkimsecret
-  updateStrategy:
-    type: OnDelete
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    kubernetes.io/elb.class: union
-    kubernetes.io/elb.id: f4efa65e-8e29-492b-8408-92b8ad20d6aa
-    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
-    kubernetes.io/elb.mark: "3"
-  name: mailman-exim4-service
-  namespace: mail
-spec:
-  clusterIP: 10.247.210.113
-  externalTrafficPolicy: Local
-  healthCheckNodePort: 32462
-  loadBalancerIP: 159.138.46.20
-  ports:
-  - name: exim4-port
-    nodePort: 30063
-    port: 25
-    protocol: TCP
-    targetPort: 25
-  selector:
-    component: mail-exim4-service
-  sessionAffinity: None
-  type: LoadBalancer
-status:
-  loadBalancer:
-    ingress:
-    - ip: 159.138.46.20
+          secretName: mailman-secrets
+      - name: mailman-secrets
+        secret:
+          secretName: mailman-secrets
+      - name: exim4-tls-secret
+        secret:
+          secretName: mailman-cert-secrets
+      - name: exim-config
+        configMap:
+          name: exim-configmap
+

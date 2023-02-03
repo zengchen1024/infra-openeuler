@@ -4,8 +4,8 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^/$ https://mailweb.openeuler.org/postorius/lists/;
       location ^~ /admin {
         deny all;
       }
