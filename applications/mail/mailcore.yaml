@@ -1,88 +1,97 @@
-apiVersion: apps/v1
 kind: StatefulSet
+apiVersion: apps/v1
 metadata:
-  labels:
-    app: mail-suit-service
   name: mailman-core
   namespace: mail
+  labels:
+    app: mail-suit-service
+    component: mail-core-service
 spec:
-  podManagementPolicy: OrderedReady
+  serviceName: mail-suit-service
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: mail-suit-service
-  serviceName: mail-suit-service
+      component: mail-core-service
   template:
     metadata:
       labels:
         app: mail-suit-service
+        component: mail-core-service
     spec:
       containers:
-      - command:
-        - /bin/sh
-        - -c
-        - |
-          sed -i "s/charset: us-ascii/charset: utf-8/g" /usr/lib/python3.6/site-packages/mailman/config/schema.cfg;
-          cp /opt/core-debug/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-          chmod +x /usr/local/bin/docker-entrypoint.sh
-          exec docker-entrypoint.sh master --force
+      - name: mailman-core
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/app-mailman/mailman-core-new-build:291336826605a3042b214075bb9037a52f97058c1673253323
+        imagePullPolicy: "IfNotPresent"
+        volumeMounts:
+        - mountPath: /opt/mailman/
+          name: mailman-core-volume
         env:
-        - name: DATABASE_URL
-          value: postgres://mailman:mailmanpass@mailman-database-0.mail-suit-service.mail.svc.cluster.local/mailmandb
         - name: DATABASE_TYPE
-          value: postgres
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: database_type
         - name: DATABASE_CLASS
-          value: mailman.database.postgresql.PostgreSQLDatabase
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: database_class
+        - name: MAILMAN_REST_USER
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: mailman_core_user
+        - name: MAILMAN_REST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: mailman_core_password
         - name: HYPERKITTY_API_KEY
           valueFrom:
             secretKeyRef:
-              key: hyperkitty_api_key
               name: mailman-secrets
+              key: hyperkitty_api_key
         - name: HYPERKITTY_URL
           value: http://mailman-web-service.mail.svc.cluster.local:8000/hyperkitty
         - name: SMTP_HOST
           value: mailman-exim4-service.mail.svc.cluster.local
-        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/mail-core:v0.1.0
-        imagePullPolicy: IfNotPresent
-        name: mailman-core
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        volumeMounts:
-        - mountPath: /opt/mailman/
-          name: mailman-core-volume
-        - mountPath: /usr/lib/python3.6/site-packages/mailman/runners/command.py
-          name: mailman-core-config-volume
-          subPath: command.py
-        - mountPath: /usr/lib/python3.6/email/base64mime.py
-          subPath: base64mime.py
-          name: mailman-core-config-volume
-        - mountPath: /usr/lib/python3.6/site-packages/mailman/app/subscriptions.py
-          subPath: subscriptions.py
-          name: mailman-core-config-volume
-        - mountPath: /usr/lib/python3.6/email/quoprimime.py
-          subPath: quoprimime.py
-          name: mailman-core-config-volume
-        - mountPath: /opt/core-debug/docker-entrypoint.sh
-          subPath: docker-entrypoint.sh
-          name: entry-point-config
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
+        - name: EMAIL_HOST_USER
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: exim4_credential_username
+        - name: EMAIL_HOST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: exim4_credential_password
+        - name: MM_HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: mailcore_mm_hostname
+        - name: MAILMAN_REST_PORT
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: mailcore_rest_port
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: mailcore_database_url
+        - name: MTA
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: mailcore_mta
+        - name: SMTP_PORT
+          valueFrom:
+            secretKeyRef:
+              name: mailman-secrets
+              key: mailcore_smtp_port
       volumes:
       - name: mailman-core-volume
         persistentVolumeClaim:
           claimName: config-vol
-      - configMap:
-          defaultMode: 420
-          name: mailman-core-configmap
-        name: mailman-core-config-volume
-      - configMap:
-          defaultMode: 420
-          name: core-entrypoint-configmap
-        name: entry-point-config
-  updateStrategy:
-    type: OnDelete
