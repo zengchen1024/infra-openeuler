@@ -199,6 +199,16 @@ spec:
                 secretKeyRef:
                   key: query_token
                   name: meeting-server-secrets
+            - name: SMTP_SERVER_USER
+              valueFrom:
+                secretKeyRef:
+                  key: smtp_server_user
+                  name: meeting-server-secrets
+            - name: SMTP_SERVER_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: smtp_server_pass
+                  name: meeting-server-secrets
           command:
             - /bin/sh
             - -c
