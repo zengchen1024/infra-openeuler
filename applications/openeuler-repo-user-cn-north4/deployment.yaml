@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: repo-nginx-server
+  name: openeuler
+  namespace: repo-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: repo-nginx-pod
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: repo-nginx-pod
+    spec:
+      containers:
+      - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
+        imagePullPolicy: IfNotPresent
+        name: repo-nginx
+        resources:
+          requests:
+            cpu: "2"
+            memory: 4000Mi
+          limits:
+            cpu: "4"
+            memory: 8000Mi
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 80
+          timeoutSeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 80
+          timeoutSeconds: 5
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/nginx/conf/nginx.conf
+          name: repo-nginx-configmap-volume
+          subPath: nginx.conf
+        - mountPath: /etc/nginx/conf/conf.d/default.conf
+          name: repo-nginx-configmap-volume
+          subPath: default.conf
+        - mountPath: /repo/openeuler
+          name: openeuler-data-volume
+      - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openssh-server:v2203.20230206
+        imagePullPolicy: IfNotPresent
+        name: ssh-server
+        resources:
+          requests:
+            cpu: "1"
+            memory: 1000Mi
+          limits:
+            cpu: "1"
+            memory: 1000Mi
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 22
+          timeoutSeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 22
+          timeoutSeconds: 5
+        volumeMounts:
+        - mountPath: /repo/openeuler
+          name: openeuler-data-volume
+        - mountPath: /etc/ssh/id_rsa.pub
+          name: repo-nginx-configmap-volume
+          subPath: id_rsa.pub
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: openeuler-configmap
+        name: repo-nginx-configmap-volume
+      - name: openeuler-data-volume
+        persistentVolumeClaim:
+          claimName: openeuler-data-volume

@@ -1,0 +1,68 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    default.conf: |
+      server {
+              listen 80;
+
+              access_log  /var/log/nginx/host.access.log  main;
+
+              location / {
+                  root   /repo/openeuler;
+                  fancyindex on;
+                  fancyindex_exact_size off;
+                  fancyindex_header /fancySource/header.html;
+                  fancyindex_footer /fancySource/footer.html;
+                  autoindex   on;
+
+              }
+              location /fancySource {
+                  root /etc/nginx/conf/static;
+              }
+              location = /favicon.ico {
+                        log_not_found off;
+                        access_log off;
+              }
+      }
+    nginx.conf: |-
+      user  root;
+      worker_processes  6;
+
+      error_log  /var/log/nginx/error.log warn;
+      pid        /var/run/nginx.pid;
+
+
+      events {
+          worker_connections  10240;
+      }
+
+
+      http {
+          include       /etc/nginx/conf/mime.types;
+          default_type  application/octet-stream;
+          server_tokens off;
+
+          log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                            '$status $body_bytes_sent "$http_referer" '
+                            '"$http_user_agent" "$http_x_forwarded_for"';
+
+          access_log  /var/log/nginx/access.log  main;
+
+          sendfile        on;
+          #tcp_nopush     on;
+
+          keepalive_timeout  65;
+
+          #gzip  on;
+
+          include /etc/nginx/conf/conf.d/*.conf;
+      }
+    id_rsa.pub: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCZtSN6A+gQ3xfKAFojH+4c1ZOaMvU9Agzht1Diq9IbzlopbHvdNa8oufAlF57Sw6BD+npnysiy50JSmYzkRbXaLYl3JOiUZxSOnfMgu/0ly9Z/4Lj30mIV8SVvPqdRXe2MygZI1SF+wDVcBPKTSZQdoH3F4RJKf2ygatqB1859mtPuqCRZ3HOfY0vFJzu1xo1i3lGSR/jSOsgm7IVgzNxnp0KbeVTmttgbkhsQBOyDkIEyxnoP9AQ+lBEAEdRYYEqWtYVTmyum4LSdjVynvictwPyJH27ES79nSsBlvKOJStrTbe1zthLA582Vrh1kE9mR+4huGZBO8/CQmjyIMixrGRikDVroqWCI+S+yfStZIWg2hlctEH/pFbd9aRIYe2EPpTkYKFfQIN1NuCklAtcTw2c+W1BJwQdkOVBT0L90byiEs4zPD8MqeOuU5BAz+oBw7/REcansyAKlneZVjngeLDkHKdfnJZc7tZh5IUyOtvh6aPwOg0WSjfXm/AL4oM8= openeuler_user_repo
+  kind: ConfigMap
+  metadata:
+    annotations:
+    name: openeuler-configmap
+    namespace: repo-user
+kind: List

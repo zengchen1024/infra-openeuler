@@ -1,0 +1,16 @@
+resources:
+- pvc.yaml
+- namespace.yaml
+- configmap.yaml
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+commonAnnotations:
+  owner: liuyang
+  email: "747802914@qq.com"
+namespace: repo-user
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras
+  newTag: 1.21.0-with-fancy-templates-repo
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openssh-server
+  newTag: v2203.20230206
