@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.id: 0c021cb9-d690-45ee-ab1f-adb28ff3f639
+    kubernetes.io/elb.lb-algorithm: ROUND_ROBIN
+  name: openeuler-ssh-service
+  namespace: repo-user
+spec:
+  ports:
+  - name: rsync-ssh-server-port
+    port: 22
+    protocol: TCP
+    targetPort: 22
+  selector:
+    app: repo-nginx-pod
+  sessionAffinity: None
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openeuler-nginx-service
+  namespace: repo-user
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: repo-nginx-pod
+  sessionAffinity: None
+  type: ClusterIP
