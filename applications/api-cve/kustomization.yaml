@@ -10,4 +10,4 @@ kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/cve-sa-backend/api-cve
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/cve-sa-backend/api-cve
-  newTag: e5d39cb3782df70acf091c359345264f7b13e2bf
+  newTag: 8c7749db9b1a153a54f50c36a0a66f431be94f82
