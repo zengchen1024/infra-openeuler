@@ -1,7 +1,0 @@
-kind: Service
-apiVersion: v1
-metadata:
-  name: hdc-task-manager-service
-spec:
-  type: ExternalName
-  externalName: hdc-task-manager-service.hdc-task-manager.svc.cluster.local

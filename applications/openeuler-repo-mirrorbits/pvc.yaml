@@ -4,29 +4,36 @@ kind: PersistentVolumeClaim
 metadata:
   name: openeuler-data-volume
   annotations: 
-    volume.beta.kubernetes.io/storage-class: "ssd"
+    everest.io/disk-volume-type: GPSSD
   labels:
     failure-domain.beta.kubernetes.io/region: ap-southeast-1
     failure-domain.beta.kubernetes.io/zone: ap-southeast-1a
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 2000Gi
+  storageClassName: csi-disk
+  volumeMode: Filesystem
+  volumeName: pv-evs-repo-mirrorbits-data-from-old-cluster
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: redis-data-volume
   annotations:
-    volume.beta.kubernetes.io/storage-class: "ssd"
+    everest.io/disk-volume-type: GPSSD
   labels:
     failure-domain.beta.kubernetes.io/region: ap-southeast-1
     failure-domain.beta.kubernetes.io/zone: ap-southeast-1a
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1000Gi
+  storageClassName: csi-disk
+  volumeMode: Filesystem
+  volumeName: pv-evs-repo-mirrorbits-redis-from-old-cluster

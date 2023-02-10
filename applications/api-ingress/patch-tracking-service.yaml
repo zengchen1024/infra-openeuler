@@ -1,7 +1,0 @@
-kind: Service
-apiVersion: v1
-metadata:
-  name: patch-tracking-service-release
-spec:
-  type: ExternalName
-  externalName: patch-tracking-service-release.patch-tracking-release.svc.cluster.local
