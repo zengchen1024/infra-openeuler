@@ -1,7 +1,0 @@
-kind: Service
-apiVersion: v1
-metadata:
-  name: bot-debug-service 
-spec:
-  type: ExternalName
-  externalName: botservice-debug.bot-debug.svc.cluster.local

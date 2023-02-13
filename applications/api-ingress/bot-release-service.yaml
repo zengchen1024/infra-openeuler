@@ -1,7 +1,0 @@
-kind: Service
-apiVersion: v1
-metadata:
-  name: bot-release-service 
-spec:
-  type: ExternalName
-  externalName: botservice-release.bot-release.svc.cluster.local
