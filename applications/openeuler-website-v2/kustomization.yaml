@@ -4,8 +4,6 @@ resources:
 - service.yaml
 - ingress.yaml
 - secrets.yaml
-- purge-cache-job.yaml
-- configmap.yaml
 commonLabels:
   app: openeuler-website-v2
 commonAnnotations:
