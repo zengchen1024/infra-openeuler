@@ -1,5 +1,5 @@
 resources:
-- https://github.com/opensourceways/app-jenkins/deploy-without-agent?ref=stable
+- deployment.yaml
 - secrets.yaml
 - namespace.yaml
 - es-secrets.yaml
@@ -7,15 +7,13 @@ resources:
 - oauth-proxy.yaml
 - cronjob.yaml
 - openeuler-ci.yaml
+- service.yaml
+- pvc.yaml
 commonLabels:
   app: openeuler-jenkins
 commonAnnotations:
   email: caozhi1214@gmail.com
   owner: caozhi
-patchesStrategicMerge:
-- pvc.yaml
-- deployment.yaml
-- service.yaml
 namespace: jenkins
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/openeuler/bak-jenkins
