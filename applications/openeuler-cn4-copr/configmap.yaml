@@ -1,0 +1,148 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: copr-frontend
+  namespace: fedora-copr-prod
+data:
+  httpd.conf: |
+    Listen 5000
+
+    <VirtualHost 0.0.0.0>
+        ErrorLog /dev/stdout
+        CustomLog /dev/stdout combined
+        WSGIPassAuthorization On
+        WSGIDaemonProcess 127.0.0.1 user=copr-fe group=copr-fe threads=5
+        WSGIScriptAlias / /usr/share/copr/coprs_frontend/application
+        WSGIProcessGroup 127.0.0.1
+        <Directory /usr/share/copr>
+            WSGIApplicationGroup %{GLOBAL}
+            Require all granted
+        </Directory>
+    </VirtualHost>
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: copr-keygen
+  namespace: fedora-copr-prod
+data:
+  copr-keygen.conf: |
+    Listen 0.0.0.0:5003
+
+    <VirtualHost 0.0.0.0:5003>
+        ServerName 127.0.0.1
+
+        WSGIPassAuthorization On
+        WSGIDaemonProcess 127.0.0.1 user=copr-signer group=copr-signer threads=5
+        WSGIScriptAlias / /usr/share/copr-keygen/application.py
+        WSGIProcessGroup 127.0.0.1
+
+        ErrorLog "/dev/stdout"
+        CustomLog "/dev/stdout" common
+
+        TimeOut 300
+
+        <Directory /usr/share/copr-keygen>
+            WSGIApplicationGroup %{GLOBAL}
+            # apache 2.2 (el6, F17)
+            #Order deny,allow
+            #Allow from all
+            # apache 2.4 (F18+)
+            Require all granted
+        </Directory>
+    </VirtualHost>
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: copr-resalloc
+  namespace: fedora-copr-prod
+data:
+  pools.yaml: |
+    local_x86_64_normal_prod:
+        max: 20
+        max_starting: 10
+        max_prealloc: 1
+        tags:
+        - copr_builder
+        - arch_noarch
+        - arch_x86_64
+        - arch_x86_64_native
+        - arch_i386
+        - arch_i386_native
+        - arch_i586
+        - arch_i586_native
+        - arch_i686
+        - arch_i686_native
+        cmd_new: "/home/resalloc/provision/local-new-x86"
+        cmd_delete: "/home/resalloc/provision/local-delete"
+        cmd_livecheck: "/usr/bin/resalloc-check-vm-ip"
+        livecheck_period: 180
+        reuse_opportunity_time: 0
+        reuse_max_count: 0
+        reuse_max_time: 3600
+
+    local_aarch64_normal_prod:
+        max: 20
+        max_starting: 10
+        max_prealloc: 1
+        tags:
+        - copr_builder
+        - arch_aarch64
+        - arch_aarch64_native
+        cmd_new: "/home/resalloc/provision/local-new-aarch64"
+        cmd_delete: "/home/resalloc/provision/local-delete"
+        cmd_livecheck: "/usr/bin/resalloc-check-vm-ip"
+        livecheck_period: 180
+        reuse_opportunity_time: 0
+        reuse_max_count: 0
+        reuse_max_time: 3600
+
+  builder_config: |
+    Host *
+        # For dynamically started VMs.
+        StrictHostKeyChecking no
+        UserKnownHostsFile /dev/null
+
+        # For non-default paths to identity file.
+        IdentityFile ~/.ssh/id_rsa
+
+        # Ensure remote command uses proper line buffering for live logs
+        # (so called live logs).
+        RequestTTY=force
+
+        # Keep control sockets open, to speedup subsequent command runs.
+        ControlPath=/home/copr/ssh_socket_%h_%p_%r
+        ControlMaster=auto
+        ControlPersist=900
+
+        Port=22
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: copr-backend
+  namespace: fedora-copr-prod
+data:
+  builder_config: |
+    Host *
+        # For dynamically started VMs.
+        StrictHostKeyChecking no
+        UserKnownHostsFile /dev/null
+
+        # For non-default paths to identity file.
+        IdentityFile ~/.ssh/id_rsa
+
+        # Ensure remote command uses proper line buffering for live logs
+        # (so called live logs).
+        RequestTTY=force
+
+        # Keep control sockets open, to speedup subsequent command runs.
+        ControlPath=/home/copr/ssh_socket_%h_%p_%r
+        ControlMaster=auto
+        ControlPersist=900
+
+        Port=22

@@ -1,0 +1,110 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: copr-distgit
+  namespace: fedora-copr-prod
+spec:
+  ports:
+    - name: httpd
+      port: 5001
+      protocol: TCP
+      targetPort: 5001
+      nodePort: 31889
+  selector:
+    component: copr-distgit
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: copr-distgit
+  namespace: fedora-copr-prod
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      component: copr-distgit
+  template:
+    metadata:
+      labels:
+        component: copr-distgit
+    spec:
+      nodeSelector:
+        usage: test
+        os.architecture: amd64
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      initContainers:
+        - name: init-distgit
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/busybox:1.28
+          command: [ "sh", "-c", "until nslookup copr-frontend.fedora-copr-prod.svc.cluster.local; do echo waiting for frontend service ; sleep 2; done;" ]
+      containers:
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/distgit:v1.0.20230217145956
+          imagePullPolicy: IfNotPresent
+          name: copr-distgit-httpd
+          livenessProbe:
+            tcpSocket:
+              port: 5001
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 5001
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+          ports:
+            - containerPort: 5001
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/dist-git
+              name: copr-distgit-data
+            - mountPath: /var/lib/copr-dist-git
+              name: logs
+          command: ["/usr/sbin/httpd", "-DFOREGROUND"]
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/distgit:v1.0.20230217145956
+          imagePullPolicy: IfNotPresent
+          name: copr-distgit
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+          volumeMounts:
+            - mountPath: /var/lib/dist-git
+              name: copr-distgit-data
+            - mountPath: /etc/copr/copr-dist-git.conf
+              name: copr-secrets
+              subPath: distgit_copr-dist-git.conf
+            - name: logs
+              mountPath: /var/lib/copr-dist-git
+            - name: locks
+              mountPath: /var/lock/copr-dist-git
+      volumes:
+        - name: copr-distgit-data
+          persistentVolumeClaim:
+            claimName: copr-distgit-data
+        - name: copr-distgit
+          configMap:
+            name: copr-distgit
+        - name: logs
+          persistentVolumeClaim:
+            claimName: copr-distgit-logs
+        - name: locks
+          persistentVolumeClaim:
+            claimName: copr-distgit-locks
+        - name: copr-secrets
+          secret:
+            secretName: copr-secrets
