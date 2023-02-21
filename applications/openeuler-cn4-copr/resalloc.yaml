@@ -39,7 +39,7 @@ spec:
       - name: huawei-swr-image-pull-secret
       serviceAccountName: resalloc
       containers:
-        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/resalloc:v1.0.20230220110203
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/resalloc:v1.0.20230221100605
           imagePullPolicy: IfNotPresent
           name: resalloc
           livenessProbe:
@@ -64,7 +64,7 @@ spec:
               protocol: TCP
           env:
             - name: BUILDER_SHA256
-              value: "swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/builder:v1.0.20230217210333"
+              value: "swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/builder:v1.0.20230221104510"
             - name: BUILDER_CPU
               value: "4"
             - name: BUILDER_MEM
