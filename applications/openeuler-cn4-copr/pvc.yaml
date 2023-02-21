@@ -1,0 +1,126 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: copr-backend-data
+  namespace: fedora-copr-prod
+  labels:
+    failure-domain.beta.kubernetes.io/zone: cn-north-4a
+  annotations:
+    everest.io/disk-volume-type: SSD
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Gi
+  storageClassName: csi-disk
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: copr-distgit-data
+  namespace: fedora-copr-prod
+  labels:
+    failure-domain.beta.kubernetes.io/zone: cn-north-4a
+  annotations:
+    everest.io/disk-volume-type: SSD
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: csi-disk
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: copr-distgit-logs
+  namespace: fedora-copr-prod
+  labels:
+    failure-domain.beta.kubernetes.io/zone: cn-north-4a
+  annotations:
+    everest.io/disk-volume-type: SSD
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "10Gi"
+  storageClassName: csi-disk
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: copr-distgit-locks
+  namespace: fedora-copr-prod
+  labels:
+    failure-domain.beta.kubernetes.io/zone: cn-north-4a
+  annotations:
+    everest.io/disk-volume-type: SSD
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "10M"
+  storageClassName: csi-disk
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: copr-keygen-data
+  namespace: fedora-copr-prod
+  labels:
+    failure-domain.beta.kubernetes.io/zone: cn-north-4a
+  annotations:
+    everest.io/disk-volume-type: SSD
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: csi-disk
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: copr-redis-data
+  namespace: fedora-copr-prod
+  labels:
+    failure-domain.beta.kubernetes.io/zone: cn-north-4a
+  annotations:
+    everest.io/disk-volume-type: SSD
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: csi-disk
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: resalloc-data
+  namespace: fedora-copr-prod
+  labels:
+    failure-domain.beta.kubernetes.io/zone: cn-north-4a
+  annotations:
+    everest.io/disk-volume-type: SSD
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: csi-disk
+

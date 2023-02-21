@@ -1,0 +1,109 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: copr-resalloc
+  namespace: fedora-copr-prod
+spec:
+  ports:
+    - name: resalloc
+      port: 49100
+      protocol: TCP
+      targetPort: 49100
+  selector:
+    component: copr-resalloc
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: copr-resalloc
+  namespace: fedora-copr-prod
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      component: copr-resalloc
+  template:
+    metadata:
+      labels:
+        component: copr-resalloc
+    spec:
+      nodeSelector:
+        usage: test
+        os.architecture: amd64
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      serviceAccountName: resalloc
+      containers:
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/resalloc:v1.0.20230221100605
+          imagePullPolicy: IfNotPresent
+          name: resalloc
+          livenessProbe:
+            tcpSocket:
+              port: 49100
+            initialDelaySeconds: 120
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 49100
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 500m
+              memory: 500Mi
+            limits:
+              cpu: 2000m
+              memory: 2000Mi
+          ports:
+            - containerPort: 49100
+              protocol: TCP
+          env:
+            - name: BUILDER_SHA256
+              value: "swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/builder:v1.0.20230221104510"
+            - name: BUILDER_CPU
+              value: "4"
+            - name: BUILDER_MEM
+              value: "8Gi"
+            - name: BUILDER_TIMEOUT
+              value: "360"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              cp /root/.ssh/id_rsa-ro /root/.ssh/id_rsa;
+              chmod +x /home/resalloc/provision/local-*;
+              chmod 0400 /root/.ssh/id_rsa;
+              ln -sf /dev/stdout /var/log/resallocserver/main.log
+              exec /usr/bin/resalloc-server;
+          volumeMounts:
+            - mountPath: /etc/resallocserver/pools.yaml
+              name: copr-resalloc
+              subPath: pools.yaml
+            - mountPath: /etc/resallocserver/server.yaml
+              name: copr-secrets
+              subPath: resalloc_server.yaml
+            - mountPath: /root/.ssh/builder_config
+              name: copr-resalloc
+              subPath: builder_config
+            - mountPath: /root/.ssh/id_rsa-ro
+              name: copr-secrets
+              subPath: backend_id_rsa
+            - name: resalloc-data
+              mountPath: /var/lib/resallocserver
+            - name: resalloc-data
+              mountPath: /var/log/resallocserver
+      volumes:
+        - name: copr-resalloc
+          configMap:
+            name: copr-resalloc
+        - name: resalloc-data
+          persistentVolumeClaim:
+            claimName: resalloc-data
+        - name: copr-secrets
+          secret:
+            secretName: copr-secrets

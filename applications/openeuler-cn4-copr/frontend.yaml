@@ -1,0 +1,84 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: copr-frontend
+  namespace: fedora-copr-prod
+spec:
+  ports:
+    - name: httpd
+      port: 5000
+      protocol: TCP
+      targetPort: 5000
+      nodePort: 31888
+  selector:
+    component: copr-frontend
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: copr-frontend
+  namespace: fedora-copr-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: copr-frontend
+  template:
+    metadata:
+      labels:
+        component: copr-frontend
+    spec:
+      nodeSelector:
+        usage: test
+        os.architecture: amd64
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      initContainers:
+        - name: init-frontend-database
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/alpine-nc:v1.20230217
+          command: [ "sh", "-c", "until nc -z 172.16.2.79 5432; do echo waiting for database service ; sleep 2; done;" ]
+        - name: init-frontend-redis
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/alpine-nc:v1.20230217
+          command: [ "sh", "-c", "until nc -z redis.fedora-copr-prod.svc.cluster.local 6379; do echo waiting for redis service ; sleep 2; done;" ]
+      containers:
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/frontend:v1.0.20230220110112
+          imagePullPolicy: IfNotPresent
+          name: copr-frontend-httpd
+          livenessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 500m
+              memory: 500Mi
+            limits:
+              cpu: 2000m
+              memory: 2000Mi
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /etc/copr/copr.conf
+              name: copr-secrets
+              subPath: frontend_copr.conf
+            - mountPath: /etc/httpd/conf.d/copr.conf
+              name: copr-frontend
+              subPath: httpd.conf
+      volumes:
+        - name: copr-frontend
+          configMap:
+            name: copr-frontend
+        - name: copr-secrets
+          secret:
+            secretName: copr-secrets

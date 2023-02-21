@@ -1,0 +1,77 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: copr-frontend
+  namespace: fedora-copr-prod-ingress
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 31888
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: copr-frontend
+  namespace: fedora-copr-prod-ingress
+subsets:
+  - addresses:
+      # These machines below are cluster workers in infrastructure cluster.
+      - ip: 172.16.1.34
+      - ip: 172.16.1.44
+    ports:
+      - port: 31888
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: copr-distgit
+  namespace: fedora-copr-prod-ingress
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 31889
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: copr-distgit
+  namespace: fedora-copr-prod-ingress
+subsets:
+  - addresses:
+      # These machines below are cluster workers in infrastructure cluster.
+      - ip: 172.16.1.34
+      - ip: 172.16.1.44
+    ports:
+      - port: 31889
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: copr-backend
+  namespace: fedora-copr-prod-ingress
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 31890
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: copr-backend
+  namespace: fedora-copr-prod-ingress
+subsets:
+  - addresses:
+      # These machines below are cluster workers in infrastructure cluster.
+      - ip: 172.16.1.34
+      - ip: 172.16.1.44
+    ports:
+      - port: 31890

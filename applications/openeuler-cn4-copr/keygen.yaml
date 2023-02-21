@@ -1,0 +1,108 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: copr-keygen
+  namespace: fedora-copr-prod
+spec:
+  ports:
+    - name: httpd
+      port: 5003
+      protocol: TCP
+      targetPort: 5003
+    - name: signer
+      port: 5167
+      protocol: TCP
+      targetPort: 5167
+  selector:
+    component: copr-keygen
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: copr-keygen
+  namespace: fedora-copr-prod
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      component: copr-keygen
+  template:
+    metadata:
+      labels:
+        component: copr-keygen
+    spec:
+      nodeSelector:
+        usage: test
+        os.architecture: amd64
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      containers:
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/keygen-signd:v1.0.20230217153213
+          imagePullPolicy: IfNotPresent
+          args: ["/signd-entrypoint", "0.0.0.0/0"]
+          name: copr-keygen-signer
+          livenessProbe:
+            tcpSocket:
+              port: 5167
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 5167
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+          ports:
+            - containerPort: 5167
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/copr-keygen
+              name: copr-keygen-data
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/keygen-signd:v1.0.20230217153213
+          imagePullPolicy: IfNotPresent
+          name: copr-keygen-httpd
+          livenessProbe:
+            tcpSocket:
+              port: 5003
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 5003
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+          ports:
+            - containerPort: 5003
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/copr-keygen
+              name: copr-keygen-data
+            - mountPath: /etc/httpd/conf.d/copr-keygen.conf
+              name: copr-keygen
+              subPath: copr-keygen.conf
+      volumes:
+        - name: copr-keygen-data
+          persistentVolumeClaim:
+            claimName: copr-keygen-data
+        - name: copr-keygen
+          configMap:
+            name: copr-keygen
