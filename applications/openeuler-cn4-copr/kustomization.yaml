@@ -13,3 +13,6 @@ resources:
 namespace: fedora-copr-prod
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/backend_httpd
+  newTag: v1.0.20230222153120
