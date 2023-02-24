@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    everest.io/disk-volume-type: SAS
+  labels:
+    failure-domain.beta.kubernetes.io/region: cn-north-4
+    failure-domain.beta.kubernetes.io/zone: cn-north-4c
+  name: cce-evs-import-openeuler-archives-repo
+  namespace: archives-repo
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4000Gi
+  storageClassName: csi-disk
+  volumeMode: Filesystem
+  volumeName: volume-archive-repo

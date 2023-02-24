@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openeuler-service
+  namespace: archives-repo
+spec:
+  ports:
+  - name: http-nginx
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: http-rsync
+    port: 873
+    protocol: TCP
+    targetPort: 873
+  selector:
+    app: archives-repo
+  type: ClusterIP
+

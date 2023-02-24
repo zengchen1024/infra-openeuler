@@ -1,0 +1,11 @@
+resources:
+  - pvc.yaml
+  - namespace.yaml
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+commonAnnotations:
+  owner: liuyang
+  email: "747802914@qq.com"
+namespace: archives-repo
