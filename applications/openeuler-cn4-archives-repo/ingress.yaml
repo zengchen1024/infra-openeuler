@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: repo-nginx
+    kubernetes.io/ingress.class: archives-repo-nginx
     cert-manager.io/cluster-issuer: letsencrypt-archive-repo
   name: openeuler-cn4-repo-openatom-ingress
   namespace: archives-repo
