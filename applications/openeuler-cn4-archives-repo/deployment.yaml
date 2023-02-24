@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeuler
+  namespace: archives-repo
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: archives-repo
+  template:
+    metadata:
+      labels:
+        app: archives-repo
+    spec:
+      containers:
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
+          imagePullPolicy: IfNotPresent
+          name: archives-repo
+          resources:
+            requests:
+              cpu: 4000m
+              memory: 6000Mi
+            limits:
+              cpu: 6000m
+              memory: 8000Mi
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 80
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 80
+            timeoutSeconds: 5
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/nginx/conf/nginx.conf
+            name: repo-nginx-configmap-volume
+            subPath: nginx.conf
+          - mountPath: /etc/nginx/conf/conf.d/default.conf
+            name: repo-nginx-configmap-volume
+            subPath: default.conf
+          - mountPath: /repo/openeuler
+            name: openeuler-data-volume
+        - command:
+            - /bin/sh
+            - -c
+            - |
+              exec /usr/bin/rsync --no-detach --daemon --config /etc/rsyncd.conf;
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/rsyncd:1.0.1
+          imagePullPolicy: Always
+          name: rsync-server
+          resources:
+            requests:
+              cpu: 4000m
+              memory: 4000Mi
+            limits:
+              cpu: 6000m
+              memory: 6000Mi
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 873
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 873
+            timeoutSeconds: 5
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/rsyncd.conf
+            name: repo-nginx-configmap-volume
+            subPath: rsyncd.conf
+          - mountPath: /repo/openeuler
+            name: openeuler-data-volume
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: archives-repo-configmap
+        name: repo-nginx-configmap-volume
+      - name: openeuler-data-volume
+        persistentVolumeClaim:
+          claimName: cce-evs-import-openeuler-archives-repo
