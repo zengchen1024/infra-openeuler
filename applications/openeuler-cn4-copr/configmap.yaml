@@ -64,7 +64,7 @@ data:
     local_x86_64_normal_prod:
         max: 20
         max_starting: 10
-        max_prealloc: 1
+        max_prealloc: 0
         tags:
         - copr_builder
         - arch_noarch
@@ -87,7 +87,7 @@ data:
     local_aarch64_normal_prod:
         max: 20
         max_starting: 10
-        max_prealloc: 1
+        max_prealloc: 0
         tags:
         - copr_builder
         - arch_aarch64
