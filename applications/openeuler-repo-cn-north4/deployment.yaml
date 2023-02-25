@@ -47,6 +47,9 @@ spec:
               subPath: default.conf
             - mountPath: /repo/openeuler
               name: openeuler-data-volume
+            - mountPath: /etc/nginx/conf/static/fancySource/header.html
+              name: nginx-html-configmap
+              subPath: header.html
         - command:
             - /bin/sh
             - -c
@@ -111,3 +114,7 @@ spec:
           secret:
             defaultMode: 420
             secretName: website-secrets
+        - configMap:
+            defaultMode: 420
+            name: nginx-html-configmap
+          name: nginx-html-configmap

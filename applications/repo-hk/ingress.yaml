@@ -11,6 +11,8 @@ metadata:
       location ~ iso.sha256sum$ {
         rewrite ^/(.*)  https://mirrors.tuna.tsinghua.edu.cn/openeuler$request_uri;
       }
+    nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^/(openEuler-20.09|openEuler-21.03|openEuler-21.09|openeuler1.0)/(.*) https://archives.openeuler.openatom.cn$request_uri permanent;
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
   name: repo-ingress-nginx-repo
   namespace: repo-mirror

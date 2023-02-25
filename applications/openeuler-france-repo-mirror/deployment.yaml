@@ -43,6 +43,9 @@ spec:
         - mountPath: /etc/nginx/conf/conf.d/default.conf
           name: repo-nginx-configmap-volume
           subPath: default.conf
+        - mountPath: /etc/nginx/conf/static/fancySource/header.html
+          name: nginx-html-configmap
+          subPath: header.html
       - command:
         - /bin/sh
         - -c
@@ -88,3 +91,7 @@ spec:
           defaultMode: 420
           name: repo-configmap
         name: repo-nginx-configmap-volume
+      - configMap:
+          defaultMode: 420
+          name: nginx-html-configmap
+        name: nginx-html-configmap

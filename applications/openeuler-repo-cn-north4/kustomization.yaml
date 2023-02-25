@@ -5,6 +5,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+  - nginx-html-configmap.yaml
 commonLabels:
   app: repo-nginx-pod
 commonAnnotations:
