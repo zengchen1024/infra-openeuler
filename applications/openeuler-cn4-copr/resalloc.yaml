@@ -71,6 +71,8 @@ spec:
               value: "8Gi"
             - name: BUILDER_TIMEOUT
               value: "360"
+            - name: BUILDER_TYPE
+              value: "prod"
           command:
             - /bin/sh
             - -c
