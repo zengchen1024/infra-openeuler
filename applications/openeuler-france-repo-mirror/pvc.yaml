@@ -10,4 +10,18 @@ spec:
   storageClassName: gp2
   resources:
     requests:
-      storage: 2500Gi
+      storage: 4000Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: archives-data-volume
+  namespace: repo-mirror
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: gp2
+  resources:
+    requests:
+      storage: 1000Gi

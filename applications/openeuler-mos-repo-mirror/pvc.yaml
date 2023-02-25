@@ -15,5 +15,25 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 2500Gi
+      storage: 4000Gi
+  storageClassName: csi-disk
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    everest.io/disk-volume-type: SAS
+    volume.beta.kubernetes.io/storage-provisioner: everest-csi-provisioner
+  labels:
+    failure-domain.beta.kubernetes.io/region: ru-northwest-2
+    failure-domain.beta.kubernetes.io/zone: ru-northwest-2a
+  name: archives-repo-volume
+  namespace: repo-mirror
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1000Gi
   storageClassName: csi-disk

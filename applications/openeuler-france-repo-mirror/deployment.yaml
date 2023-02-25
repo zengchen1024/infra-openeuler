@@ -35,6 +35,8 @@ spec:
         volumeMounts:
         - mountPath: /repo/openeuler
           name: data-volume
+        - mountPath: /repo/archives
+          name: archives-volume
         - mountPath: /etc/nginx/conf/nginx.conf
           name: repo-nginx-configmap-volume
           subPath: nginx.conf
@@ -79,6 +81,9 @@ spec:
       - name: data-volume
         persistentVolumeClaim:
           claimName: openeuler-data-volume
+      - name: archives-volume
+        persistentVolumeClaim:
+          claimName: archives-data-volume
       - configMap:
           defaultMode: 420
           name: repo-configmap

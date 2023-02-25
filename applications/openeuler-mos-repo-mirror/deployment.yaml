@@ -17,6 +17,8 @@ spec:
           volumeMounts:
             - mountPath: /repo/openeuler
               name: data-volume
+            - mountPath: /repo/archives
+              name: archives-volume
           resources:
             requests:
               cpu: 4000m
@@ -61,3 +63,6 @@ spec:
         - name: data-volume
           persistentVolumeClaim:
             claimName: cce-evs-openeuler-data-volume
+        - name: archives-volume
+          persistentVolumeClaim:
+            claimName: archives-repo-volume
