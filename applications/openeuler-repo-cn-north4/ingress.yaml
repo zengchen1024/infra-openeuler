@@ -5,8 +5,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: repo-nginx
     cert-manager.io/cluster-issuer: letsencrypt-repo
-    nginx.ingress.kubernetes.io/server-snippet: |
-      rewrite ^/(openEuler-20.09|openEuler-21.03|openEuler-21.09|openeuler1.0)/(.*) https://archives.openeuler.openatom.cn$request_uri permanent;
   name: openeuler-cn4-repo-openatom-ingress
   namespace: repo2
 spec:
