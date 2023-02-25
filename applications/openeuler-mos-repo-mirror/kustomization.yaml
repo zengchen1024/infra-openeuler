@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - secrets.yaml
   - ingress.yaml
+  - nginx-html-configmap.yaml
 commonLabels:
   app: openeuler-repo-mirror-mos
   owner: caozhi
