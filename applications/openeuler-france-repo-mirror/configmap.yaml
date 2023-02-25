@@ -2,91 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: archives-repo-configmap
-  namespace: archives-repo
-data:
-  rsyncd.conf: |
-    log file = /dev/stdout
-    use chroot = yes
-    uid = root
-    gid = root
-    max connections = 30
-    timeout = 600
-    read only = yes
-
-    [openeuler]
-    path = /repo/openeuler
-    comment = openeuler repo folder
-    read only = true
-    ignore nonreadable = yes
-    refuse options = checksum
-    dont compress = *
-  
-  nginx.conf: |
-    user  root;
-    worker_processes  6;
-
-    error_log  /var/log/nginx/error.log warn;
-    pid        /var/run/nginx.pid;
-
-
-    events {
-        worker_connections  10240;
-    }
-
-
-    http {
-        include       /etc/nginx/conf/mime.types;
-        default_type  application/octet-stream;
-        server_tokens off;
-
-        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                          '$status $body_bytes_sent "$http_referer" '
-                          '"$http_user_agent" "$http_x_forwarded_for"';
-
-        access_log  /var/log/nginx/access.log  main;
-
-        sendfile        on;
-        #tcp_nopush     on;
-
-        keepalive_timeout  65;
-
-        #gzip  on;
-
-        include /etc/nginx/conf/conf.d/*.conf;
-    }
-  
-  default.conf: |
-    server {
-      listen 80;
-
-      access_log  /var/log/nginx/host.access.log  main;
-      server_name archives.openeuler.openatom.cn;
-
-      location / {
-          root   /repo/openeuler;
-          fancyindex on;
-          fancyindex_exact_size off;
-          fancyindex_header /fancySource/header.html;
-          fancyindex_footer /fancySource/footer.html;
-          autoindex   on;
-
-      }
-      location /fancySource {
-          root /etc/nginx/conf/static;
-      }
-      location = /favicon.ico {
-                log_not_found off;
-                access_log off;
-      }
-    }
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: nginx-archives-html-configmap
-  namespace: archives-repo
+  name: nginx-html-configmap
+  namespace: repo-mirror
 data:
   header.html: |
     <!DOCTYPE html>
@@ -156,10 +73,12 @@ data:
             <div class="content">
                 <div class="text">
                     <h1>openEuler Repo</h1>
-                    <p>You can find historical openEuler versions here. Although these versions are currently out of
-                        maintenance, they can be downloaded for use.</p>
-                    <p>To download the latest openEuler versions, click
-                        <a href="https://repo.openeuler.org/">here</a>.</p>
+                    <p>We have mirror sites all over the world. Please visit our official
+                        <a href="https://openeuler.org/zh/mirror/list/">mirror list</a> and select your desired one.</p>
+                    <p>Here we provides the latest openEuler versions. In each version, you can find releases for a variety
+                    of scenarios, including server, cloud native, edge computing, and embedded.</p>
+                    <p>To download historical openEuler versions, click
+                        <a href="https://archives.openeuler.openatom.cn/">here</a>.</p>
                     <p>If you have any question, please <a href="mailto:infra@openeuler.sh">contact us</a>.</p>
                 </div>
                 <div class="image">

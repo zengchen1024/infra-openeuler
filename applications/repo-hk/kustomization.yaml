@@ -5,6 +5,7 @@ resources:
   - secrets.yaml
   - ingress.yaml
   - rsync-service.yaml
+  - nginx-html-configmap.yaml
 commonLabels:
   app: openeuler-repo-mirror-hk
 commonAnnotations:

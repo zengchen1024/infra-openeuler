@@ -53,6 +53,9 @@ spec:
             subPath: default.conf
           - mountPath: /repo/openeuler
             name: openeuler-data-volume
+          - mountPath: /etc/nginx/conf/static/fancySource/header.html
+            name: nginx-html-configmap
+            subPath: header.html
         - command:
             - /bin/sh
             - -c
@@ -105,3 +108,7 @@ spec:
       - name: openeuler-data-volume
         persistentVolumeClaim:
           claimName: cce-evs-import-openeuler-archives-repo
+      - configMap:
+          defaultMode: 420
+          name: nginx-archives-html-configmap
+        name: nginx-html-configmap

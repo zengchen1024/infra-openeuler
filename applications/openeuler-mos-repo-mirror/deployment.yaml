@@ -19,6 +19,9 @@ spec:
               name: data-volume
             - mountPath: /repo/archives
               name: archives-volume
+            - mountPath: /etc/nginx/conf/static/fancySource/header.html
+              name: nginx-html-configmap
+              subPath: header.html
           resources:
             requests:
               cpu: 4000m
@@ -66,3 +69,8 @@ spec:
         - name: archives-volume
           persistentVolumeClaim:
             claimName: archives-repo-volume
+        - configMap:
+            defaultMode: 420
+            name: nginx-html-configmap
+          name: nginx-html-configmap
+
