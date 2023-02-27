@@ -79,4 +79,19 @@ spec:
             secretKeyRef:
               name: doc-search-secrets
               key: tespassword
+        - name: kneed
+          valueFrom:
+            secretKeyRef:
+              name: doc-search-secrets
+              key: kneed
+        - name: kbootstrap
+          valueFrom:
+            secretKeyRef:
+              name: doc-search-secrets
+              key: kbootstrap
+        - name: kgroup
+          valueFrom:
+            secretKeyRef:
+              name: doc-search-secrets
+              key: kgroup
 

@@ -1,14 +1,15 @@
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: copr-ingress
+  name: copr-eur-ingress
   namespace: fedora-copr-prod-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: our.openeuler.openatom.cn
+  - host: eur.openeuler.openatom.cn
     http:
       paths:
       - backend:
@@ -33,5 +34,5 @@ spec:
         path: /per-task-logs/
   tls:
     - hosts:
-        - our.openeuler.openatom.cn
-      secretName: copr-frontend-tls
+        - eur.openeuler.openatom.cn
+      secretName: copr-eur-tls
