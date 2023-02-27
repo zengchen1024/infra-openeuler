@@ -1,0 +1,15 @@
+resources:
+- openeuler-docs-ci.yaml
+- secrets.yaml
+commonLabels:
+  app: openeuler-jenkins
+  owner: caozhi
+commonAnnotations:
+  email: caozhi1214@gmail.com
+  owner: caozhi
+namespace: jenkins
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openeuler-docs-ci
+  newTag: v1

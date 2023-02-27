@@ -1,0 +1,116 @@
+# Resource for ubuntu generic specification slave pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: x86-openeuler-docs-ci-service
+  namespace: jenkins
+  labels:
+    app: x86-openeuler-docs-ci
+spec:
+  ports:
+    - port: 80
+      name: port-placeholder
+  clusterIP: None
+  selector:
+    app: x86-openeuler-docs-ci
+
+---
+kind: StatefulSet
+apiVersion: apps/v1beta1
+metadata:
+  name: x86-openeuler-docs-ci
+  namespace: jenkins
+  labels:
+    app: x86-openeuler-docs-ci
+spec:
+  serviceName: x86-openeuler-docs-ci-service
+  replicas: 2
+  selector:
+    matchLabels:
+      app: x86-openeuler-docs-ci
+  template:
+    metadata:
+      labels:
+        app: x86-openeuler-docs-ci
+    spec:
+      nodeSelector:
+        openeuler.ci/task: common
+      initContainers:
+        - name: slave-init
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/jenkins-slave-tools-x86:v1.0.20230216113915
+          volumeMounts:
+            - mountPath: /home/jenkins/share-config
+              name: jenkins-share-config
+          env:
+            - name: JENKINS_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JENKINS_USER_NAME
+              value: admin
+            - name: JENKINS_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: password
+            - name: JENKINS_AGENT_WORKDIR
+              value: /home/jenkins/agent-working-dir
+            - name: JENKINS_URL
+              value: http://jenkins.jenkins.svc.cluster.local
+            - name: JENKINS_SHARE_FOLDER
+              value: /home/jenkins/share-config
+            - name: EXECUTOR_NUMBERS
+              value: "4"
+            - name: NODE_LABELS
+              value: x86 infra-check
+          args: ["$(JENKINS_URL)", "$(JENKINS_USER_NAME)", "$(JENKINS_USER_PASSWORD)", "$(JENKINS_NODE_NAME)", "$(EXECUTOR_NUMBERS)", "$(JENKINS_AGENT_WORKDIR)", "$(NODE_LABELS)", "$(JENKINS_SHARE_FOLDER)"]
+      containers:
+        - name: openeuler-docs-ci
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openeuler-docs-ci:v1
+          imagePullPolicy: "Always"
+          volumeMounts:
+            - mountPath: /home/jenkins/agent-working-dir
+              name: docs-ci-workspace-pvc
+            - mountPath: /home/jenkins/share-config
+              name: jenkins-share-config
+          command:
+            - /bin/sh
+            - -c
+            - |
+              export JENKINS_SECRET=`cat /home/jenkins/share-config/node_secret.id`;
+              exec jenkins-agent
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 2000Mi
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+            - name: JENKINS_TUNNEL
+              value: jenkins-agent.jenkins.svc.cluster.local:50000
+            - name: JENKINS_AGENT_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JENKINS_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JENKINS_AGENT_WORKDIR
+              value: /home/jenkins/agent-working-dir
+            - name: JENKINS_URL
+              value: http://jenkins.jenkins.svc.cluster.local
+      volumes:
+        - name: jenkins-share-config
+          emptyDir: {}
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+    - metadata:
+        name: docs-ci-workspace-pvc
+      spec:
+        accessModes: [ "ReadWriteMany" ]
+        resources:
+          requests:
+            storage: 100Gi
+        storageClassName: "ssd"
