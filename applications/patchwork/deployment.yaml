@@ -1,0 +1,175 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+  namespace: patchwork
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: patchwork
+      component: patchwork
+  template:
+    metadata:
+      labels:
+        app: patchwork
+        component: patchwork
+    spec:
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      containers:
+        - name: patchwork
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/patchwork/patchwork:main-f3d54a3
+          volumeMounts:
+            - mountPath: /home/patches
+              name: patchwork-file-volume
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 2000Mi
+            limits:
+              cpu: 3000m
+              memory: 3000Mi
+          env:
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_NAME
+                  name: patchwork-secrets
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_HOST
+                  name: patchwork-secrets
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_USER
+                  name: patchwork-secrets
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_PASSWORD
+                  name: patchwork-secrets
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_PORT
+                  name: patchwork-secrets
+            - name: EMAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: EMAIL_HOST
+                  name: patchwork-secrets
+            - name: EMAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: EMAIL_PORT
+                  name: patchwork-secrets
+            - name: EMAIL_HOST_USER
+              valueFrom:
+                secretKeyRef:
+                  key: EMAIL_HOST_USER
+                  name: patchwork-secrets
+            - name: EMAIL_HOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: EMAIL_HOST_PASSWORD
+                  name: patchwork-secrets
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: DJANGO_SECRET_KEY
+                  name: patchwork-secrets
+            - name: PATCHWORK_SERVER
+              valueFrom:
+                secretKeyRef:
+                  key: PATCHWORK_SERVER
+                  name: patchwork-secrets
+            - name: PATCHWORK_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: PATCHWORK_TOKEN
+                  name: patchwork-secrets
+            - name: REPO_OWNER
+              valueFrom:
+                secretKeyRef:
+                  key: REPO_OWNER
+                  name: patchwork-secrets
+            - name: GITEE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: GITEE_TOKEN
+                  name: patchwork-secrets
+            - name: GITEE_TOKEN_NOT_CI_BOT
+              valueFrom:
+                secretKeyRef:
+                  key: GITEE_TOKEN_NOT_CI_BOT
+                  name: patchwork-secrets
+            - name: SEND_EMAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: SEND_EMAIL_HOST
+                  name: patchwork-secrets
+            - name: SEND_EMAIL_HOST_USER
+              valueFrom:
+                secretKeyRef:
+                  key: SEND_EMAIL_HOST_USER
+                  name: patchwork-secrets
+            - name: SEND_EMAIL_HOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: SEND_EMAIL_HOST_PASSWORD
+                  name: patchwork-secrets
+            - name: SEND_EMAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: SEND_EMAIL_PORT
+                  name: patchwork-secrets
+            - name: CI_BOT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  key: CI_BOT_EMAIL
+                  name: patchwork-secrets
+            - name: CI_BOT_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: CI_BOT_NAME
+                  name: patchwork-secrets
+          command:
+            - /bin/sh
+            - -c
+            - |
+              python manage.py makemigrations
+              python manage.py migrate
+              python manage.py loaddata default_tags default_states
+              python manage.py collectstatic
+              python manage.py runserver 0.0.0.0:8000
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          readinessProbe:              #就绪探针
+            initialDelaySeconds: 20    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 10         #超时时间设置
+            failureThreshold: 5        #探测失败的重试次数
+            tcpSocket:
+              port: 8000
+          livenessProbe:               #存活探针
+            initialDelaySeconds: 60    #延迟加载时间
+            periodSeconds: 5           #重试时间间隔
+            timeoutSeconds: 5          #超时时间设置
+            failureThreshold: 3        #探测失败的重试次数
+            tcpSocket:
+              port: 8000
+      volumes:
+        - name: patchwork-file-volume
+          persistentVolumeClaim:
+            claimName: patchwork-file-data
