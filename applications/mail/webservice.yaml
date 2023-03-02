@@ -152,7 +152,7 @@ spec:
             memory: 2000Mi
           limits:
             cpu: 2000m
-            memory: 6000Mi
+            memory: 8000Mi
         volumeMounts:
         - mountPath: /opt/mailman-web-static
           name: mailman-web-volume
