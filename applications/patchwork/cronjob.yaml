@@ -129,7 +129,7 @@ spec:
                 - /bin/sh
                 - -c
                 - |
-                  wget https://raw.githubusercontent.com/wanghao75/patchwork/main/patch2pr/patch2pr.py -O patch2pr.py
+                  wget https://gitee.com/wanghaosq/docs/raw/master/patch2pr/patch2pr.py -O patch2pr.py
                   python patch2pr.py > patch2pr.log 2>&1
               imagePullPolicy: IfNotPresent
           volumes:

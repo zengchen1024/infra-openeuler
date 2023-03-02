@@ -9,6 +9,6 @@ spec:
   resources:
     requests:
       storage: 7Gi
-  storageClassName: nfs-rw
+  storageClassName: csi-nas
   volumeMode: Filesystem
 
