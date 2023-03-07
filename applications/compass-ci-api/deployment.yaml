@@ -6,11 +6,12 @@ metadata:
   name: compass-ci-api
   namespace: compass-ci
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 1
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: compass-ci-api
@@ -21,7 +22,7 @@ spec:
     spec:
       containers:
         - name: compass-ci-api
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/compass_ci_api:ebdcc9dbe8a4d0217e11c98aee28650573f520651646896979
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/compass_ci_api:38c9c5c83689bb69c83ddb4dc6dc9fc73a834e7a1650451702
           ports:                                                                                          
           - containerPort: 9092                                                                           
             name: http                                                                                    
