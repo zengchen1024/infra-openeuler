@@ -21,4 +21,4 @@ images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/distgit
   newTag: v1.0.20230308110601
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/frontend
-  newTag: v1.0.20230303181550
+  newTag: v1.0.20230308110923
