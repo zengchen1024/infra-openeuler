@@ -23,4 +23,4 @@ images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/frontend
   newTag: v1.0.20230313191521
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/keygen-signd
-  newTag: v1.0.20230308111150
+  newTag: v1.0.20230313192011
