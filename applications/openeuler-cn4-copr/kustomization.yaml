@@ -10,6 +10,7 @@ resources:
 - resalloc-rbac.yaml
 - redis.yaml
 - configmap.yaml
+- cronjob.yaml
 namespace: fedora-copr-prod
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
