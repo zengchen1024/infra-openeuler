@@ -124,3 +124,18 @@ spec:
       storage: 20Gi
   storageClassName: csi-disk
 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: copr-frontend-search-data
+  labels:
+    failure-domain.beta.kubernetes.io/zone: cn-north-4a
+spec:
+  storageClassName: csi-nas
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+
