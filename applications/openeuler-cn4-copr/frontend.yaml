@@ -75,6 +75,8 @@ spec:
             - mountPath: /etc/httpd/conf.d/copr.conf
               name: copr-frontend
               subPath: httpd.conf
+            - mountPath: /usr/share/copr/data
+              name: copr-frontend-search-data
       volumes:
         - name: copr-frontend
           configMap:
@@ -82,3 +84,6 @@ spec:
         - name: copr-secrets
           secret:
             secretName: copr-secrets
+        - name: copr-frontend-search-data
+          persistentVolumeClaim:
+            claimName: copr-frontend-search-data
