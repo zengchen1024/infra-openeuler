@@ -13,7 +13,7 @@ data:
     http {
 
       upstream docker-registry {
-        server dockerhub.private-dockerhub.svc.cluster.local:5000;
+        server dockerhub.openeuler-dockerhub.svc.cluster.local:5000;
       }
 
       ## Set a variable to help us decide if we need to add the
@@ -30,7 +30,7 @@ data:
 
       server {
         listen 80;
-        server_name node01.osinfra.private.com;
+        server_name 172.16.1.5;
 
         error_log /dev/stdout warn;
         access_log /dev/stdout main;
