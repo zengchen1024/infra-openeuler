@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dockerhub-deployment
+  namespace: openeuler-dockerhub
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dockerhub
+  template:
+    metadata:
+      labels:
+        app: dockerhub
+    spec:
+      nodeSelector:
+        os.architecture: amd64
+      containers:
+      - name: dockerhub
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/dockerhub/registry:2
+        volumeMounts:
+        - mountPath: /var/lib/registry
+          name: dockerhub-volume
+          subPath: data
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 5000
+          timeoutSeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 5000
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
+      volumes:
+      - name: dockerhub-volume
+        persistentVolumeClaim:
+          claimName: dockerhub-volume

@@ -1,0 +1,7 @@
+resources:
+- namespace.yaml
+- nginx
+- dockerhub
+namespace: openeuler-dockerhub
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
