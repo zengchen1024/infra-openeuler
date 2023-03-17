@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: openeuler-dockerhub
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      nodeSelector:
+        os.architecture: amd64
+      containers:
+      - name: nginx
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/nginx:1.22.0-22.03-lts
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d/nginx.htpasswd
+          name: dockerhub-secret
+          subPath: nginx.htpasswd
+        - mountPath: /etc/nginx/nginx.conf
+          name: dockerhub-configmap
+          subPath: nginx.conf
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 80
+          timeoutSeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 80
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+      volumes:
+      - name: dockerhub-secret
+        secret:
+          secretName: dockerhub-secret
+      - name: dockerhub-configmap
+        configMap:
+          name: dockerhub-configmap
+

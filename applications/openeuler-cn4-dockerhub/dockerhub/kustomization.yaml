@@ -1,0 +1,13 @@
+resources:
+- service.yaml
+- pvc.yaml
+- deployment.yaml
+namespace: openeuler-dockerhub
+commonAnnotations:
+  kubernetes.ops.cluster: openeuler-cn4-jenkins-mix
+  kubernetes.ops.email: 747802914@qq.com
+  kubernetes.ops.os.base: Alpine
+  kubernetes.ops.owner: liuyang
+  kubernetes.ops.region: beijing
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
