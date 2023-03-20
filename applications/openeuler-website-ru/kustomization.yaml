@@ -10,7 +10,6 @@ commonAnnotations:
 patchesStrategicMerge:
 - remove-resources.yaml
 - deployment.yaml
-- purge-cache-job.yaml
 - secrets.yaml
 namespace: website-v2
 apiVersion: kustomize.config.k8s.io/v1beta1
