@@ -3,10 +3,13 @@ resources:
 - secrets.yaml
 commonLabels:
   app: openeuler-jenkins
-  owner: caozhi
+  owner: liuqi
 commonAnnotations:
-  email: caozhi1214@gmail.com
-  owner: caozhi
+  kubernetes.ops.cluster: openeuler-cn4-jenkins-mix
+  kubernetes.ops.email: nicliuqi@gmail.com
+  kubernetes.ops.os.base: openEuler
+  kubernetes.ops.owner: liuqi
+  kubernetes.ops.region: beijing
 namespace: jenkins
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization

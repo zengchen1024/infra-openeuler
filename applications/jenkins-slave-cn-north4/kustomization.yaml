@@ -13,4 +13,4 @@ kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openeuler_infra_check
   newName: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/openeuler_infra_check_image
-  newTag: 20221025
+  newTag: "20221025"
