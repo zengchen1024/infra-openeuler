@@ -3,13 +3,14 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: openlookeng-website-docs-ingress
   namespace: openlookeng-docs
 spec:
   tls:
     - hosts:
         - docs.openlookeng.io
-      secretName: openlookeng-website-docs-tls
+      secretName: openlookeng-docs-tls
   rules:
     - host: docs.openlookeng.io
       http:
