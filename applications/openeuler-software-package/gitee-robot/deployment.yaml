@@ -1,0 +1,131 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: gitee-robot
+  namespace: openeuler-software-pkg
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: gitee-robot
+  template:
+    metadata:
+      labels:
+        app: gitee-robot
+    spec:
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      containers:
+      - name: gitee-robot
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/software-package-gitee-robot:v1.0.20230330141847
+        args:
+        - --port=8888
+        - --config-file=/opt/app/config/config.yaml
+        - --msg-config-file=/opt/app/config/msgconfig.yaml
+        - --gitee-token-path=/opt/app/config/oauth
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: db_host
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: db_user
+        - name: DB_PWD
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: db_pwd
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: db_name
+        - name: KAFKA_ADDRESS
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: kafka_address
+        - name: MAINTAINER_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: maintainer_email
+        - name: EMAIL_AUTH_CODE
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: email_auth_code
+        - name: EMAIL_FROM
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: email_from
+        - name: EMAIL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: email_host
+        - name: EMAIL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: email_port
+        - name: ROBOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: robot_username
+        - name: ROBOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: robot_password
+        - name: ROBOT_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: robot_email
+        - name: ENCRYPTION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: encryption_key
+        volumeMounts:
+        - mountPath: /opt/app/config/config.yaml
+          name: robot-configmap
+          subPath: config.yaml
+        - mountPath: /opt/app/config/msgconfig.yaml
+          name: robot-msgconfigmap
+          subPath: msgconfig.yaml
+        - mountPath: /opt/app/config/oauth
+          name: software-pkg-secret
+          subPath: oauth
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: robot-configmap
+        name: robot-configmap
+      - configMap:
+          defaultMode: 420
+          name: robot-msgconfigmap
+        name: robot-msgconfigmap
+      - name: software-pkg-secret
+        secret:
+          secretName: software-pkg-secret

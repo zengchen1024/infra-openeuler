@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: robot-gitee-service
+  namespace: openeuler-software-pkg
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8888
+  selector:
+    app: gitee-robot
+  type: ClusterIP

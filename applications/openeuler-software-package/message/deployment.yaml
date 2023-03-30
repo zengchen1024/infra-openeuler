@@ -1,0 +1,86 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: message-server
+  namespace: openeuler-software-pkg
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: message-server
+  template:
+    metadata:
+      labels:
+        app: message-server
+    spec:
+      imagePullSecrets:
+        - name: huawei-swr-image-pull-secret
+      containers:
+        - name: message-server
+          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/software-package-message-server:v1.0.20230330141418
+          args:
+            - --port=8000
+            - --config-file=/opt/app/config/config.yaml
+            - --enable_debug=true
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: db_host
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: db_user
+            - name: DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: db_pwd
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: db_name
+            - name: KAFKA_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: kafka_address
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: encryption_key
+            - name: ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: access_token
+          ports:
+          - containerPort: 8000
+            name: http
+            protocol: TCP
+          volumeMounts:
+          - mountPath: /opt/app/config/config.yaml
+            name: message-server-configmap
+            subPath: config.yaml
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: message-server-configmap
+          name: message-server-configmap
