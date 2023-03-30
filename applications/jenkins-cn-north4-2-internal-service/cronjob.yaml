@@ -67,7 +67,7 @@ spec:
             - containerPort: 80
               name: http
               protocol: TCP
-          restartPolicy: OnFailure
+          restartPolicy: Never
 
 ---
 apiVersion: secrets-manager.tuenti.io/v1alpha1
