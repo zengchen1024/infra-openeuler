@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: message-server-configmap
+  namespace: openeuler-software-pkg
+data:
+  config.yaml: |
+    kafka:
+      address: "${KAFKA_ADDRESS}"
+    group_name: software-package
+    topics_to_subscribe:
+      software_pkg_ci_checking: software_pkg_ci_checking
+      software_pkg_ci_checked: software_pkg_ci_checked
+      software_pkg_code_saved: software_pkg_code_saved
+      software_pkg_initialized: software_pkg_initialized
+      software_pkg_repo_created: software_pkg_repo_created
+      software_pkg_already_existed: software_pkg_already_existed
+    topics_to_notify:
+      already_closed_software_pkg: software_pkg_already_closed
+      indirectly_approved_software_pkg: software_pkg_indirectly_approved
+    postgresql:
+      db:
+        host: "${DB_HOST}"
+        port: 5432
+        user: "${DB_USER}"
+        pwd: "${DB_PWD}"
+        name: "${DB_NAME}"
+        life: 2
+        max_conn: 500
+        max_idle: 250
+      table:
+        software_pkg_basic: software_pkg_basic
+        review_comment: review_comment
+        translation_comment: translation_comment
+    maintainer:
+      permission_url: https://omapi.osinfra.cn/query/user/ownertype?community=openeuler
+    sig:
+      read_url: https://omapi.osinfra.cn/query/sig/scoreAll?community=openeuler
+      interval: 1
+    pkg_manager:
+      access_token: "${ACCESS_TOKEN}"
+      org: src-openeuler
+      base:
+        org: openeuler
+        repo: community
+        branch: master
+    software_pkg:
+      supported_platforms:
+        - gitee
+        - github
+      local_platform: gitee
+    encryption:
+      encryption_key: "${ENCRYPTION_KEY}"
+    ci:
+      ci_endpoint: https://omapi.osinfra.cn/query/user/ownertype?community=openeuler
+      common_test_body_file: /opt/app/payload.json

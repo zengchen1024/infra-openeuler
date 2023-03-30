@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: server-configmap
+  namespace: openeuler-software-pkg
+data:
+  config.yaml: |
+    postgresql:
+      db:
+        host: "${DB_HOST}"
+        port: 5432
+        user: "${DB_USER}"
+        pwd: "${DB_PWD}"
+        name: "${DB_NAME}"
+      table:
+        software_pkg_basic: software_pkg_basic
+        review_comment: review_comment
+        translation_comment: translation_comment
+    mq:
+      address: "${KAFKA_ADDRESS}"
+      topics:
+        new_software_pkg: software_pkg_new
+        approved_software_pkg: software_pkg_approved
+        rejected_software_pkg: software_pkg_rejected
+        abandoned_software_pkg: software_pkg_abandoned
+        already_existed_software_pkg: software_pkg_already_existed
+    middleware:
+      user_info_url: https://omapi.osinfra.cn/oneid/personal/center/user
+    maintainer:
+      permission_url: https://omapi.osinfra.cn/query/user/ownertype?community=openeuler
+    translation:
+      access_key: "${OBS_AK}"
+      secret_key: "${OBS_SK}"
+      project: "${OBS_PROJECT}"
+      region: cn-north-4
+      endpoint: nlp-ext.cn-north-4.myhuaweicloud.com
+    sensitive_words:
+      endpoint: https://moderation.cn-north-4.myhuaweicloud.com
+      access_key: "${OBS_AK}"
+      secret_key: "${OBS_SK}"
+      region: cn-north-4
+      iam_endpoint: https://iam.cn-north-4.myhuaweicloud.com
+    sig:
+      read_url: https://omapi.osinfra.cn/query/sig/scoreAll?community=openeuler
+      interval: 1
+    pkg_manager:
+      access_token: "${ACCESS_TOKEN}"
+      org: src-openeuler
+      base:
+        org: openeuler
+        repo: community
+        branch: master
+    software_pkg:
+      supported_platforms:
+        - gitee
+        - github
+      local_platform: gitee
+    encryption:
+      encryption_key: "${ENCRYPTION_KEY}"
+    cla:
+      check_url: https://clasign.osinfra.cn/api/v1/individual-signing/gitee/openeuler

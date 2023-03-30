@@ -1,0 +1,16 @@
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+commonAnnotations:
+  kubernetes.ops.cluster: openeuler-hk-cluster
+  kubernetes.ops.email: 377075038@qq.com
+  kubernetes.ops.os.base: openEuler
+  kubernetes.ops.owner: chenqi
+  kubernetes.ops.region: hk
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: openeuler-software-pkg
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/software-package-website
+  newTag: v1.0.20230329160341

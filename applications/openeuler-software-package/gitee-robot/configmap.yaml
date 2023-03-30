@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: robot-configmap
+  namespace: openeuler-software-pkg
+data:
+  config.yaml: |
+    config_items:
+    - repos:
+      - weiwei123444/community
+      ci_label:
+        success: ci_successful
+        fail: ci_failed
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: robot-msgconfigmap
+  namespace: openeuler-software-pkg
+data:
+  msgconfig.yaml: |
+    mq:
+      address: "${KAFKA_ADDRESS}"
+    message_server:
+      group_name: software-package
+      topics:
+        new_pkg: software_pkg_approved
+      message:  
+        topics_to_notify:
+          ci_passed: software_pkg_initialized
+          created_repo: software_pkg_repo_created
+          pushed_code: software_pkg_code_saved
+        
+    email:
+      maintainer_email: ${MAINTAINER_EMAIL}
+      email:
+        auth_code: "${EMAIL_AUTH_CODE}"
+        from: "${EMAIL_FROM}"
+        host: "${EMAIL_HOST}"
+        port: ${EMAIL_PORT}
+  
+    pull_request:
+      robot:
+        username: "${ROBOT_USERNAME}"
+        token: "${ROBOT_PASSWORD}"
+        email: "${ROBOT_EMAIL}"
+    code:
+      robot:
+        username: "${ROBOT_USERNAME}"
+        token: "${ROBOT_PASSWORD}"
+    encryption:
+      encryption_key: "${ENCRYPTION_KEY}"
+    postgresql:
+      db:
+        host: "${DB_HOST}"
+        port: 5432
+        user: "${DB_USER}"
+        pwd: "${DB_PWD}"
+        name: "${DB_NAME}"
+        life: 2
+        max_conn: 500
+        max_idle: 250
+      table:
+        software_pkg_pr: software_pkg_pr
