@@ -32,23 +32,26 @@ data:
         software_pkg_basic: software_pkg_basic
         review_comment: review_comment
         translation_comment: translation_comment
-    maintainer:
-      permission_url: https://omapi.osinfra.cn/query/user/ownertype?community=openeuler
     sig:
       read_url: https://omapi.osinfra.cn/query/sig/scoreAll?community=openeuler
       interval: 1
     pkg_manager:
       access_token: "${ACCESS_TOKEN}"
-      org: src-openeuler
-      base:
-        org: openeuler
-        repo: community
-        branch: master
+      existing_pkgs:
+        meta_data_endpoint: https://omapi.osinfra.cn/query/sig/info?community=openeuler&search=fuzzy&repo=src-openeuler/
+        org_of_pkg_repo: src-openeuler
+        default_info:
+          platform: gitee
+          importer_name: software-package-robot
+          importer_email: software@openeuler.org
+          reason_to_import: "add software package to openeuler"
     software_pkg:
-      supported_platforms:
-        - gitee
-        - github
-      local_platform: gitee
+      domain_primitive:
+        supported_platforms:
+          - gitee
+          - github
+        local_platform: gitee
+      min_num_of_approvers: 1
     encryption:
       encryption_key: "${ENCRYPTION_KEY}"
     ci:
