@@ -51,7 +51,7 @@ data:
         org_of_pkg_repo: src-openeuler
         default_info:
           platform: gitee
-          importer_name: software-package-robot
+          importer_name: software-pkg-robot
           importer_email: software@openeuler.org
           reason_to_import: "add software package to openeuler"
     software_pkg:
