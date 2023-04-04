@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openeuler-quickissue-website-service
+  namespace: openeuler-quickissue-website
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: openeuler-quickissue-website
+  type: ClusterIP
