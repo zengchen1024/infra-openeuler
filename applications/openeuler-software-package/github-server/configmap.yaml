@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: github-server-configmap
+  namespace: openeuler-software-pkg
+data:
+  config.yaml: |
+    mq:
+          address: "${KAFKA_ADDRESS}"
+    message_server:
+          group: software-package-github-server
+          topics:
+            new_pkg: software_pkg_indirectly_approved
+          message:
+            topics_to_notify:
+              created_repo: software_pkg_repo_created
+              pushed_code: software_pkg_code_saved
+
+    encryption:
+          encryption_key: "${ENCRYPTION_KEY}"
+    code:
+          robot:
+            username: "${GITHUB_ROBOT_USERNAME}"
+            token: "${GITHUB_ROBOT_TOKEN}"
+          
+    postgresql:
+          table:
+            software_pkg_pr: software:pkg_github
+          db:
+            host: "${DB_HOST}"
+            port: 5432
+            user: "${DB_USER}"
+            pwd: "${DB_PWD}"
+            name: "${DB_NAME}"
+            life: 2
+            max_conn: 500
+            max_idle: 250
