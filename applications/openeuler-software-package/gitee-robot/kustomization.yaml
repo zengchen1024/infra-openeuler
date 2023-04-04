@@ -14,4 +14,4 @@ kind: Kustomization
 namespace: openeuler-software-pkg
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/software-package-gitee-robot
-  newTag: v1.0.20230330141847
+  newTag: v1.0.20230404174236
