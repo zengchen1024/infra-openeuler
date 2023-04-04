@@ -7,7 +7,7 @@ data:
   config.yaml: |
     config_items:
     - repos:
-      - weiwei123444/community
+      - openeuler/community
       ci_label:
         success: ci_successful
         fail: ci_failed
@@ -23,7 +23,7 @@ data:
     mq:
       address: "${KAFKA_ADDRESS}"
     message_server:
-      group_name: software-package
+      group_name: software-package-robot-gitee
       topics:
         new_pkg: software_pkg_approved
       message:  
@@ -62,4 +62,4 @@ data:
         max_conn: 500
         max_idle: 250
       table:
-        software_pkg_pr: software_pkg_pr
+        software_pkg_pr: software_pkg_watch_gitee
