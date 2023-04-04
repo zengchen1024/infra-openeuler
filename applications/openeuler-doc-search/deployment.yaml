@@ -8,7 +8,8 @@ spec:
   replicas: 1
   strategy:
     rollingUpdate:
-      maxUnavailable: 1
+      maxSurge: 1
+      maxUnavailable: 0
     type: RollingUpdate
   selector:
     matchLabels:
@@ -28,6 +29,22 @@ spec:
           limits:
             cpu: 1000m
             memory: 3000Mi
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 8080
+          timeoutSeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 8080
+          timeoutSeconds: 5
         env:
         - name: eshost
           valueFrom:
