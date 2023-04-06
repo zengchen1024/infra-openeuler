@@ -56,4 +56,4 @@ data:
     encryption:
       encryption_key: "${ENCRYPTION_KEY}"
     ci:
-      ci_endpoint: https://openeulerjenkins.osinfra.cn/generic-webhook-trigger/invoke
+      ci_endpoint: https://jenkins.openeuler.openatom.cn/generic-webhook-trigger/invoke
