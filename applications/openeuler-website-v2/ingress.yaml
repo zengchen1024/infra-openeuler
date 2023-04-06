@@ -38,6 +38,8 @@ metadata:
       rewrite ^/zh/migration/implement-guide/                   /zh/migration/contact/ permanent;
       rewrite ^/zh/interaction/salon-list/$                     /zh/interaction/event-list/ permanent;
       rewrite ^/zh/interaction/salon-list/detail/(.*)           /zh/interaction/event-list/review/detail/$1 permanent;
+      rewrite ^/zh/security/safety-bulletin/$                   /zh/security/security-bulletins/         permanent;
+      rewrite ^/zh/security/safety-bulletin/detail/             /zh/security/security-bulletins/detail/  permanent;
   name: openeuler-v2-www-website-ingress
 spec:
   tls:
