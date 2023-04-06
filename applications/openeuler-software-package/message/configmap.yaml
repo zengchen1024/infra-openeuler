@@ -43,7 +43,7 @@ data:
         default_info:
           platform: gitee
           importer_name: software-pkg-robot
-          importer_email: software@openeuler.org
+          importer_email: software-pkg-robot@openeuler.org
           reason_to_import: "add software package to openeuler"
     software_pkg:
       domain_primitive:
@@ -57,3 +57,4 @@ data:
       encryption_key: "${ENCRYPTION_KEY}"
     ci:
       ci_endpoint: https://jenkins.openeuler.openatom.cn/generic-webhook-trigger/invoke
+      ci_service: software-pkg-service
