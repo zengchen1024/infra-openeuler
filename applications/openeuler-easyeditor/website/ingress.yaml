@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: website-ingress
+  namespace: openeuler-easyeditor
+spec:
+  tls:
+    - hosts:
+        - easyeditor.openeuler.org
+      secretName: website-tls
+  rules:
+    - host: easyeditor.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: frontend-service
+              servicePort: 80
+            path: /
