@@ -52,7 +52,7 @@ data:
         default_info:
           platform: gitee
           importer_name: software-pkg-robot
-          importer_email: software@openeuler.org
+          importer_email: software-pkg-robot@openeuler.org
           reason_to_import: "add software package to openeuler"
     software_pkg:
       domain_primitive:
