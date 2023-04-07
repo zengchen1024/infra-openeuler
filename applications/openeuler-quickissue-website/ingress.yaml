@@ -4,13 +4,18 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/permanent-redirect: https://quickissue.openeuler.openatom.cn$request_uri
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
   name: openeuler-quickissue-website-ingress
   namespace: openeuler-quickissue-website
 spec:
   rules:
   - host: quickissue.openeuler.org
+    http:
+      paths:
+      - backend:
+          serviceName: openeuler-quickissue-website-service
+          servicePort: 80
+        path: /
   tls:
   - hosts:
     - quickissue.openeuler.org

@@ -4,7 +4,7 @@ metadata:
   name: openeuler-quickissue-website-deployment
   namespace: openeuler-quickissue-website
 spec:
-  replicas: 0
+  replicas: 2
   selector:
     matchLabels:
       app: openeuler-quickissue-website
