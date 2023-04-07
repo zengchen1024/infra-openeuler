@@ -5,7 +5,7 @@ metadata:
   name: server
   namespace: openeuler-easyeditor
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     rollingUpdate:
       maxSurge: 1

@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: hook-delivery-ingress
+  namespace: openeuler-software-pkg
+spec:
+  tls:
+    - hosts:
+        - software-pkg-hook.openeuler.org
+      secretName: hook-delivery-tls
+  rules:
+    - host: software-pkg-hook.openeuler.org
+      http:
+        paths:
+        - backend:
+            serviceName: hook-delivery-service
+            servicePort: 80
+          path: /
