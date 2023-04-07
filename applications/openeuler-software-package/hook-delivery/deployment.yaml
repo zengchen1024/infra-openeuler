@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hook-delivery-deployment
+  namespace: openeuler-software-pkg
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: hook-delivery
+  template:
+    metadata:
+      labels:
+        app: hook-delivery
+    spec:
+      containers:
+      - name: hook-delivery
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/robot/robot-gitee-hook-delivery:master-b1d6e59
+        imagePullPolicy: IfNotPresent
+        args:
+        - --port=8888
+        - --config-file=/app/conf/app_config/config.yaml
+        - --hmac-secret-file=/app/conf/hmac
+        - --enable_debug=true
+        env:
+        - name: KAFKA_ADDRESS
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: kafka_address
+        ports:
+        - containerPort: 8888
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /app/conf/hmac
+          subPath: webhook-hmac
+          name: secret-volume
+        - mountPath: /app/conf/app_config/
+          name: app-config
+          readOnly: true
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: software-pkg-secret
+      - name: app-config
+        configMap:
+          name: hook-delivery-configmap

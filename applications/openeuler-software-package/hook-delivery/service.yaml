@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hook-delivery-service
+  namespace: openeuler-software-pkg
+spec:
+  ports:
+  - name: httpport
+    port: 80
+    protocol: TCP
+    targetPort: 8888
+  selector:
+    app: hook-delivery
+  type: ClusterIP

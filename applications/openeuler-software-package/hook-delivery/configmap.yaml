@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hook-delivery-configmap
+  namespace: openeuler-software-pkg
+data:
+  config.yaml: |
+    topic: openeuler-community
+    user_agent: software-pkg
+    kafka:
+      address: "${KAFKA_ADDRESS}"
