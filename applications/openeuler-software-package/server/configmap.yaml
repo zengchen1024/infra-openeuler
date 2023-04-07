@@ -19,7 +19,7 @@ data:
     mq:
       address: "${KAFKA_ADDRESS}"
       topics:
-        new_software_pkg: software_pkg_new
+        new_software_pkg: software_pkg_ci_checking
         approved_software_pkg: software_pkg_approved
         rejected_software_pkg: software_pkg_rejected
         abandoned_software_pkg: software_pkg_abandoned
