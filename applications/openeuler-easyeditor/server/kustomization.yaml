@@ -14,4 +14,4 @@ kind: Kustomization
 namespace: openeuler-easyeditor
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/easyeditor/server
-  newTag: v1.0.20230407183351
+  newTag: v1.0.20230410105531
