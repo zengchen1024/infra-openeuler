@@ -60,8 +60,8 @@ data:
           - gitee
           - github
         local_platform: gitee
+        max_length_of_review_comment: 2000
       min_num_of_approvers: 2
-      max_length_of_review_comment: 2000
     encryption:
       encryption_key: "${ENCRYPTION_KEY}"
     cla:
