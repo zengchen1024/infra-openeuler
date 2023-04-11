@@ -75,6 +75,11 @@ spec:
             secretKeyRef:
               name: software-pkg-secret
               key: encryption_key
+        - name: ROBOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: robot_token
         volumeMounts:
         - mountPath: /opt/app/config/config.yaml
           name: server-configmap
