@@ -5,33 +5,13 @@ metadata:
   namespace: openeuler-software-pkg
 data:
   config.yaml: |
-    config_items:
-    - repos:
-      - openeuler/community
-      ci_label:
-        success: ci_successful
-        fail: ci_failed
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: robot-msgconfigmap
-  namespace: openeuler-software-pkg
-data:
-  msgconfig.yaml: |
-    mq:
+    code:
+      pkg_src_org: src-openeuler
+      robot:
+        username: "${ROBOT_USERNAME}"
+        token: "${ROBOT_TOKEN}"
+    kafka:
       address: "${KAFKA_ADDRESS}"
-    message_server:
-      group_name: software-package-robot-gitee
-      topics:
-        new_pkg: software_pkg_approved
-      message:  
-        topics_to_notify:
-          ci_passed: software_pkg_initialized
-          created_repo: software_pkg_repo_created
-          pushed_code: software_pkg_code_saved
-        
     email:
       maintainer_email: ${MAINTAINER_EMAIL}
       email:
@@ -39,18 +19,16 @@ data:
         from: "${EMAIL_FROM}"
         host: "${EMAIL_HOST}"
         port: ${EMAIL_PORT}
-  
-    pull_request:
-      robot:
-        username: "${ROBOT_USERNAME}"
-        token: "${ROBOT_PASSWORD}"
-        email: "${ROBOT_EMAIL}"
-    code:
-      robot:
-        username: "${ROBOT_USERNAME}"
-        token: "${ROBOT_PASSWORD}"
-    encryption:
-      encryption_key: "${ENCRYPTION_KEY}"
+    watch:
+      pkg_org: src-openeuler
+      robot_token: "${ROBOT_TOKEN}"
+    community:
+      pkg_org: src-openeuler
+      robot_token: "${ROBOT_TOKEN}"
+      community_org: openeuler
+      community_repo: community
+      ci_success_label: ci_successful
+      ci_failure_label: ci_failed
     postgresql:
       db:
         host: "${DB_HOST}"
@@ -63,3 +41,28 @@ data:
         max_idle: 250
       table:
         software_pkg_pr: software_pkg_watch_gitee
+    encryption:
+      encryption_key: "${ENCRYPTION_KEY}"
+    pull_request:
+      robot:
+        username: "${ROBOT_USERNAME}"
+        token: "${ROBOT_TOKEN}"
+        email: "${ROBOT_EMAIL}"
+      pr:
+        org: openeuler
+        repo: community
+      robot_to_merge_pr:
+        token: "${ROBOT_MERGE_PR_TOKEN}"
+      software_pkg:
+        endpoint: https://software-pkg.openeuler.org/zh/package-detail/
+    message_server:
+      user_agent: software-pkg
+      group_name: software-package
+      topics:
+        new_pkg: software_pkg_approved
+        community_event: openeuler-community
+      message:
+        topics_to_notify:
+          ci_passed: software_pkg_initialized
+          created_repo: software_pkg_repo_created
+          pushed_code: software_pkg_code_saved

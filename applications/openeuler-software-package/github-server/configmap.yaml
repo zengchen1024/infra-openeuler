@@ -6,32 +6,33 @@ metadata:
 data:
   config.yaml: |
     mq:
-          address: "${KAFKA_ADDRESS}"
+      address: "${KAFKA_ADDRESS}"
     message_server:
-          group: software-package-github-server
-          topics:
-            new_pkg: software_pkg_indirectly_approved
-          message:
-            topics_to_notify:
-              created_repo: software_pkg_repo_created
-              pushed_code: software_pkg_code_saved
-
+      group: software-package-github-server
+      topics:
+        new_pkg: software_pkg_indirectly_approved
+      message:
+        topics_to_notify:
+          created_repo: software_pkg_repo_created
+          pushed_code: software_pkg_code_saved
     encryption:
-          encryption_key: "${ENCRYPTION_KEY}"
+      encryption_key: "${ENCRYPTION_KEY}"
+    repo:
+      org: src-openeuler
     code:
-          robot:
-            username: "${GITHUB_ROBOT_USERNAME}"
-            token: "${GITHUB_ROBOT_TOKEN}"
-          
+      robot:
+        username: "${GITHUB_ROBOT_USERNAME}"
+        token: "${GITHUB_ROBOT_TOKEN}"
+      org: src-openeuler
     postgresql:
-          table:
-            software_pkg_pr: software_pkg_watch_github
-          db:
-            host: "${DB_HOST}"
-            port: 5432
-            user: "${DB_USER}"
-            pwd: "${DB_PWD}"
-            name: "${DB_NAME}"
-            life: 2
-            max_conn: 500
-            max_idle: 250
+      table:
+        software_pkg_pr: software_pkg_watch_github
+      db:
+        host: "${DB_HOST}"
+        port: 5432
+        user: "${DB_USER}"
+        pwd: "${DB_PWD}"
+        name: "${DB_NAME}"
+        life: 2
+        max_conn: 500
+        max_idle: 250
