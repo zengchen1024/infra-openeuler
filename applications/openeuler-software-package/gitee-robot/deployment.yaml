@@ -105,6 +105,11 @@ spec:
             secretKeyRef:
               name: software-pkg-secret
               key: encryption_key
+        - name: ROBOT_MERGE_PR_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: robot_merge_pr_token
         volumeMounts:
         - mountPath: /opt/app/config/config.yaml
           name: robot-configmap
