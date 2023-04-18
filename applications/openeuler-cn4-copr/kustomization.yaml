@@ -1,3 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/backend
+  newTag: v1.0.20230313190328
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/backend_httpd
+  newTag: v1.0.20230222153120
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/distgit
+  newTag: v1.0.20230313191102
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/frontend
+  newTag: v1.0.20230406172829
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/keygen-signd
+  newTag: v1.0.20230313192011
+kind: Kustomization
+namespace: fedora-copr-prod
 resources:
 - namespace.yaml
 - frontend.yaml
@@ -11,17 +25,3 @@ resources:
 - redis.yaml
 - configmap.yaml
 - cronjob.yaml
-namespace: fedora-copr-prod
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-images:
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/backend
-  newTag: v1.0.20230313190328
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/backend_httpd
-  newTag: v1.0.20230222153120
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/distgit
-  newTag: v1.0.20230313191102
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/frontend
-  newTag: v1.0.20230313191521
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/keygen-signd
-  newTag: v1.0.20230313192011
