@@ -102,8 +102,8 @@ spec:
               cpu: 200m
               memory: 200Mi
             limits:
-              cpu: 1000m
-              memory: 1000Mi
+              cpu: 8000m
+              memory: 8000Mi
           volumeMounts:
             - mountPath: /etc/copr/copr-be.conf
               name: copr-secrets
@@ -119,8 +119,8 @@ spec:
               cpu: 200m
               memory: 200Mi
             limits:
-              cpu: 1000m
-              memory: 1000Mi
+              cpu: 8000m
+              memory: 8000Mi
           volumeMounts:
             - mountPath: /home/copr/.ssh/builder_config
               name: copr-backend
