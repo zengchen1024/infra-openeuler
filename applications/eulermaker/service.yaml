@@ -1,0 +1,23 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: eulermaker-service
+  namespace: eulermaker-ingress
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 30108
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: eulermaker-service
+  namespace: eulermaker-ingress
+subsets:
+  - addresses:
+    - ip: 123.249.10.3
+    ports:
+    - port: 30108
