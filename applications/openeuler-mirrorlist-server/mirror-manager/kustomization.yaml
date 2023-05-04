@@ -10,3 +10,8 @@ commonAnnotations:
   kubernetes.ops.owner: chenzeng
   kubernetes.ops.region: hk
 namespace: openeuler-mirrorlist-server
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/mirror-manager
+  newTag: eaa965b3aaf8e26c7f02ed9c37db58905d48b6d2
