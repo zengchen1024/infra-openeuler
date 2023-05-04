@@ -1,0 +1,6 @@
+resources:
+- namespace.yaml
+- secret.yaml
+- mirror-manager
+- mirrorlist-server
+namespace: openeuler-mirrorlist-server
