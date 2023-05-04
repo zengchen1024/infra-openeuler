@@ -1,0 +1,11 @@
+resources:
+- deployment.yaml
+- ingress.yaml
+- service.yaml
+commonAnnotations:
+  kubernetes.ops.cluster: openeuler-hk-cluster
+  kubernetes.ops.email: chenzeng765@163.com
+  kubernetes.ops.os.base: openeuler
+  kubernetes.ops.owner: chenzeng
+  kubernetes.ops.region: hk
+namespace: openeuler-mirrorlist-server

@@ -1,0 +1,12 @@
+resources:
+- deployment.yaml
+- ingress.yaml
+- service.yaml
+- pvc.yaml
+commonAnnotations:
+  kubernetes.ops.cluster: openeuler-hk-cluster
+  kubernetes.ops.email: chenzeng765@163.com
+  kubernetes.ops.os.base: fedora
+  kubernetes.ops.owner: chenzeng
+  kubernetes.ops.region: hk
+namespace: openeuler-mirrorlist-server

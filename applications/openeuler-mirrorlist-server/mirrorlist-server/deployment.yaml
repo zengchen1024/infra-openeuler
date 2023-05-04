@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeuler-mirrorlist-server-deployment
+  namespace: openeuler-mirrorlist-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mirrorlist-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mirrorlist-server
+    spec:
+      containers:
+      - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/mirrorlist-server:519e46f84723ebf8ccdb2598791353436b5f8c4f
+        imagePullPolicy: IfNotPresent
+        name: mirrorlist-server
+        args:
+        - /opt/app/config/pg.cfg
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+        volumeMounts:
+        - mountPath: /opt/app/config/pg.cfg
+          name: mirrorlist-server-secret
+          subPath: pg.cfg
+      volumes:
+      - name: mirrorlist-server-secret
+        secret:
+          secretName: mirrorlist-server-secret

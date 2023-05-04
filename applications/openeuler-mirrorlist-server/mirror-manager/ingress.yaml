@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: mirror-manager-ingress
+  namespace: openeuler-mirrorlist-server
+spec:
+  rules:
+  - host: mirror-manager.openeuler.org
+    http:
+      paths:
+      - backend:
+          serviceName: mirror-manager-service
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - mirror-manager.openeuler.org
+    secretName: mirror-manager-tls
