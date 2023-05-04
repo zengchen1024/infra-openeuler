@@ -16,7 +16,7 @@ spec:
         app: mirror-manager
     spec:
       containers:
-      - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/mirror-manager:cb6b5796bc5f538a32fe3e9e23b1074c320ff4f5 
+      - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/mirror-manager:eaa965b3aaf8e26c7f02ed9c37db58905d48b6d2 
         imagePullPolicy: IfNotPresent
         name: mirror-manager
         args:
