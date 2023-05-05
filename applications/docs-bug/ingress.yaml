@@ -3,13 +3,14 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: docs-bug-ingress
   namespace: docs-bug
 spec:
   tls:
     - hosts:
         - docs-bug.openeuler.sh
-      secretName: docs-bug-cert-secrets
+      secretName: docs-bug-tls
   rules:
     - host: docs-bug.openeuler.sh
       http:
