@@ -22,6 +22,7 @@ spec:
   selector:
     component: mail-exim4-service
   sessionAffinity: None
+  externalTrafficPolicy: Local
   type: LoadBalancer
 
 ---
