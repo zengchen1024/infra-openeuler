@@ -24,4 +24,4 @@ images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/app-mailman/mailman-core-new-build
   newTag: 970d27521a1aca24f9e0ff85047f99755ba3af7c1677654154
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/app-mailman/mailman-web-new-build
-  newTag: 0a1bc8ef3a88d1a5c1dcdb92948516971f077ba81678850043
+  newTag: c1f926b78bc871bb6a30d9e335ad77d5523e694c1683280844
