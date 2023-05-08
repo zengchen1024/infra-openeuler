@@ -10,5 +10,5 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: mirror-manager
+    app: mirrorlist-server
   type: ClusterIP

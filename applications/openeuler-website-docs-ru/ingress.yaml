@@ -5,6 +5,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/permanent-redirect: https://docs.openeuler.org/en/
+    nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt-issuer
   name: openeuler-docs-ingress
 spec:
@@ -14,3 +15,9 @@ spec:
       secretName: website-docs-ru-lts
   rules:
     - host: docs.ru.openeuler.org
+      http:
+        paths:
+          - backend:
+              serviceName: website-docs-service
+              servicePort: 80
+            path: /
