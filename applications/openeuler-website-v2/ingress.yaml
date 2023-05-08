@@ -23,7 +23,7 @@ metadata:
       rewrite ^/en/other/cla https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVuZXVsZXI= redirect;
       rewrite ^/zh/docs(/|$)(.*) https://docs.openeuler.org/zh/docs/$2 redirect;
       rewrite ^/en/docs(/|$)(.*) https://docs.openeuler.org/en/docs/$2 redirect;
-      rewrite ^/ru(/|$)(.*) https://ru.openeuler.org/ru/$2 redirect;
+      rewrite ^/ru(/|$)(.*)                                     https://www.openeuler.org/en/$2 redirect;
       rewrite ^/zh/other/migration(/|$)(.*)                     /zh/migration/ redirect;
       rewrite ^/zh/interaction/summit-list/devday2022/          https://v1.openeuler.org/zh/interaction/summit-list/devday2022/ redirect;
       rewrite ^/zh/interaction/summit-list/summit2021/          https://v1.openeuler.org/zh/interaction/summit-list/summit2021/ redirect;
