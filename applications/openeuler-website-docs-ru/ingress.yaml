@@ -4,34 +4,8 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/permanent-redirect: https://docs.openeuler.org/en/
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/custom-http-errors: "400,404,500"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-  name: openeuler-website-docs-ingress
-spec:
-  tls:
-    - hosts:
-        - docs.ru.openeuler.org
-      secretName: website-docs-ru-lts
-  rules:
-    - host: docs.ru.openeuler.org
-      http:
-        paths:
-          - backend:
-              serviceName: website-backend-service
-              servicePort: 80
-            path: /docs-search(/|$)(.*)
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/custom-http-errors: "400,404,500"
-    nginx.ingress.kubernetes.io/server-snippet: |
-      rewrite ^/zh(/|$)(.*) https://docs.openeuler.org/zh/$2 redirect;
-      rewrite ^/en(/|$)(.*) https://docs.openeuler.org/en/$2 redirect;
   name: openeuler-docs-ingress
 spec:
   tls:
@@ -40,9 +14,3 @@ spec:
       secretName: website-docs-ru-lts
   rules:
     - host: docs.ru.openeuler.org
-      http:
-        paths:
-          - backend:
-              serviceName: website-docs-service
-              servicePort: 80
-            path: /

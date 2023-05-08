@@ -7,7 +7,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/custom-http-errors: "400,500"
     nginx.ingress.kubernetes.io/server-snippet: |
-      rewrite ^/ru(/|$)(.*) https://docs.ru.openeuler.org/ru/$2 redirect;
+      rewrite ^/ru(/|$)(.*) https://docs.openeuler.org/en/ redirect;
   name: openeuler-docs-ingress
 spec:
   tls:

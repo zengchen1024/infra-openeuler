@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: openeuler-website-v2-frontend
 spec:
-  replicas: 2
+  replicas: 0
   strategy:
     rollingUpdate:
       maxUnavailable: 0
@@ -31,7 +31,7 @@ kind: Deployment
 metadata:
   name: openeuler-website-v2-backend
 spec:
-  replicas: 2
+  replicas: 0
   strategy:
     rollingUpdate:
       maxUnavailable: 0
