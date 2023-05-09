@@ -8,7 +8,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 7Gi
+      storage: 12Gi
   storageClassName: csi-nas
   volumeMode: Filesystem
 

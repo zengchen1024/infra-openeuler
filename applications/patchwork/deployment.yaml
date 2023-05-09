@@ -141,6 +141,26 @@ spec:
                 secretKeyRef:
                   key: CI_BOT_NAME
                   name: patchwork-secrets
+            - name: SRC_OPENEULER_KERNEL_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: SRC_OPENEULER_KERNEL_HOST
+                  name: patchwork-secrets
+            - name: SRC_OPENEULER_KERNEL_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: SRC_OPENEULER_KERNEL_PASS
+                  name: patchwork-secrets
+            - name: OPENEULER_KERNEL_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: OPENEULER_KERNEL_HOST
+                  name: patchwork-secrets
+            - name: OPENEULER_KERNEL_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: OPENEULER_KERNEL_PASS
+                  name: patchwork-secrets
           command:
             - /bin/sh
             - -c
