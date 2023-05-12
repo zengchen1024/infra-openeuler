@@ -23,6 +23,9 @@ data:
       robot:
         username: "${GITHUB_ROBOT_USERNAME}"
         token: "${GITHUB_ROBOT_TOKEN}"
+      ci_repo:
+        repo: software-pkg
+        link: https://gitee.com/I-am-a-robot/software-pkg.git
       org: src-openeuler
     postgresql:
       table:

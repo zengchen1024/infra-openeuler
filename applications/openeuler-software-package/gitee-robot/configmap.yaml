@@ -10,6 +10,9 @@ data:
       robot:
         username: "${ROBOT_USERNAME}"
         token: "${ROBOT_TOKEN}"
+      ci_repo:
+        repo: software-pkg
+        link: https://gitee.com/I-am-a-robot/software-pkg.git
     kafka:
       address: "${KAFKA_ADDRESS}"
     email:

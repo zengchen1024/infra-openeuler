@@ -32,6 +32,7 @@ data:
         software_pkg_basic: software_pkg_basic
         review_comment: review_comment
         translation_comment: translation_comment
+        operation_log: operation_log
     sig:
       read_url: https://omapi.osinfra.cn/query/sig/scoreAll?community=openeuler
       interval: 1
@@ -52,9 +53,16 @@ data:
           - github
         local_platform: gitee
         max_length_of_review_comment: 2000
-      min_num_of_approvers: 2
     encryption:
       encryption_key: "${ENCRYPTION_KEY}"
     ci:
-      ci_endpoint: https://jenkins.openeuler.openatom.cn/generic-webhook-trigger/invoke
+      work_dir: /opt/app/software
       ci_service: software-pkg-service
+      user:
+        user: "${ROBOT_USERNAME}"
+        email: "${ROBOT_EMAIL}"
+        token: "${ROBOT_TOKEN}"
+      ci_repo:
+        org: I-am-a-robot
+        repo: software-pkg
+        link: https://gitee.com/I-am-a-robot/software-pkg.git
