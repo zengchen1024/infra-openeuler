@@ -71,6 +71,21 @@ spec:
                 secretKeyRef:
                   name: software-pkg-secret
                   key: access_token
+            - name: ROBOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: robot_username
+            - name: ROBOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: robot_token
+            - name: ROBOT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: software-pkg-secret
+                  key: robot_email
           ports:
           - containerPort: 8000
             name: http

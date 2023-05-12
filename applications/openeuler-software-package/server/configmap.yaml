@@ -16,6 +16,7 @@ data:
         software_pkg_basic: software_pkg_basic
         review_comment: review_comment
         translation_comment: translation_comment
+        operation_log: operation_log
     mq:
       address: "${KAFKA_ADDRESS}"
       topics:
@@ -27,7 +28,7 @@ data:
     middleware:
       user_info_url: https://omapi.osinfra.cn/oneid/personal/center/user
     maintainer:
-      read_url: https://omapi.osinfra.cn/query/sig/info?community=openeuler&sig=TC
+      read_url: https://omapi.osinfra.cn/query/sig/info?community=openeuler
       interval: 1
     translation:
       access_key: "${OBS_AK}"
@@ -61,7 +62,6 @@ data:
           - github
         local_platform: gitee
         max_length_of_review_comment: 2000
-      min_num_of_approvers: 2
     encryption:
       encryption_key: "${ENCRYPTION_KEY}"
     cla:
