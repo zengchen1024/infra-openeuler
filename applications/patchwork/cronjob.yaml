@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: patch2pr
 spec:
-  schedule: "*/20 * * * *"
+  schedule: "*/5 * * * *"
   concurrencyPolicy: Forbid
   startingDeadlineSeconds: 180
   jobTemplate:
