@@ -105,11 +105,16 @@ spec:
             secretKeyRef:
               name: software-pkg-secret
               key: encryption_key
-        - name: ROBOT_MERGE_PR_TOKEN
+        - name: OPENEULER_ROBOT_TOKEN
           valueFrom:
             secretKeyRef:
               name: software-pkg-secret
-              key: robot_merge_pr_token
+              key: openeuler_robot_token
+        - name: OPENEULER_ROBOT_NAME
+          valueFrom:
+            secretKeyRef:
+              name: software-pkg-secret
+              key: openeuler_robot_name
         volumeMounts:
         - mountPath: /opt/app/config/config.yaml
           name: robot-configmap

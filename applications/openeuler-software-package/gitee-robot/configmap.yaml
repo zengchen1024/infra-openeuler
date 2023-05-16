@@ -8,8 +8,8 @@ data:
     code:
       pkg_src_org: src-openeuler
       robot:
-        username: "${ROBOT_USERNAME}"
-        token: "${ROBOT_TOKEN}"
+        username: "${OPENEULER_ROBOT_NAME}"
+        token: "${OPENEULER_ROBOT_TOKEN}"
       ci_repo:
         repo: software-pkg
         link: https://gitee.com/I-am-a-robot/software-pkg.git
@@ -24,10 +24,10 @@ data:
         port: ${EMAIL_PORT}
     watch:
       pkg_org: src-openeuler
-      robot_token: "${ROBOT_TOKEN}"
+      robot_token: "${OPENEULER_ROBOT_TOKEN}"
     community:
       pkg_org: src-openeuler
-      robot_token: "${ROBOT_TOKEN}"
+      robot_token: "${OPENEULER_ROBOT_TOKEN}"
       community_org: openeuler
       community_repo: community
       ci_success_label: ci_successful
@@ -51,11 +51,11 @@ data:
         username: "${ROBOT_USERNAME}"
         token: "${ROBOT_TOKEN}"
         email: "${ROBOT_EMAIL}"
-      pr:
-        org: openeuler
-        repo: community
-      robot_to_merge_pr:
-        token: "${ROBOT_MERGE_PR_TOKEN}"
+        repo: "community_openeuler"
+        link: "https://gitee.com/I-am-a-robot/community_openeuler"
+      community_robot:
+        token: "${OPENEULER_ROBOT_TOKEN}"
+        link: "https://gitee.com/openeuler/community"
       software_pkg:
         endpoint: https://software-pkg.openeuler.org/zh/package-detail/
     message_server:

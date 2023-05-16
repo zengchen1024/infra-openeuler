@@ -79,7 +79,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: software-pkg-secret
-              key: access_token
+              key: openeuler_robot_token
         - name: ENCRYPTION_KEY
           valueFrom:
             secretKeyRef:
