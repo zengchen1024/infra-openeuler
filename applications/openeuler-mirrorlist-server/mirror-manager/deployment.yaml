@@ -92,6 +92,34 @@ spec:
         volumeMounts:
         - mountPath: /repo/openeuler
           name: data-volume
+      - name: rsync-client
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/repo-client:122abc521614802693d71f85303360a21972cefb
+        volumeMounts:
+        - mountPath: /repo/openeuler
+          name: data-volume
+        env:
+        - name: TARGET_DIR
+          value: "/repo/openeuler"
+        - name: RSYNC_INTERNAL
+          value: "600"
+        - name: SYNC_HOST
+          value: "rsync://root@121.36.1.92/openeuler"
+        - name: ADDITIONAL_PARAMETERS
+          value: "--delete"
+        # Use the combination of sync & sleep to sync the repo from main repo periodically
+        command:
+        - /bin/sh
+        - -c
+        - |
+          /usr/bin/rsync --daemon --config /etc/rsyncd.conf
+          exec tini -- entrypoint.sh
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 2000Mi
+          limits:
+            cpu: 4000m
+            memory: 4000Mi
       volumes:
       - name: data-volume
         persistentVolumeClaim:
