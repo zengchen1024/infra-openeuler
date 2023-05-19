@@ -13,4 +13,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/mirrorlist-server
-  newTag: 77d3784688bc2a3a5c3f81fb673dc52cb7d7f9cb
+  newTag: c5b712267a5c1a57a2b0ae5c96621579cbfc8f5c
