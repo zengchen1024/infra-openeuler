@@ -95,3 +95,13 @@ spec:
     app: repo-nginx-pod
   type: ClusterIP
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: repo-archives-service
+  namespace: repo2
+spec:
+  externalName: openeuler-service.archives-repo.svc.cluster.local
+  type: ExternalName
+
