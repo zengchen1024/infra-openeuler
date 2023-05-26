@@ -20,3 +20,26 @@ spec:
   - hosts:
     - repo.openeuler.openatom.cn
     secretName: openeuler-repo-openatom-tls
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-archives-repo-prod
+    kubernetes.io/ingress.class: archives-repo-nginx
+  name: openeuler-cn4-repo-archives-ingress
+  namespace: repo2
+spec:
+  rules:
+  - host: archives.openeuler.openatom.cn
+    http:
+      paths:
+      - backend:
+          serviceName: repo-archives-service
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - archives.openeuler.openatom.cn
+    secretName: openeuler-archives-tls
