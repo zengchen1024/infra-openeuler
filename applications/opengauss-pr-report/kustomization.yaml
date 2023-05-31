@@ -4,11 +4,14 @@ resources:
 - secret.yaml
 commonAnnotations:
   kubernetes.ops.cluster: openeuler-cn4-x86-cluster
+  kubernetes.ops.community: opengauss
   kubernetes.ops.email: ""
   kubernetes.ops.os.base: openeuler
   kubernetes.ops.owner: zhuchao
   kubernetes.ops.region: hk
-  kubernetes.ops.community: opengauss
 namespace: opengauss-pr-report
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/opengauss/pr-report
+  newTag: opengauss-048fcf
