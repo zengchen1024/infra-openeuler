@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app: opengauss-pr-report
+  name: opengauss-pr-report
