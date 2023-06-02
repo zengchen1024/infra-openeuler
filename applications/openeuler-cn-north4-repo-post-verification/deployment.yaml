@@ -20,6 +20,12 @@ spec:
       - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/repo-post-verification:1f9a9889deb88fb14dc5a3e955ec259b5f4fb7f1
         imagePullPolicy: Always
         name: post-verification
+        env:
+        - name: accessToken
+          valueFrom:
+            secretKeyRef:
+              key: accessToken
+              name: post-verification-secrets
         resources:
           requests:
             cpu: 2000m

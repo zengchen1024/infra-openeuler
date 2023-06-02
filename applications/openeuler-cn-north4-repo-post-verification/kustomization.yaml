@@ -4,6 +4,7 @@ resources:
 - deployment.yaml
 - service.yaml
 - secret.yaml
+- ingress.yaml
 commonAnnotations:
   email: xiongfengbo@huawei.com
   owner: xiongfengbo
