@@ -12,7 +12,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: mirror-manager-service
+          serviceName: mirror-manager-only-service
           servicePort: 80
         path: /
   tls:
