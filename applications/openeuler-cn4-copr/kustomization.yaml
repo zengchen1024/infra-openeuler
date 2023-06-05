@@ -9,7 +9,7 @@ images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/frontend
   newTag: v1.0.20230527200943
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/keygen-signd
-  newTag: v1.0.20230313192011
+  newTag: v1.0.20230527201236
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/resalloc
   newTag: v1.0.20230601142013
 kind: Kustomization
