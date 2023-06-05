@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mirror-manager-only-deployment
+  namespace: openeuler-mirrorlist-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mirror-manager-only
+  template:
+    metadata:
+      labels:
+        app: mirror-manager-only
+    spec:
+      containers:
+      - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/mirror-manager:eaa965b3aaf8e26c7f02ed9c37db58905d48b6d2 
+        imagePullPolicy: IfNotPresent
+        name: mirror-manager-only
+        args:
+        - "8080"
+        env:
+        - name: OIDC_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: OIDC_CLIENT_ID
+        - name: OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: OIDC_CLIENT_SECRET
+        - name: OIDC_AUTH_URI
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: OIDC_AUTH_URI
+        - name: OIDC_TOKEN_URI
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: OIDC_TOKEN_URI
+        - name: MM_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: MM_ENDPOINT
+        - name: OIDC_USERINFO_URI
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: OIDC_USERINFO_URI
+        - name: OIDC_ISSUER
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: OIDC_ISSUER
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: DB_URL
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: SECRET_KEY
+        - name: PASSWORD_SEED
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: PASSWORD_SEED
+        - name: ADMIN_GROUP
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: ADMIN_GROUP
+        - name: UMDL_PREFIX
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: UMDL_PREFIX
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
+          requests:
+            cpu: 1000m
+            memory: 1000Mi

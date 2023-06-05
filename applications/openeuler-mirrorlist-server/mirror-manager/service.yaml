@@ -12,3 +12,19 @@ spec:
   selector:
     app: mirror-manager
   type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mirror-manager-only-service
+  namespace: openeuler-mirrorlist-server
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: mirror-manager-only
+  type: ClusterIP
