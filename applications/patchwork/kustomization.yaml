@@ -10,4 +10,4 @@ resources:
 namespace: patchwork
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/patchwork/patchwork
-  newTag: main-94ec6aa
+  newTag: main-c075228
