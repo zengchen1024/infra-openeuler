@@ -47,7 +47,7 @@ spec:
           '
         env:
         - name: BUILDER_SHA256
-          value: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/builder:v1.0.20230601184001
+          value: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/builder:v1.0.20230605155538
         - name: BUILDER_CPU
           value: '4'
         - name: BUILDER_MEM
