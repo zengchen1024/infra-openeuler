@@ -42,9 +42,6 @@ spec:
         - name: init-backend-resalloc
           image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/alpine-nc:v1.20230217
           command: [ "sh", "-c", "until nc -z copr-resalloc.fedora-copr-prod.svc.cluster.local 49100; do echo waiting for resalloc service ; sleep 2; done;" ]
-        - name: init-backend-redis
-          image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/alpine-nc:v1.20230217
-          command: [ "sh", "-c", "until nc -z redis.fedora-copr-prod.svc.cluster.local 6379; do echo waiting for redis service ; sleep 2; done;" ]
       containers:
         - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/copr/backend_httpd:v1.0.20230217145102
           imagePullPolicy: IfNotPresent
