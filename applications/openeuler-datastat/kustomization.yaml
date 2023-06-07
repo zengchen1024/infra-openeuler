@@ -8,13 +8,13 @@ resources:
 namespace: opendesign-datapertus
 commonAnnotations:
   kubernetes.ops.cluster: openeuler-hk-cluster
+  kubernetes.ops.community: openeuler
   kubernetes.ops.email: ""
   kubernetes.ops.os.base: debian
   kubernetes.ops.owner: yuchunao
   kubernetes.ops.region: hk
-  kubernetes.ops.community: openeuler
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/datastat/openeuler
-  newTag: aafd7688c244f835aaa65309596ae00be7c989e3
+  newTag: 8b0b9faf3eb50b669bcef6841e7de8a820ceb8c1
