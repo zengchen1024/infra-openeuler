@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cron-mm2-crawler-deployment
+  namespace: openeuler-mirrorlist-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cron-mm2-crawler
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cron-mm2-crawler
+    spec:
+      containers:
+      - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/mirror-manager:eaa965b3aaf8e26c7f02ed9c37db58905d48b6d2 
+        imagePullPolicy: IfNotPresent
+        name: cron-mm2-crawler
+        command:
+        - /bin/bash
+        - -c
+        - /mirrormanager2/utility/cron_mm2_crawler
+        env:
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: DB_URL
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: SECRET_KEY
+        - name: PASSWORD_SEED
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: PASSWORD_SEED
+        - name: UMDL_PREFIX
+          valueFrom:
+            secretKeyRef:
+              name: mirrorlist-server-secret
+              key: UMDL_PREFIX
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 2000Mi
+          requests:
+            cpu: 1000m
+            memory: 1000Mi

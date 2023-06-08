@@ -4,6 +4,7 @@ resources:
 - service.yaml
 - pvc.yaml
 - mirror-manager-only.yaml
+- cron-mm2-crawler.yaml
 commonAnnotations:
   kubernetes.ops.cluster: openeuler-hk-cluster
   kubernetes.ops.email: chenzeng765@163.com
