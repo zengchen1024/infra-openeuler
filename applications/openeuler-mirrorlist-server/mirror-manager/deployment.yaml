@@ -29,16 +29,6 @@ spec:
             secretKeyRef:
               name: mirrorlist-server-secret
               key: DB_URL
-        - name: SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: mirrorlist-server-secret
-              key: SECRET_KEY
-        - name: PASSWORD_SEED
-          valueFrom:
-            secretKeyRef:
-              name: mirrorlist-server-secret
-              key: PASSWORD_SEED
         - name: UMDL_PREFIX
           valueFrom:
             secretKeyRef:
