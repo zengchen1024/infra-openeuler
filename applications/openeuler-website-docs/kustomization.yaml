@@ -1,16 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+commonAnnotations:
+  email: 245462755@qq.com
+  owner: zhengyuhang
+commonLabels:
+  name: website-docs
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-docs
+  newTag: v1.0.20230610081507
+kind: Kustomization
+namespace: website-docs
 resources:
 - namespace.yaml
 - deployment.yaml
 - service.yaml
 - ingress.yaml
-commonLabels:
-  name: website-docs
-commonAnnotations:
-  email: 245462755@qq.com
-  owner: zhengyuhang
-namespace: website-docs
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-images:
-- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-docs
-  newTag: v1.0.20230609082055
