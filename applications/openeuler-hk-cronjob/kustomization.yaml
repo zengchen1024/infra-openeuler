@@ -9,4 +9,4 @@ images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nestos-website
   newTag: 4dc2df015d6bac747cd3eecec829d28673c17c1f
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/pr-statistics-report
-  newTag: v1.0.20230119161336
+  newTag: v1.0.20230616163521
