@@ -23,7 +23,7 @@ spec:
         app: repo-nginx-pod
     spec:
       containers:
-        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:1.21.0-with-fancy-templates-repo
+        - image: swr.cn-north-4.myhuaweicloud.com/opensourceway/common/nginx-extras:v1.20-nginx-with-fancy-templates-0620
           imagePullPolicy: IfNotPresent
           name: repo-nginx
           resources:
@@ -39,17 +39,8 @@ spec:
             - mountPath: /etc/nginx/conf/ssl/privkey.pem
               name: website-secrets-volume
               subPath: privkey.pem
-            - mountPath: /etc/nginx/conf/nginx.conf
-              name: repo-nginx-configmap-volume
-              subPath: nginx.conf
-            - mountPath: /etc/nginx/conf/conf.d/default.conf
-              name: repo-nginx-configmap-volume
-              subPath: default.conf
             - mountPath: /repo/openeuler
               name: openeuler-data-volume
-            - mountPath: /etc/nginx/conf/static/fancySource/header.html
-              name: nginx-html-configmap
-              subPath: header.html
         - command:
             - /bin/sh
             - -c
