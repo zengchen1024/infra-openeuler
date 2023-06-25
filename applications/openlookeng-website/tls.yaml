@@ -1,0 +1,19 @@
+---
+apiVersion: secrets-manager.tuenti.io/v1alpha1
+kind: SecretDefinition
+metadata:
+  name: openlookeng-website-new-tls
+  namespace: openlookeng-website
+spec:
+  name: openlookeng-website-new-tls
+  type: kubernetes.io/tls
+  keysMap:
+    ca.crt:
+      path: secrets/data/openlookeng/openlookeng-io-tls
+      key: server.crt
+    tls.crt:
+      path: secrets/data/openlookeng/openlookeng-io-tls
+      key: server.crt
+    tls.key:
+      path: secrets/data/openlookeng/openlookeng-io-tls
+      key: server.key

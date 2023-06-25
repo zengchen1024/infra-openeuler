@@ -6,6 +6,7 @@ resources:
   - openlookeng-website-frontend-service.yaml
   - clasign-ingress.yaml
   - clasign-secrets.yaml
+  - tls.yaml
 commonLabels:
   app: openlookeng-website
 commonAnnotations:
