@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+images:
+- name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-usercenter
+  newTag: fbd6c7454cf8e6d109e7975d576a996bda1d39dc
+kind: Kustomization
+namespace: openeuler-usercenter
+commonAnnotations:
+  kubernetes.ops.cluster: openeuler-hk-cluster
+  kubernetes.ops.email: ""
+  kubernetes.ops.os.base: openeuler
+  kubernetes.ops.owner: chenqi
+  kubernetes.ops.region: hk
+resources:
+- website-ingress.yaml
+- website-service.yaml
+- website-deployment.yaml
+- secret.yaml

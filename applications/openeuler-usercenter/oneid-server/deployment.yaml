@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oneid-server
+  namespace: openeuler-usercenter
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: oneid-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: oneid-server
+    spec:
+      containers:
+      - env:
+        - name: dburl
+          valueFrom:
+            secretKeyRef:
+              key: dburl
+              name: oneid-server-secrets
+        - name: dbusername
+          valueFrom:
+            secretKeyRef:
+              key: dbusername
+              name: oneid-server-secrets
+        - name: dbpassword
+          valueFrom:
+            secretKeyRef:
+              key: dbpassword
+              name: oneid-server-secrets
+        - name: DEFAULT_AVATAR
+          valueFrom:
+            secretKeyRef:
+              key: DEFAULT_AVATAR
+              name: oneid-server-secrets
+        image: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-usercenter-server:5d379dd2efadb3cf408b73bc8777ce9f47cfaa47
+        imagePullPolicy: IfNotPresent
+        name: oneid-server
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 500m
+            memory: 500Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: huawei-swr-image-pull-secret
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
