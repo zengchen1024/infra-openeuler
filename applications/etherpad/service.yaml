@@ -16,7 +16,7 @@ metadata:
 subsets:
   - addresses:
       # These machines below are cluster workers in infrastructure cluster.
-      - ip: 192.168.1.140
+      - ip: 192.168.1.180
       - ip: 192.168.1.65
     ports:
       - port: 32717
