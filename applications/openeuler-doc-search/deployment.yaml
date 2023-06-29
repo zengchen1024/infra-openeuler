@@ -111,4 +111,9 @@ spec:
             secretKeyRef:
               name: doc-search-secrets
               key: kgroup
+        - name: FORUMDOMAIM
+          valueFrom:
+            secretKeyRef:
+              name: doc-search-secrets
+              key: FORUMDOMAIM
 
