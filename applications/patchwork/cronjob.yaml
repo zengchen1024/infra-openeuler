@@ -164,7 +164,7 @@ spec:
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: refresh_repos
+  name: refresh-repos
 spec:
   schedule: "0 2 * * *"
   concurrencyPolicy: Forbid
