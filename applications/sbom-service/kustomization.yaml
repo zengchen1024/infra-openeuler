@@ -14,4 +14,4 @@ images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-sbom-service
   newTag: v1.0.20221219092612
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-sbom-website
-  newTag: v1.0.20230630101242
+  newTag: v1.0.20230721121353
