@@ -6,7 +6,7 @@ commonLabels:
   name: website-docs
 images:
 - name: swr.cn-north-4.myhuaweicloud.com/opensourceway/openeuler/openeuler-website-docs
-  newTag: v1.0.20230730081507
+  newTag: v1.0.20230731081508
 kind: Kustomization
 namespace: website-docs
 resources:
