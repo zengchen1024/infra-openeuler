@@ -111,8 +111,6 @@ spec:
             secretKeyRef:
               key: xarmor_backend_url
               name: sbom-server-secrets
-        - name: APPLICATION_PATH
-          value: "/EaseSearch/target/classes/application.yml"
         volumeMounts:
         - mountPath: /var/db_secrets
           name: db-secret
