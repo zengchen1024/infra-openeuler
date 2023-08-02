@@ -14,8 +14,8 @@ metadata:
       add_header Pragma "no-cache";
       add_header X-Content-Type-Options "nosniff";
     nginx.ingress.kubernetes.io/server-snippet: |
-      rewrite ^/zh-cn/signcla.html https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVubG9va2VuZw== redirect;
-      rewrite ^/signcla.html https://clasign.osinfra.cn/sign/Z2l0ZWUlMkZvcGVubG9va2VuZw== redirect;
+      rewrite ^/zh-cn/signcla.html https://clasign.osinfra.cn/sign/gitee_openlookeng-1614322910578209320 redirect;
+      rewrite ^/signcla.html https://clasign.osinfra.cn/sign/gitee_openlookeng-1614322910578209320 redirect;
       rewrite ^/zh-cn/(.*)$ /zh/$1 redirect;
       rewrite ^/en-us/(.*)$ /en/$1 redirect;
       rewrite ^/zh/privacypolicy.html$  /zh/privacy/ redirect;
