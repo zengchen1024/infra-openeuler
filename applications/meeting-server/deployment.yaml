@@ -72,81 +72,6 @@ spec:
               value: 172.16.1.73
             - name: DB_PORT
               value: "3306"
-            - name: HOST_GENEDNA
-              valueFrom:
-                secretKeyRef:
-                  key: host_genedna
-                  name: meeting-server-secrets
-            - name: HOST_TOMMYLIKE
-              valueFrom:
-                secretKeyRef:
-                  key: host_tommylike
-                  name: meeting-server-secrets
-            - name: HOST_GEORGE
-              valueFrom:
-                secretKeyRef:
-                  key: host_george
-                  name: meeting-server-secrets
-            - name: HOST_NIC
-              valueFrom:
-                secretKeyRef:
-                  key: host_nic
-                  name: meeting-server-secrets
-            - name: HOST_CY
-              valueFrom:
-                secretKeyRef:
-                  key: host_cy
-                  name: meeting-server-secrets
-            - name: HOST_ZCJ
-              valueFrom:
-                secretKeyRef:
-                  key: host_zcj
-                  name: meeting-server-secrets
-            - name: HOST_ZJ
-              valueFrom:
-                secretKeyRef:
-                  key: host_zj
-                  name: meeting-server-secrets
-            - name: HOST_WH
-              valueFrom:
-                secretKeyRef:
-                  key: host_wh
-                  name: meeting-server-secrets
-            - name: HOST_LXL
-              valueFrom:
-                secretKeyRef:
-                  key: host_lxl
-                  name: meeting-server-secrets
-            - name: HOST_ZD
-              valueFrom:
-                secretKeyRef:
-                  key: host_zd
-                  name: meeting-server-secrets
-            - name: HOST_ZC
-              valueFrom:
-                secretKeyRef:
-                  key: host_zc
-                  name: meeting-server-secrets
-            - name: HOST_HJC
-              valueFrom:
-                secretKeyRef:
-                  key: host_hjc
-                  name: meeting-server-secrets
-            - name: HOST_WWL
-              valueFrom:
-                secretKeyRef:
-                  key: host_wwl
-                  name: meeting-server-secrets
-            - name: HOST_ZZY
-              valueFrom:
-                secretKeyRef:
-                  key: host_zzy
-                  name: meeting-server-secrets
-            - name: HOST_ZB
-              valueFrom:
-                secretKeyRef:
-                  key: host_zb
-                  name: meeting-server-secrets
             - name: WELINK_HOST_1
               valueFrom:
                 secretKeyRef:
@@ -211,6 +136,46 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: smtp_server_pass
+                  name: meeting-server-secrets
+            - name: NEW_HOST_1
+              valueFrom:
+                secretKeyRef:
+                  key: NEW_HOST_1
+                  name: meeting-server-secrets
+            - name: NEW_HOST_2
+              valueFrom:
+                secretKeyRef:
+                  key: NEW_HOST_2
+                  name: meeting-server-secrets
+            - name: NEW_HOST_3
+              valueFrom:
+                secretKeyRef:
+                  key: NEW_HOST_3
+                  name: meeting-server-secrets
+            - name: NEW_HOST_4
+              valueFrom:
+                secretKeyRef:
+                  key: NEW_HOST_4
+                  name: meeting-server-secrets
+            - name: HOST_1_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  key: HOST_1_ACCOUNT
+                  name: meeting-server-secrets
+            - name: HOST_2_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  key: HOST_2_ACCOUNT
+                  name: meeting-server-secrets
+            - name: HOST_3_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  key: HOST_3_ACCOUNT
+                  name: meeting-server-secrets
+            - name: HOST_4_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  key: HOST_4_ACCOUNT
                   name: meeting-server-secrets
           command:
             - /bin/sh
