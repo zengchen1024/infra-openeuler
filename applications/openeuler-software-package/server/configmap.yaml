@@ -65,4 +65,4 @@ data:
     encryption:
       encryption_key: "${ENCRYPTION_KEY}"
     cla:
-      check_url: https://clasign.osinfra.cn/api/v1/individual-signing/gitee/openeuler
+      check_url: https://clasign.osinfra.cn/api/v1/individual-signing/gitee_openeuler-1611298811283968340
