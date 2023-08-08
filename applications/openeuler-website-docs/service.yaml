@@ -9,7 +9,7 @@ spec:
     - name: website-docs
       port: 80
       protocol: TCP
-      targetPort: 80
+      targetPort: 8080
   selector:
     app: website-docs
   type: ClusterIP
